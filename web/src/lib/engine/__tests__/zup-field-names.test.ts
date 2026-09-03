@@ -182,7 +182,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
     // Toolbar is mounted on mobile only, so every shortcut it owned did nothing
     // on desktop. These guarantees follow the code to its new home.
     const toolbar = readFileSync(new URL('../../../react/components/KeyboardShortcuts.tsx', import.meta.url), 'utf8');
-    const oldToolbar = readFileSync(new URL('../../../components/Toolbar.svelte', import.meta.url), 'utf8');
+    const oldToolbar = readFileSync(new URL('../../../react/components/MobileToolbar.tsx', import.meta.url), 'utf8');
 
     expect(aiDrawer, 'AiDrawer.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
     expect(aiDrawer, 'AiDrawer.svelte should send canonical 3D mode to the AI backend').toContain("const aiAnalysisMode = $derived(is3DMode ? '3d' : '2d');");

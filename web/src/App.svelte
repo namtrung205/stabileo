@@ -2,7 +2,6 @@
   import { onMount, untrack } from 'svelte';
   import Viewport from './components/Viewport.svelte';
   import Viewport3D from './components/Viewport3D.svelte';
-  import Toolbar from './components/Toolbar.svelte';
   import { modelStore, uiStore, resultsStore, dsmStepsStore, tabManager, historyStore } from './lib/store';
   import { syncModelTabWithResults } from './lib/store/view-mode';
   import { t, i18n, setLocale } from './lib/i18n';
@@ -343,8 +342,6 @@
   let ifcFileInput: HTMLInputElement;
   let dxfFileInput: HTMLInputElement;
 
-  // Derive showResults from whether results exist — no manual management needed
-  const showResults = $derived(resultsStore.results !== null || resultsStore.results3D !== null);
   let showImportDialog = $state(false);
   let importText = $state('');
   let autosaveData = $state<DedalFile | null>(null);
@@ -1055,7 +1052,7 @@
       <!-- Mobile keeps the old panel: a ribbon needs width the phone does not have. -->
       {#if uiStore.leftSidebarOpen}
         <aside class="sidebar left">
-          <Toolbar />
+          <span class="react-mobile-sidebar-toolbar-slot" style="display: contents"></span>
         </aside>
       {/if}
     {/if}
@@ -1306,7 +1303,7 @@
   {#if uiStore.isMobile && uiStore.leftDrawerOpen && uiStore.appMode === 'basico'}
     <div class="drawer-backdrop" onclick={() => uiStore.leftDrawerOpen = false}></div>
     <aside class="drawer drawer-left">
-      <Toolbar />
+      <span class="react-mobile-drawer-toolbar-slot" style="display: contents"></span>
     </aside>
   {/if}
   {#if uiStore.isMobile && uiStore.rightDrawerOpen}

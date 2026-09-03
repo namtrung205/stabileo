@@ -30,7 +30,7 @@ The existing stores remain the source of truth. `react-external-store.ts` expose
 | 5 | Editor chrome | header, mode switcher, tab bar, ribbon, option bars, sidebars, status bar, floating controls, menus, and dialogs are React | In progress |
 | 6 | 2D viewport | React owns the canvas lifecycle; drawing, hit testing, snapping, drag/drop, zoom/pan, overlays, and event contracts remain unchanged | Pending |
 | 7 | 3D viewport | React owns Three.js lifecycle; scene sync, selection, camera, clipping, measure, labels, animation invalidation, and disposal remain unchanged | Pending |
-| 8 | Basic data/property/results panels | editors, tables, selection/property flows, imports, reports, and responsive drawers are React | Pending |
+| 8 | Basic data/property/results panels | editors, tables, selection/property flows, imports, reports, and responsive drawers are React | In progress — G4 core complete; IFC remains deferred under G3 |
 | 9 | Education and PRO workspaces | every exercise, design, detailing, generator, diagnostics, and verification workflow is React | Pending |
 | 10 | Remove compatibility | zero `.svelte` UI files, zero rune stores, no Svelte plugin/runtime/compiler dependency | Pending |
 | 11 | Parity verification | type/build gates, unit/E2E suites, route matrix, screenshot baselines, interaction matrix, memory/disposal checks | Pending |
@@ -44,7 +44,7 @@ The project-wide migration remains the umbrella goal. Work is delivered in small
 | G1 | React entry, public routes, landing, and blog | typecheck, production build, public route smoke matrix | Done |
 | G2 | Shared editor chrome and isolated editors | preserved test IDs plus typecheck/build | Done |
 | G3 | Independent editor dialogs and overlays | component contract checks, relevant domain tests, typecheck/build | In progress — 3D→2D, mobile results, 2D DXF import, calculation report, and material presets done |
-| G4 | Basic ribbon and right-side data/result panels | Basic workflow E2E suite and UI parity checklist | In progress — ribbon, toolbars, selected entities, and Project done |
+| G4 | Basic ribbon and right-side data/result panels | Basic workflow contract suite, typecheck, and production bundle | Done |
 | G5 | 2D viewport ownership | drawing, selection, snapping, drag, zoom/pan, and disposal tests | Pending |
 | G6 | 3D viewport ownership | camera, selection, clipping, measuring, rendering, and disposal tests | Pending |
 | G7 | Education and PRO workspaces | mode-specific workflow suites and responsive checks | Pending |
@@ -56,12 +56,12 @@ The project-wide migration remains the umbrella goal. Work is delivered in small
 | --- | --- | --- | --- |
 | G4.1 | Desktop Basic ribbon and its panel-state bridge | command/test-id contract, result/view-mode tests, typecheck, production bundle | Done |
 | G4.2 | Remaining Basic toolbar shells and selected-entity strip | tool/keyboard state tests, responsive DOM contract, typecheck/build | Done |
-| G4.3 | Basic right-panel shell plus project/config/advanced/results controls | panel routing and solve/result workflow tests | In progress — G4.3a Project/examples done |
-| G4.4 | Data-table shell and nodes/elements/supports/loads/materials/sections/results tables | CRUD, tab, import/export, undo/redo tests | Pending |
-| G4.5 | Property panel and remaining entity detail editors | selection/edit/history tests | Pending |
-| G4.6 | Basic end-to-end and visual parity closeout | desktop/mobile workflows and screenshot checklist | Pending |
+| G4.3 | Basic right-panel shell plus project/config/advanced/results controls | panel routing and solve/result workflow tests | Done |
+| G4.4 | Data-table shell and nodes/elements/supports/loads/materials/sections/results tables | CRUD, tab, import/export, undo/redo tests | Done |
+| G4.5 | Property panel and remaining entity detail editors | selection/edit/history tests | Done |
+| G4.6 | Basic automated closeout | Basic ownership/contracts, typecheck, targeted workflows, production bundle | Done |
 
-G4.3 is implemented as four reviewable sub-gates: Project/examples (done), Config, Results, then Advanced plus the final React panel shell.
+G4.3 was implemented as four reviewable sub-gates: Project/examples, Config, Results, then Advanced plus the final React panel shell. Advanced report bodies (Kinematic, What-if, section stress, and the DSM step wizard) remain isolated Svelte leaves behind `LegacySvelteSurface`; their controls, routing, docking shell, and lifecycle owner are React. Those report bodies belong to the later analysis/workspace conversion rather than the completed Basic chrome gate.
 
 ## Current migrated surface
 
@@ -85,8 +85,12 @@ G4.3 is implemented as four reviewable sub-gates: Project/examples (done), Confi
 - Basic editor ribbon, including project/history commands, mode switching, drawing tools, solve, and result diagrams.
 - Desktop tool-options bar, mobile/authoring floating tools, and inline editing for selected 2D/3D loads and supports.
 - Basic Project panel and sidebar sections: file/session operations, 2D/3D examples, tutorials, export/import, and share links.
+- Basic Config, Results, and Advanced controls plus the resizable right-panel shell.
+- Mobile Basic toolbar, dimension switching, undo/redo, and responsive drawer placement.
+- Model-data shell and nodes, elements, supports, loads, materials, sections, and results tables.
+- Property panel with node, element, support, nodal-load, hinge, local-axis, member-offset, stress, reaction, and displacement detail flows.
 
-Current implementation priority is the editor. Public landing and blog surfaces are already stable and are excluded from the remaining incremental goals.
+Current implementation priority is the editor. Public landing and blog surfaces are already stable and are excluded from the remaining incremental goals. The next editor goal is G5, React ownership of the 2D viewport.
 
 The React root now places migrated chrome into the existing header, panel, viewport, and footer positions with portals. These portals replace nested React roots and keep the transitional Svelte shell from owning migrated component lifecycles.
 

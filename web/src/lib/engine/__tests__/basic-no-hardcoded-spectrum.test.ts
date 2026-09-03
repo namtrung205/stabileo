@@ -1,7 +1,7 @@
 /**
  * Basic must not run a hidden national-code seismic spectrum.
  *
- * `ToolbarAdvanced.svelte` — which renders only in Basic — used to expose a
+ * The legacy Basic advanced toolbar used to expose a
  * "Espectral" button that called `cirsoc103Spectrum(4, 'II')`: CIRSOC 103,
  * seismic Zone 4, Soil II, hardcoded, with no UI to see or change either
  * parameter. The success toast reported only a base shear, so a student
@@ -12,7 +12,7 @@
  * spectrum. National-code presets stay in PRO, where zone and soil are already
  * selectable. The solver entrypoints are deliberately preserved.
  *
- * This is a source-level guard: the component is Svelte, and what matters is
+ * This is a source-level guard: what matters is
  * that no Basic code path can construct the preset at all.
  */
 
@@ -25,7 +25,7 @@ const read = (rel: string) =>
 
 /** Every component reachable from the Basic left toolbar. */
 const BASIC_TOOLBAR_SOURCES = [
-  '../../../components/Toolbar.svelte',
+  '../../../react/components/MobileToolbar.tsx',
   '../../../react/components/ToolbarAdvanced.tsx',
   '../../../react/components/ToolbarResults.tsx',
   '../../../react/components/ToolbarExamples.tsx',

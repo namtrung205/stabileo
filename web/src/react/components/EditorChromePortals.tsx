@@ -17,6 +17,7 @@ import { DataTable } from './DataTable';
 import { PropertyPanel } from './PropertyPanel';
 import { MemberOffsetEditor } from './MemberOffsetEditor';
 import { BasicPanel } from './BasicPanel';
+import { MobileToolbar } from './MobileToolbar';
 
 export function EditorChromePortals() {
   const tabTarget = useEditorPortalTarget('.react-tab-bar-slot');
@@ -43,6 +44,8 @@ export function EditorChromePortals() {
   const propertyTarget = useEditorPortalTarget('.react-property-panel-slot');
   const proOffsetTarget = useEditorPortalTarget('.react-pro-member-offset-slot');
   const basicPanelTarget = useEditorPortalTarget('.react-basic-panel-slot');
+  const mobileSidebarToolbarTarget = useEditorPortalTarget('.react-mobile-sidebar-toolbar-slot');
+  const mobileDrawerToolbarTarget = useEditorPortalTarget('.react-mobile-drawer-toolbar-slot');
   return <>
     {tabTarget && createPortal(<TabBar />, tabTarget)}
     {statusTarget && createPortal(<StatusBar />, statusTarget)}
@@ -68,5 +71,7 @@ export function EditorChromePortals() {
     {propertyTarget && createPortal(<PropertyPanel />, propertyTarget)}
     {proOffsetTarget && createPortal(<MemberOffsetEditor />, proOffsetTarget)}
     {basicPanelTarget && createPortal(<BasicPanel />, basicPanelTarget)}
+    {mobileSidebarToolbarTarget && createPortal(<MobileToolbar />, mobileSidebarToolbarTarget)}
+    {mobileDrawerToolbarTarget && createPortal(<MobileToolbar />, mobileDrawerToolbarTarget)}
   </>;
 }
