@@ -1,0 +1,12 @@
+.node-editor-backdrop { position: fixed; inset: 0; z-index: 99; }
+.node-editor { position: fixed; z-index: 100; background: #16213e; border: 1px solid #0f3460; border-radius: 6px; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); transform: translate(-50%, 10px); min-width: 180px; }
+.node-editor-title { font-size: 0.8rem; font-weight: 600; color: #4ecdc4; }
+.node-editor-field { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #ccc; }
+.node-editor-field span { min-width: 45px; }
+.node-editor-field input { flex: 1; padding: 0.3rem 0.4rem; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 4px; color: #eee; font-size: 0.8rem; width: 80px; }
+.node-editor-buttons { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.25rem; }
+.node-editor-ok, .node-editor-cancel { padding: 0.25rem 0.6rem; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+.node-editor-ok { background: #e94560; color: white; }
+.node-editor-ok:hover { background: #ff6b6b; }
+.node-editor-cancel { background: #2a2a4e; color: #aaa; }
+.node-editor-cancel:hover { background: #3a3a5e; }

@@ -29,7 +29,9 @@ const SOURCES = [
     .filter((f) => !f.endsWith('.test.ts'))
     .map((f) => join(ROOT, 'components', 'edu', f)),
   join(ROOT, 'components', 'FloatingTools.svelte'),
-  join(ROOT, 'components', 'StatusBar.svelte'),
+  join(ROOT, 'react', 'components', 'StatusBar.tsx'),
+  join(ROOT, 'react', 'components', 'FloatingToolsCore.tsx'),
+  join(ROOT, 'react', 'components', 'FloatingToolOptions.tsx'),
   ...readdirSync(join(ROOT, 'components', 'floating-tools'))
     .filter((f) => f.endsWith('.svelte'))
     .map((f) => join(ROOT, 'components', 'floating-tools', f)),

@@ -1,0 +1,72 @@
+.pm-wrap {
+  position: relative;
+  display: flex;
+}
+
+.pointer-mode {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--st-hair-strong);
+  border-radius: var(--st-radius);
+  background: color-mix(in srgb, var(--st-surface) 90%, transparent);
+  color: var(--st-text-2);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pointer-mode:hover {
+  background: var(--st-surface-3);
+  color: var(--st-text);
+}
+
+.pointer-mode.panning {
+  color: var(--st-value);
+  border-color: color-mix(in srgb, var(--st-value) 45%, transparent);
+}
+
+.pm-tip {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 0;
+  width: max-content;
+  max-width: 220px;
+  padding: 6px 8px;
+  border: 1px solid var(--st-hair-strong);
+  border-radius: var(--st-radius);
+  background: var(--st-surface);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+  display: none;
+  z-index: 20;
+}
+
+.pm-wrap:hover .pm-tip,
+.pm-wrap:has(:focus-visible) .pm-tip {
+  display: block;
+}
+
+.pm-tip p { margin: 0; }
+
+.pm-tip-mode {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--st-text);
+}
+
+.pm-tip-note {
+  margin-top: 3px !important;
+  font-size: 0.62rem;
+  line-height: 1.35;
+  color: var(--st-text-3);
+}
+
+.pm-tip-action {
+  margin-top: 7px !important;
+  padding-top: 7px;
+  border-top: 1px solid var(--st-hair);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--st-text-2);
+}

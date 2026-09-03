@@ -1,0 +1,14 @@
+.help-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; font-family: var(--st-sans); }
+.help-overlay .help-backdrop { position: absolute; inset: 0; background: rgba(12, 22, 32, 0.72); backdrop-filter: blur(2px); }
+.help-overlay .help-content { position: relative; background: var(--st-surface); border: 1px solid var(--st-hair); border-radius: var(--st-radius-lg); padding: 1.4rem 1.6rem; max-width: 620px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55); }
+.help-overlay .help-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.7rem; margin-bottom: 1rem; border-bottom: 1px solid var(--st-hair); }
+.help-overlay .help-header h2 { font-family: var(--st-mono); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--st-text-2); margin: 0; }
+.help-overlay .help-close { background: none; border: none; color: var(--st-text-3); font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0.1rem 0.35rem; border-radius: var(--st-radius); }
+.help-overlay .help-close:hover { background: var(--st-surface-3); color: var(--st-text); }
+.help-overlay .help-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.help-overlay .help-col h3 { font-family: var(--st-mono); font-size: 0.64rem; font-weight: 400; text-transform: uppercase; color: var(--st-text-3); letter-spacing: 0.11em; margin: 1rem 0 0.4rem 0; }
+.help-overlay .help-col h3:first-child { margin-top: 0; }
+.help-overlay .shortcut { display: flex; align-items: center; gap: 0.55rem; font-size: 0.8rem; color: var(--st-text-2); padding: 0.18rem 0; }
+.help-overlay kbd { background: var(--st-surface-3); border: 1px solid var(--st-hair); border-bottom-width: 2px; border-radius: var(--st-radius); padding: 0.12rem 0.42rem; font-family: var(--st-mono); font-size: 0.72rem; color: var(--st-value); min-width: 1.6rem; text-align: center; flex: none; }
+.help-overlay .help-hint { text-align: center; color: var(--st-text-3); font-size: 0.72rem; margin: 1.2rem 0 0; padding-top: 0.8rem; border-top: 1px solid var(--st-hair); }
+@media (max-width: 767px) { .help-overlay .help-columns { grid-template-columns: 1fr; gap: 0.5rem; } .help-overlay .help-content { padding: 1rem; max-width: 95%; } }

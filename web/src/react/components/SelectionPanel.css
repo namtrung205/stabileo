@@ -1,0 +1,49 @@
+.sel-panel { padding: 4px 2px; }
+
+.sel-multi {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 0.74rem;
+  color: var(--st-text);
+  cursor: pointer;
+}
+
+.sel-tick { color: var(--st-accent); margin-right: 2px; }
+
+.sel-intro,
+.sel-note {
+  margin: 0 0 8px;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--st-text-3);
+}
+
+.sel-note { margin: 10px 0 0; }
+
+.sel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sel-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 6px 8px;
+  text-align: left;
+  background: var(--st-surface-2);
+  border: 1px solid var(--st-hair);
+  border-left: 2px solid transparent;
+  border-radius: var(--st-radius, 3px);
+  color: var(--st-text-2);
+  cursor: pointer;
+}
+
+.sel-item:hover { background: var(--st-surface-3); color: var(--st-text); }
+.sel-item.on { border-left-color: var(--st-accent); color: var(--st-text); }
+.sel-name { font-size: 0.78rem; }
+.sel-hint { font-size: 0.66rem; color: var(--st-text-3); }

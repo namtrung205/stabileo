@@ -1,0 +1,52 @@
+.viewport-controls,
+.camera-controls {
+  position: absolute;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+  transition: top 0.15s ease;
+  align-items: flex-end;
+}
+
+.viewport-controls > button,
+.camera-controls > button {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--st-radius);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.viewport-controls > button {
+  border: 1px solid var(--st-hair-strong);
+  background: color-mix(in srgb, var(--st-surface) 90%, transparent);
+  color: var(--st-text-2);
+}
+
+.viewport-controls > button:hover {
+  background: var(--st-surface-3);
+  color: var(--st-text);
+}
+
+.camera-controls > button {
+  border: 1px solid #445;
+  background: rgba(22, 33, 62, 0.9);
+  color: #aabbcc;
+}
+
+.camera-controls > button:hover {
+  background: rgba(40, 60, 100, 0.95);
+  color: #ddeeff;
+}
+
+.camera-controls > button.active-cam {
+  background: rgba(78, 205, 196, 0.25);
+  color: #4ecdc4;
+  border-color: #4ecdc4;
+}

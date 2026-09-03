@@ -3,6 +3,7 @@
 import { DEFAULT_WORKING_PLANE, VERTICAL_AXIS, type ViewportPresentation3D } from '../geometry/coordinate-system';
 import type { UnitSystem } from '../utils/units';
 import type { Element3DMetadata } from '../model/element-3d-metadata';
+import { makeReactObservable } from './react-external-store';
 
 export type Tool = 'select' | 'node' | 'element' | 'support' | 'load' | 'pan' | 'influenceLine';
 
@@ -1213,4 +1214,11 @@ function createUIStore() {
   };
 }
 
-export const uiStore = createUIStore();
+export const uiStore = makeReactObservable(createUIStore(), [
+  'onEditToolArmed', 'toggleSelectKind', 'clearSelectedLoads', 'deleteSelectedLoad',
+  'clearSelectedSupports', 'toggleJointDof3d', 'toast', 'dismissToast',
+  '_setModelFlatnessProvider', 'useNative3DPresentation', 'useUpright2DIn3DPresentation',
+  'setSupport3DPreset', 'setMouse', 'selectNode', 'selectElement', 'startShellNodePick',
+  'pushShellNodePick', 'cancelShellNodePick', 'selectShell', 'selectLoad', 'selectSupport',
+  'clearSelection', 'setSelection', 'releaseManualSelection', 'resetSession', 'zoomToFit',
+]);

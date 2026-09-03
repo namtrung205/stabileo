@@ -100,7 +100,7 @@ describe('Task 1 — local-axes display wiring', () => {
 // ─── Task 2 + Task 4 smoke: stress entry points ───────────────────
 describe('Task 2 — Select→Stresses removed, Advanced→Section Analysis kept', () => {
   it('the Select sub-tool no longer offers a stress option', () => {
-    const sel = read('../../../components/floating-tools/ToolSelectOptions.svelte');
+    const sel = read('../../../react/components/FloatingToolOptions.tsx');
     expect(sel).not.toContain("id: 'stress'");
     expect(sel).not.toContain("'float.selectStress'");
   });

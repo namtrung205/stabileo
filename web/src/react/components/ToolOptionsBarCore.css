@@ -1,0 +1,20 @@
+.tool-bar { display: flex; align-items: center; gap: 0.75rem; min-height: 34px; padding: 0.2rem 0.6rem; background: var(--st-surface-2); border-bottom: 1px solid var(--st-hair); font-family: var(--st-sans); font-size: 0.82rem; color: var(--st-text-2); flex: none; }
+.tool-bar .tb-opts { order: 1; display: flex; align-items: center; gap: 0.35rem; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; flex: 1; min-width: 0; }
+.tool-bar .tb-tool-name { font-family: var(--st-mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--st-accent); white-space: nowrap; flex: none; }
+.tool-bar .tb-sep { width: 1px; height: 16px; background: var(--st-hair); flex: none; }
+.tool-bar .tb-hint { color: var(--st-text-3); font-size: 0.78rem; }
+.tool-bar .tb-group { display: contents; }
+.tool-bar .tb-group-label { font-size: 0.7rem; color: var(--st-text-3); white-space: nowrap; flex: none; }
+.tool-bar .tb-btn { background: none; border: 1px solid var(--st-hair); border-radius: var(--st-radius); color: var(--st-text-2); font-size: 0.75rem; padding: 0.2rem 0.45rem; cursor: pointer; white-space: nowrap; flex: none; }
+.tool-bar .tb-btn:hover { background: var(--st-surface-3); color: var(--st-text); }
+.tool-bar .tb-btn.on { color: var(--st-accent); border-color: var(--st-accent); }
+.tool-bar .tb-selection { order: 2; display: flex; align-items: center; flex: none; }
+.tool-bar .tb-state { order: 3; display: flex; align-items: center; gap: 0.4rem; flex: none; font-family: var(--st-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.tool-bar .tb-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.tool-bar .tb-dot[data-tone='ok'] { background: var(--st-ok); }
+.tool-bar .tb-dot[data-tone='warn'] { background: var(--st-warn); }
+.tool-bar .tb-dot[data-tone='idle'] { background: var(--st-text-3); }
+.tool-bar .tb-state[data-tone='ok'] .tb-state-text { color: var(--st-ok); }
+.tool-bar .tb-state[data-tone='warn'] .tb-state-text { color: var(--st-warn); }
+.tool-bar .tb-state[data-tone='idle'] .tb-state-text { color: var(--st-text-3); }
+@media (max-width: 900px) { .tool-bar .tb-state-text { display: none; } }

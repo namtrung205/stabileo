@@ -1,0 +1,5 @@
+.sph { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 40; display: flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 20px; background: rgba(12, 22, 32, 0.94); border: 1px solid var(--st-value); box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45); color: var(--st-text-2); font-size: 0.76rem; white-space: nowrap; pointer-events: none; animation: sph-in 0.18s ease-out; }
+.sph-icon { color: var(--st-value); font-size: 0.9rem; line-height: 1; animation: sph-pulse 1.6s ease-in-out infinite; }
+@keyframes sph-in { from { opacity: 0; transform: translate(-50%, -6px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes sph-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .sph, .sph-icon { animation: none; } }

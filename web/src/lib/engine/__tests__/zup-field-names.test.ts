@@ -84,7 +84,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
   });
 
   it('2D load UI should label the global vertical direction as Z', () => {
-    const toolLoadOptions = readFileSync(new URL('../../../components/floating-tools/ToolLoadOptions.svelte', import.meta.url), 'utf8');
+    const toolLoadOptions = readFileSync(new URL('../../../react/components/FloatingToolOptions.tsx', import.meta.url), 'utf8');
     const selectedEntityPanel = readFileSync(new URL('../../../components/floating-tools/SelectedEntityPanel.svelte', import.meta.url), 'utf8');
 
     expect(toolLoadOptions).toMatch(/float\.loadForceYGlobal/);
@@ -183,7 +183,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
     // Copy/paste moved out of Toolbar with the rest of the keyboard layer:
     // Toolbar is mounted on mobile only, so every shortcut it owned did nothing
     // on desktop. These guarantees follow the code to its new home.
-    const toolbar = readFileSync(new URL('../../../components/KeyboardShortcuts.svelte', import.meta.url), 'utf8');
+    const toolbar = readFileSync(new URL('../../../react/components/KeyboardShortcuts.tsx', import.meta.url), 'utf8');
     const oldToolbar = readFileSync(new URL('../../../components/Toolbar.svelte', import.meta.url), 'utf8');
 
     expect(aiDrawer, 'AiDrawer.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
@@ -191,11 +191,11 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
     expect(mobileResults, 'MobileResultsPanel.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
     expect(sectionStress, 'SectionStressPanel.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
     expect(aiReview, 'ToolbarAiReview.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
-    expect(toolbar, 'KeyboardShortcuts.svelte should treat pro as 3D when pasting copied geometry').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
-    expect(toolbar, 'KeyboardShortcuts.svelte should copy 3D element metadata into the clipboard through the shared helper').toContain('...pickElement3DMetadata(elem)');
-    expect(toolbar, 'KeyboardShortcuts.svelte should require a complete explicit local axis before restoring it on paste').toContain('if (hasExplicitLocalY(el)) {');
-    expect(toolbar, 'KeyboardShortcuts.svelte should restore localY metadata when pasting').toContain('modelStore.updateElementLocalY(newElemId, el.localYx, el.localYy, el.localYz);');
-    expect(toolbar, 'KeyboardShortcuts.svelte should restore rollAngle metadata when pasting').toContain('modelStore.rotateElementLocalAxes(newElemId, el.rollAngle);');
+    expect(toolbar, 'KeyboardShortcuts.tsx should treat pro as 3D when pasting copied geometry').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
+    expect(toolbar, 'KeyboardShortcuts.tsx should copy 3D element metadata into the clipboard through the shared helper').toContain('...pickElement3DMetadata(element)');
+    expect(toolbar, 'KeyboardShortcuts.tsx should require a complete explicit local axis before restoring it on paste').toContain('if (hasExplicitLocalY(element))');
+    expect(toolbar, 'KeyboardShortcuts.tsx should restore localY metadata when pasting').toContain('modelStore.updateElementLocalY(newId, element.localYx, element.localYy, element.localYz)');
+    expect(toolbar, 'KeyboardShortcuts.tsx should restore rollAngle metadata when pasting').toContain('modelStore.rotateElementLocalAxes(newId, element.rollAngle)');
     expect(oldToolbar, 'the keyboard layer should live in ONE place, not two')
       .not.toContain('function handleKeydown');
   });

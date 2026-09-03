@@ -30,7 +30,7 @@ export type Block =
   /**
    * The editor, running on the model the passage is about. `query` is the
    * argument list for /app/basic; `label` says what the reader is opening.
-   * It renders as a placeholder until clicked — see PostEmbed.svelte.
+   * It renders as a placeholder until clicked — see the React PostEmbed.
    */
   | { k: 'embed'; query: string; label: string; mode?: 'basic' | 'pro' };
 

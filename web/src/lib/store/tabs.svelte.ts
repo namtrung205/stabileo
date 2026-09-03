@@ -11,6 +11,7 @@ import type { DiagramType } from './results.svelte';
 import type { Tool, SelectMode, ElementColorMode } from './ui.svelte';
 import type { ViewportPresentation3D } from '../geometry/coordinate-system';
 import { t, isDefaultName } from '../i18n';
+import { makeReactObservable } from './react-external-store';
 
 export interface TabState {
   id: string;
@@ -547,4 +548,7 @@ function createTabManager() {
   };
 }
 
-export const tabManager = createTabManager();
+export const tabManager = makeReactObservable(createTabManager(), [
+  'init', 'createTab', 'switchTab', 'closeTab', 'renameTab', 'updateDefaultNames',
+  'syncActiveTabName', 'syncCurrentTab', 'restoreSession',
+]);

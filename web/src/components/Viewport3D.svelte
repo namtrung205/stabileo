@@ -5,8 +5,7 @@
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   import { modelStore, uiStore, resultsStore, historyStore, dsmStepsStore, verificationStore } from '../lib/store';
   import { boxSelect as boxSelectTargets, type BoxSelectMode } from '../lib/viewport/box-select';
-  import PointerModeButton from './PointerModeButton.svelte';
-  import Icon from './ribbon/Icon.svelte';
+  import ViewportControlsHost from './ViewportControlsHost.svelte';
   import { COLORS, setGroupColor, findUserData, disposeObject, createTextSprite } from '../lib/three/selection-helpers';
   import { paintShell, paintShellEdge, restoreShellColor } from '../lib/three/create-shell-mesh';
   import ShellContourLegend from './viewport/ShellContourLegend.svelte';
@@ -91,7 +90,6 @@
   // ─── Box select state ──────────────────────────────────────
   // Mode to return to when the quick sections toggle is switched off — keeps
   // a 'solid' preference from Settings instead of always landing on wireframe.
-  let renderModeBeforeSections: 'wireframe' | 'solid' = 'wireframe';
   let boxSelect3D = $state<{ startX: number; startY: number; endX: number; endY: number; additive: boolean } | null>(null);
 
   // ─── Node dragging state ───────────────────────────────────
@@ -2552,54 +2550,13 @@
       <div>geos <b>{perfHud.geos}</b> · texs <b>{perfHud.texs}</b></div>
     </div>
   {/if}
-  <!-- Camera preset buttons -->
-  <div class="camera-controls" data-tour="camera-controls" style="top: {uiStore.floatingToolsTopOffset}px">
-    <!-- Same stack, same order as 2D: the pointer mode on top, then the view. -->
-    <PointerModeButton />
-    <button onclick={zoomToFit} title={t('viewport3d.zoomToFit')} aria-label={t('viewport3d.zoomToFit')}>
-      <Icon name="fit" size={17} />
-    </button>
-    <button onclick={() => setView('top')} title={t('viewport3d.topView')}>⊤</button>
-    <button onclick={() => setView('front')} title={t('viewport3d.frontView')}>⊡</button>
-    <button onclick={() => setView('side')} title={t('viewport3d.sideView')}>⊟</button>
-    <button
-      onclick={toggleCameraMode}
-      title={uiStore.cameraMode3D === 'perspective' ? t('viewport3d.switchToOrtho') : t('viewport3d.switchToPersp')}
-    >
-      {uiStore.cameraMode3D === 'perspective' ? 'P' : 'O'}
-    </button>
-    <button
-      onclick={() => { uiStore.clippingEnabled = !uiStore.clippingEnabled; }}
-      title={uiStore.clippingEnabled ? t('viewport3d.disableClipping') : t('viewport3d.enableClipping')}
-      class:active-cam={uiStore.clippingEnabled}
-    >
-      ✂
-    </button>
-    <button
-      onclick={() => { uiStore.measureMode = !uiStore.measureMode; }}
-      title={uiStore.measureMode ? t('viewport3d.disableMeasure') : t('viewport3d.enableMeasure')}
-      class:active-cam={uiStore.measureMode}
-    >
-      📏
-    </button>
-    <!-- Quick render-mode toggle: sections ↔ the previous mode (wireframe/solid).
-         Single compact button like the perspective/ortho switch. Shows the mode
-         Returns to the mode that was active before entering sections. -->
-    <button
-      onclick={() => {
-        if (uiStore.renderMode3D === 'sections') {
-          uiStore.renderMode3D = renderModeBeforeSections;
-        } else {
-          renderModeBeforeSections = uiStore.renderMode3D === 'solid' ? 'solid' : 'wireframe';
-          uiStore.renderMode3D = 'sections';
-        }
-      }}
-      class:active-cam={uiStore.renderMode3D === 'sections'}
-      title={uiStore.renderMode3D === 'sections' ? t('config.wireframe') : t('config.sections')}
-    >
-      {uiStore.renderMode3D === 'sections' ? '◫' : '⬡'}
-    </button>
-  </div>
+  <ViewportControlsHost
+    mode="3d"
+    top={uiStore.floatingToolsTopOffset}
+    onFit={zoomToFit}
+    onView={(view) => setView(view)}
+    onToggleCamera={toggleCameraMode}
+  />
 
   <!-- Clipping plane controls -->
   {#if uiStore.clippingEnabled}
@@ -2803,44 +2760,6 @@
     height: 80px !important;
     pointer-events: none;
     z-index: 10;
-  }
-
-  .camera-controls {
-    position: absolute;
-    right: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 10;
-    transition: top 0.15s ease;
-    /* Right-aligned so every button in the stack shares an edge. */
-    align-items: flex-end;
-}
-
-  .camera-controls button {
-    width: 32px;
-    height: 32px;
-    border: 1px solid #445;
-    border-radius: 4px;
-    background: rgba(22, 33, 62, 0.9);
-    color: #aabbcc;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .camera-controls button:hover {
-    background: rgba(40, 60, 100, 0.95);
-    color: #ddeeff;
-  }
-
-  .camera-controls button.active-cam {
-    background: rgba(78, 205, 196, 0.25);
-    color: #4ecdc4;
-    border-color: #4ecdc4;
   }
 
   .clip-controls {

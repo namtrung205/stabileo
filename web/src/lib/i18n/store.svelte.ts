@@ -115,6 +115,17 @@ function getInitialLocale(): string {
 }
 
 let _locale = $state<string>(getInitialLocale());
+let localeRevision = 0;
+const localeListeners = new Set<() => void>();
+
+/** React-facing invalidation channel while the translation data stays shared. */
+export const localeExternalStore = {
+	subscribe(listener: () => void) {
+		localeListeners.add(listener);
+		return () => localeListeners.delete(listener);
+	},
+	getSnapshot() { return localeRevision; }
+};
 
 export function t(key: string): string {
 	return tAt(key, _locale);
@@ -179,7 +190,12 @@ export function tp(key: string, params?: Record<string, string | number>): strin
  */
 export function setLocale(loc: string) {
 	if (!isOfferedLocale(loc)) return;
+	const changed = _locale !== loc;
 	_locale = loc;
+	if (changed) {
+		localeRevision += 1;
+		for (const listener of localeListeners) listener();
+	}
 	if (hasLocalStorage()) {
 		localStorage.setItem('stabileo-lang', loc);
 		localStorage.setItem('stabileo-lang-manual', '1');

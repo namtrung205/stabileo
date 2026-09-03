@@ -10,6 +10,7 @@ import { get2DDisplayDisplacementVertical } from '../geometry/coordinate-system'
 // Counts published structural analyses so browser tests can assert that a
 // reinforcement-only edit triggers none. Covers the worker/parallel solve paths too.
 import { noteStructuralSolve } from '../utils/solve-counter';
+import { makeReactObservable } from './react-external-store';
 
 export type DiagramType = 'none' | 'moment' | 'shear' | 'axial' | 'deformed' | 'colorMap' | 'axialColor' | 'verification' | 'influenceLine' | 'modeShape' | 'bucklingMode' | 'plasticHinges' | 'despiece'
   // 3D-specific diagram types
@@ -925,4 +926,15 @@ function createResultsStore() {
   };
 }
 
-export const resultsStore = createResultsStore();
+export const resultsStore = makeReactObservable(createResultsStore(), [
+  '_setOnResultsPublish', '_setOnDiagramShown', 'setColourScale', 'setOverlay', 'setOverlay3D',
+  'setMovingLoadEnvelope', 'clearAdvanced', 'clearPDelta', 'clearModal', 'clearBuckling',
+  'clearPlastic', 'clearSpectral', 'clearMovingLoad', 'setPDeltaResult', 'setModalResult',
+  'setBucklingResult', 'setPlasticResult', 'setSpectralResult', 'setPDeltaResult3D',
+  'clearPDelta3D', 'setModalResult3D', 'clearModal3D', 'setBucklingResult3D',
+  'clearBuckling3D', 'setSpectralResult3D', 'clearSpectral3D', 'startMovingLoadAnalysis',
+  'updateMovingLoadProgress', 'cancelMovingLoad', 'finishMovingLoad', 'setInfluenceLine',
+  'setResults', 'setCombinationResults', 'clear', 'setResults3D', 'clear3D', 'setGoverning2D',
+  'setGoverning3D', 'setCombinationResults3D', '_update3DView', 'addDiagnostics',
+  'setConstraintForces', 'clearDiagnostics',
+]);

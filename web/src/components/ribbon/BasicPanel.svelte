@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { t } from '../../lib/i18n';
   import ToolbarResults from '../toolbar/ToolbarResults.svelte';
-  import SelectionPanel from '../SelectionPanel.svelte';
   import ToolbarAdvanced from '../toolbar/ToolbarAdvanced.svelte';
   import ToolbarConfig from '../toolbar/ToolbarConfig.svelte';
   import ToolbarProject from '../toolbar/ToolbarProject.svelte';
@@ -159,7 +158,7 @@
 
   <div class="bp-body">
     {#if panel === 'selection'}
-      <SelectionPanel />
+      <span class="react-selection-panel-slot" style="display: contents"></span>
     {:else if panel === 'results'}
       <ToolbarResults hideDiagrams flat />
     {:else if panel === 'advanced'}

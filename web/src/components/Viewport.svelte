@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import PointerModeButton from './PointerModeButton.svelte';
-  import Icon from './ribbon/Icon.svelte';
+  import ViewportControlsHost from './ViewportControlsHost.svelte';
   import { t } from '../lib/i18n';
   import { modelStore, uiStore, resultsStore, historyStore, dsmStepsStore } from '../lib/store';
   import { TWO_D_VERTICAL_AXIS_LABEL, TWO_D_DISPLACEMENT_LABELS, get2DDisplayDisplacementVertical, get2DDisplayedVertical } from '../lib/geometry/coordinate-system';
@@ -2539,17 +2538,14 @@
     style="cursor: {getCursor()}"
   ></canvas>
 
-  <div class="viewport-controls" style="top: {uiStore.floatingToolsTopOffset}px">
-    <!-- Pointer mode first: it is the control used most, and it took this slot
-         from zoom-to-fit, which moved down one. -->
-    <PointerModeButton />
-    <button onclick={() => {
+  <ViewportControlsHost
+    mode="2d"
+    top={uiStore.floatingToolsTopOffset}
+    onFit={() => {
       if (modelStore.nodes.size === 0) return;
       uiStore.zoomToFit(modelStore.nodes.values(), canvas.width, canvas.height);
-    }} title={t('viewport.zoomToFit')} aria-label={t('viewport.zoomToFit')}>
-      <Icon name="fit" size={17} />
-    </button>
-  </div>
+    }}
+  />
 </div>
 
 <style>
@@ -2570,37 +2566,4 @@
     touch-action: none;
   }
 
-  .viewport-controls {
-    position: absolute;
-    right: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 10;
-    transition: top 0.15s ease;
-    /* Right-aligned so every button in the stack shares an edge. */
-    align-items: flex-end;
-}
-
-  .viewport-controls button {
-    width: 32px;
-    height: 32px;
-    /* The one control that floats over the canvas in every mode, so it wears
-       the shell's surface rather than a navy of its own. */
-    border: 1px solid var(--st-hair-strong);
-    border-radius: var(--st-radius);
-    background: color-mix(in srgb, var(--st-surface) 90%, transparent);
-    color: var(--st-text-2);
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .viewport-controls button:hover {
-    background: var(--st-surface-3);
-    color: var(--st-text);
-  }
 </style>

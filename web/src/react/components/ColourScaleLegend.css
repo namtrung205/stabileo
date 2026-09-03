@@ -1,0 +1,8 @@
+.cs-legend { position: absolute; left: 12px; bottom: 96px; display: flex; align-items: flex-end; gap: 4px; pointer-events: none; z-index: 5; }
+.cs-bar { width: 14px; height: 90px; border: 1px solid var(--st-hair-strong); border-radius: 2px; }
+.cs-rail { display: flex; flex-direction: column; gap: 2px; }
+.cs-cap { width: 14px; height: 10px; border: 1px solid var(--st-hair-strong); border-radius: 2px; }
+.cs-cap-label { bottom: calc(100% + 0.5em); white-space: nowrap; }
+.cs-ticks { position: relative; height: 90px; width: 3.2em; }
+.cs-tick { position: absolute; left: 0; font-size: 0.6rem; line-height: 1; color: var(--st-text-2); font-family: var(--st-mono, monospace); text-shadow: 0 0 3px var(--st-bg), 0 0 3px var(--st-bg); }
+.cs-unit { align-self: flex-start; font-size: 0.6rem; color: var(--st-text-3); text-shadow: 0 0 3px var(--st-bg), 0 0 3px var(--st-bg); }

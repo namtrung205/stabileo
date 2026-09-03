@@ -10,7 +10,7 @@
  *
  * The bindings themselves are the long-standing ones; do not change a letter
  * here without checking it does not collide with the other global shortcuts
- * in KeyboardShortcuts.svelte (H is the axes toggle).
+ * in React's KeyboardShortcuts.tsx (H is the axes toggle).
  */
 export const TOOL_KEYS = [
   { id: 'pan', key: 'A' },

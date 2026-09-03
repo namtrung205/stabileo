@@ -4,7 +4,6 @@
   import { generateShareURL, loadFromShareLink, MAX_URL_SAFE } from '../../lib/utils/url-sharing';
   import { t } from '../../lib/i18n';
   import ToolbarExamples from './ToolbarExamples.svelte';
-  import DemoMenu from '../DemoMenu.svelte';
   import CalcReportDialog from '../CalcReportDialog.svelte';
 
   let fileInput: HTMLInputElement;
@@ -126,7 +125,7 @@
     to be shown what to do with it.
   -->
   <div class="proj-block">
-    <DemoMenu />
+    <span class="react-demo-menu-slot" style="display: contents"></span>
   </div>
 
   <!--

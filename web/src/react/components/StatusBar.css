@@ -1,0 +1,28 @@
+.status-bar { display: flex; align-items: center; gap: 1.1rem; padding: 0.3rem 0.9rem; font-size: 0.72rem; font-family: var(--st-sans); }
+.draft-badge { background: transparent; border: 1px solid var(--st-warn); color: var(--st-warn); border-radius: 4px; font-size: 0.7rem; padding: 0.1rem 0.5rem; cursor: pointer; }
+.draft-badge:hover { background: var(--st-surface-3); }
+.status-item { display: flex; gap: 0.35rem; white-space: nowrap; }
+.status-label { color: var(--st-text-3); font-size: 0.66rem; text-transform: lowercase; letter-spacing: 0.02em; }
+.status-value { color: var(--st-text-2); font-family: monospace; }
+
+.cad-provenance { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 960; }
+.cad-dialog { background: #16213e; border: 1px solid #1a4a7a; border-radius: 8px; width: 640px; max-width: 94vw; max-height: 88vh; display: flex; flex-direction: column; color: #ddd; }
+.cad-header { display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1rem; border-bottom: 1px solid #1a4a7a; }
+.cad-header h2 { margin: 0; font-size: 1rem; color: #4ecdc4; flex: 1; }
+.cad-close { background: none; border: none; color: #888; cursor: pointer; font-size: 1rem; }
+.cad-close:hover { color: #fff; }
+.cad-body { padding: 0.8rem 1rem; overflow-y: auto; flex: 1; }
+.cad-meta { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; margin-bottom: 0.5rem; }
+.cad-label { color: #888; }
+.cad-mono { font-family: monospace; font-size: 0.75rem; }
+.cad-status.unrev { color: #f0a500; }
+.cad-status.rev { color: #4ecdc4; }
+.cad-body h3 { font-size: 0.7rem; text-transform: uppercase; color: #888; margin: 0.8rem 0 0.3rem; }
+.cad-assumptions { display: flex; flex-direction: column; gap: 0.2rem; }
+.cad-assumption { font-size: 0.76rem; color: #bbb; line-height: 1.35; }
+.cad-role-summary { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.72rem; }
+.cad-footer { display: flex; gap: 0.5rem; padding: 0.7rem 1rem; border-top: 1px solid #1a4a7a; }
+.cad-spacer { flex: 1; }
+.cad-btn { padding: 0.4rem 0.9rem; border-radius: 4px; font-size: 0.78rem; cursor: pointer; background: #0f3460; color: #ccc; border: 1px solid #1a4a7a; }
+.cad-btn:hover { border-color: #4ecdc4; color: #fff; }
+.cad-btn.apply { background: rgba(78, 205, 196, 0.25); color: #4ecdc4; border-color: #4ecdc4; font-weight: 600; }

@@ -32,6 +32,7 @@ import { getFixture, is2DFixture, is3DFixture } from '../templates/fixture-index
 import { loadFixture } from '../templates/load-fixture';
 import { inferLoadCaseType } from '../engine/combinations-service';
 import { t } from '../i18n';
+import { makeReactObservable } from './react-external-store';
 import { validateAndSolve2D, validateAndSolve2DAsync, buildSolverInput2D, validateAndSolve3D, validateAndSolve3DAsync, buildSolverInput3D as buildSolverInput3DFn, solveCombinations2D, solveCombinations3D as solveCombinations3DFn, solveCombinations3DParallel as solveCombinations3DParallelFn } from '../engine/solver-service';
 import { computeInfluenceLine as computeInfluenceLineFn } from '../engine/influence-service';
 import { to2D, remapNodalLoad2D, remapMoment2D, type DrawPlane } from '../geometry/plane-projection';
@@ -3305,4 +3306,4 @@ function createModelStore() {
   };
 }
 
-export const modelStore = createModelStore();
+export const modelStore = makeReactObservable(createModelStore(), ['markProvenanceReviewed']);

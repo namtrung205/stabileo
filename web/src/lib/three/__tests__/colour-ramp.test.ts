@@ -64,7 +64,8 @@ describe('the shared colour ramp', () => {
      * again — both must read from the module this test covers.
      */
     const components = join(import.meta.dirname, '../../../components');
-    expect(readFileSync(join(components, 'ColourScaleLegend.svelte'), 'utf8'))
+    const reactComponents = join(import.meta.dirname, '../../../react/components');
+    expect(readFileSync(join(reactComponents, 'ColourScaleLegend.tsx'), 'utf8'))
       .toContain('colour-ramp');
     expect(readFileSync(join(components, 'Viewport.svelte'), 'utf8'))
       .toContain('colour-ramp');
