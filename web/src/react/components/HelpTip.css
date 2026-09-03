@@ -1,0 +1,3 @@
+.ht-wrap { position: relative; display: inline-flex; align-items: center; gap: inherit; }
+.ht-tip { position: absolute; right: calc(100% + 8px); top: 50%; transform: translateY(-50%); width: max-content; max-width: 230px; padding: 6px 8px; border: 1px solid var(--st-hair-strong); border-radius: var(--st-radius); background: var(--st-surface); box-shadow: 0 2px 8px rgb(0 0 0 / 0.18); font-size: 0.66rem; line-height: 1.4; font-weight: 400; text-transform: none; letter-spacing: normal; white-space: normal; color: var(--st-text-2); pointer-events: none; z-index: 40; }
+.ht-tip.right { right: auto; left: calc(100% + 8px); }

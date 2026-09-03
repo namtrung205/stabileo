@@ -35,6 +35,34 @@ The existing stores remain the source of truth. `react-external-store.ts` expose
 | 10 | Remove compatibility | zero `.svelte` UI files, zero rune stores, no Svelte plugin/runtime/compiler dependency | Pending |
 | 11 | Parity verification | type/build gates, unit/E2E suites, route matrix, screenshot baselines, interaction matrix, memory/disposal checks | Pending |
 
+## Executable migration goals
+
+The project-wide migration remains the umbrella goal. Work is delivered in small gates below so each change can be reviewed and verified independently.
+
+| Goal | Deliverable | Verification gate | Status |
+| --- | --- | --- | --- |
+| G1 | React entry, public routes, landing, and blog | typecheck, production build, public route smoke matrix | Done |
+| G2 | Shared editor chrome and isolated editors | preserved test IDs plus typecheck/build | Done |
+| G3 | Independent editor dialogs and overlays | component contract checks, relevant domain tests, typecheck/build | In progress — 3D→2D, mobile results, 2D DXF import, calculation report, and material presets done |
+| G4 | Basic ribbon and right-side data/result panels | Basic workflow E2E suite and UI parity checklist | In progress — ribbon, toolbars, selected entities, and Project done |
+| G5 | 2D viewport ownership | drawing, selection, snapping, drag, zoom/pan, and disposal tests | Pending |
+| G6 | 3D viewport ownership | camera, selection, clipping, measuring, rendering, and disposal tests | Pending |
+| G7 | Education and PRO workspaces | mode-specific workflow suites and responsive checks | Pending |
+| G8 | Remove compatibility layer and Svelte | zero `.svelte` files/dependencies and full parity matrix | Pending |
+
+### G4 Basic editor breakdown
+
+| Gate | Scope | Verification | Status |
+| --- | --- | --- | --- |
+| G4.1 | Desktop Basic ribbon and its panel-state bridge | command/test-id contract, result/view-mode tests, typecheck, production bundle | Done |
+| G4.2 | Remaining Basic toolbar shells and selected-entity strip | tool/keyboard state tests, responsive DOM contract, typecheck/build | Done |
+| G4.3 | Basic right-panel shell plus project/config/advanced/results controls | panel routing and solve/result workflow tests | In progress — G4.3a Project/examples done |
+| G4.4 | Data-table shell and nodes/elements/supports/loads/materials/sections/results tables | CRUD, tab, import/export, undo/redo tests | Pending |
+| G4.5 | Property panel and remaining entity detail editors | selection/edit/history tests | Pending |
+| G4.6 | Basic end-to-end and visual parity closeout | desktop/mobile workflows and screenshot checklist | Pending |
+
+G4.3 is implemented as four reviewable sub-gates: Project/examples (done), Config, Results, then Advanced plus the final React panel shell.
+
 ## Current migrated surface
 
 - React root and route switchboard.
@@ -50,6 +78,15 @@ The existing stores remain the source of truth. `react-external-store.ts` expose
 - Global Basic keyboard shortcuts, including save/open, clipboard, delete, zoom, tool, diagram, grid/axes, and solve commands.
 - Viewport-owned stress-pick hint and shared colour-scale overlay, mounted into the original positioned canvas container.
 - Node, member, material, and section editors; steel-profile catalog selector; despiece force inspector.
+- 3D→2D plane/slice/project/erase decision dialog, with its original CSS hooks and E2E test IDs.
+- Mobile Basic/PRO solve and results panel, portalled into its original viewport position.
+- 2D DXF import dialog, including file parsing, unit/tolerance remapping, preview, warnings, and model import.
+- Calculation report configuration/generation dialog and the shared material preset catalogue.
+- Basic editor ribbon, including project/history commands, mode switching, drawing tools, solve, and result diagrams.
+- Desktop tool-options bar, mobile/authoring floating tools, and inline editing for selected 2D/3D loads and supports.
+- Basic Project panel and sidebar sections: file/session operations, 2D/3D examples, tutorials, export/import, and share links.
+
+Current implementation priority is the editor. Public landing and blog surfaces are already stable and are excluded from the remaining incremental goals.
 
 The React root now places migrated chrome into the existing header, panel, viewport, and footer positions with portals. These portals replace nested React roots and keep the transitional Svelte shell from owning migrated component lifecycles.
 

@@ -21,24 +21,24 @@ const read = (p: string) => readFileSync(resolve(__dirname, p), 'utf8');
 
 // ─── Task 1: config UI ────────────────────────────────────────────
 describe('Task 1 — Basic Local axes config', () => {
-  const cfg = read('../../../components/toolbar/ToolbarConfig.svelte');
+  const cfg = read('../../../react/components/ToolbarConfig.tsx');
 
   it('Basic shows a single "Local axes" control; PRO keeps the members label', () => {
     expect(cfg).toContain("isPro ? t('config.localAxesMembers') : t('config.localAxes')");
   });
 
   it('the shells control is gated to PRO only', () => {
-    expect(cfg).toContain('{#if isPro}');
+    expect(cfg).toContain('{isPro &&');
     expect(cfg).toContain("t('config.localAxesShells')");
     // shells select must live inside the isPro branch (after the gate)
-    expect(cfg.indexOf('{#if isPro}')).toBeLessThan(cfg.indexOf("t('config.localAxesShells')"));
+    expect(cfg.indexOf('{isPro &&')).toBeLessThan(cfg.indexOf("t('config.localAxesShells')"));
   });
 
   it('the member Local-axes control is no longer gated behind {#if is3D} (works in Basic 2D)', () => {
     // The members <select> binds localAxesMode3D and must appear OUTSIDE an is3D gate.
     // (is3D still gates the grid/axes 3D specifics, but not the local-axes control.)
     const membersIdx = cfg.indexOf('uiStore.localAxesMode3D');
-    const is3dGateIdx = cfg.indexOf('{#if is3D}');
+    const is3dGateIdx = cfg.indexOf('{is3D &&');
     // Either there is no is3D gate at all, or the members control precedes any such gate.
     expect(is3dGateIdx === -1 || membersIdx < is3dGateIdx).toBe(true);
   });
@@ -106,7 +106,7 @@ describe('Task 2 — Select→Stresses removed, Advanced→Section Analysis kept
   });
 
   it("Advanced Analysis → Section Analysis still activates stress mode (selectMode='stress')", () => {
-    const adv = read('../../../components/toolbar/ToolbarAdvanced.svelte');
+    const adv = read('../../../react/components/ToolbarAdvanced.tsx');
     expect(adv).toContain("t('advanced.sectionAnalysis')");
     expect(adv).toContain("uiStore.selectMode = 'stress'");
   });
@@ -146,8 +146,10 @@ describe('closing section analysis returns the pointer to selection', () => {
     // The panel is where a stress click is answered. Dismissing it while the
     // question mode stays armed is the state the user actually hit.
     const app = read('../../../App.svelte');
+    const panel = read('../../../react/components/BasicPanel.tsx');
     expect(app).toContain('function closeBasicPanel()');
     expect(app).toMatch(/closeBasicPanel[\s\S]{0,400}selectMode = 'elements'/);
-    expect(app).toContain('onClose={closeBasicPanel}');
+    expect(panel).toContain("panel: null, opts: { toggle: false }");
+    expect(app).toContain("if (detail.panel === null) closeBasicPanel()");
   });
 });

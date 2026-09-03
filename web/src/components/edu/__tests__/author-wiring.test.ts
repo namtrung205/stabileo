@@ -45,8 +45,10 @@ describe('the author panel can be reached', () => {
     // mounting the tool bar for this case that instruction becomes a dead end
     // again — which is exactly how it shipped.
     const app = readFileSync(join(process.cwd(), 'src/App.svelte'), 'utf8');
+    const portals = readFileSync(join(process.cwd(), 'src/react/components/EditorChromePortals.tsx'), 'utf8');
     expect(app).toMatch(/educativo'\s*&&\s*eduStore\.authoring/);
-    expect(app).toMatch(/<FloatingTools \/>/);
+    expect(app).toContain('react-floating-tools-slot');
+    expect(portals).toMatch(/createPortal\(<FloatingTools \/>/);
   });
 
   it('the props the panel passes are the props the author declares', () => {

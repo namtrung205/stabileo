@@ -2,7 +2,6 @@
   import { modelStore, uiStore } from '../../lib/store';
   import { t } from '../../lib/i18n';
   import { arcPolyline } from '../../lib/engine/curved-beam';
-  import MemberOffsetEditor from '../property/MemberOffsetEditor.svelte';
 
   const is3DMode = $derived(uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro');
 
@@ -233,7 +232,7 @@
 
 <div class="pro-elems">
   {#if uiStore.selectedElements.size > 0}
-    <div style="padding: 6px 10px;"><MemberOffsetEditor /></div>
+    <div style="padding: 6px 10px;"><span class="react-pro-member-offset-slot" style="display: contents"></span></div>
   {/if}
   <div class="pro-elems-header">
     <span class="pro-elems-count">{t('pro.nElements').replace('{n}', String(elemCount))}</span>

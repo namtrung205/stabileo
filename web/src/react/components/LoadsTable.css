@@ -1,0 +1,12 @@
+.react-loads-table .combos-fold { margin: 0 0 6px; border: 1px solid var(--st-border); border-radius: var(--st-radius, 3px); background: var(--st-surface-2); }
+.react-loads-table .combos-fold > summary { padding: 5px 9px; cursor: pointer; font-size: 0.74rem; color: var(--st-text-2); user-select: none; }
+.react-loads-table .combos-fold > summary:hover { color: var(--st-text); }
+.react-loads-table .combos-body { padding: 0 6px 6px; }
+.react-loads-table .type-cell { font-size: 0.7rem; }
+.react-loads-table .load-values { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+.react-loads-table .load-field { display: flex; align-items: center; gap: 0.15rem; font-size: 0.65rem; color: var(--st-text-3); }
+.react-loads-table .load-field input { width: 50px; }
+.react-loads-table .selfweight-row { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.4rem; font-size: 0.75rem; color: var(--st-text-2); cursor: pointer; background: rgba(19, 33, 45, 0.4); border: 1px solid var(--st-surface-3); border-radius: 4px; margin-bottom: 0.3rem; }
+.react-loads-table .selfweight-row input { accent-color: var(--st-accent); margin: 0; }
+.react-loads-table .selfweight-row span { font-weight: 500; }
+.react-loads-table .add-input-wide { width: auto; min-width: 80px; }

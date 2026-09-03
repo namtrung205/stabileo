@@ -1,6 +1,5 @@
 <script lang="ts">
   import { uiStore, historyStore } from '../lib/store';
-  import { loadFile } from '../lib/store/file';
   import { t } from '../lib/i18n';
   import { type DrawPlane } from '../lib/geometry/plane-projection';
   /*
@@ -14,13 +13,6 @@
   } from '../lib/store/switch-2d';
   import { TOOL_KEYS, type ToolKeyId } from '../lib/tool-keys';
 
-  import ToolbarResults from './toolbar/ToolbarResults.svelte';
-  import ToolbarAdvanced from './toolbar/ToolbarAdvanced.svelte';
-  import ToolbarExamples from './toolbar/ToolbarExamples.svelte';
-  import ToolbarConfig from './toolbar/ToolbarConfig.svelte';
-  import ToolbarProject from './toolbar/ToolbarProject.svelte';
-
-  let fileInput: HTMLInputElement;
 
   // ─── 3D→2D plane-selection modal ──────────────────────────────
   let show2DPlaneModal = $state(false);
@@ -58,22 +50,6 @@
   };
   const tools = TOOL_KEYS.map((tool) => ({ ...tool, ...TOOL_DISPLAY[tool.id] }));
 
-
-  async function handleLoadFile(e: Event) {
-    const input = e.target as HTMLInputElement;
-    const file = input.files?.[0];
-    if (!file) return;
-    try {
-      const result = await loadFile(file);
-      if (result.type === 'session') {
-        uiStore.toast(t('toast.sessionRestored').replace('{n}', String(result.count)), 'success');
-      }
-    } catch (err: any) {
-      alert(err.message || t('toast.loadFileError'));
-    }
-    input.value = ''; // reset so same file can be loaded again
-  }
-
 </script>
 
 
@@ -105,23 +81,15 @@
     </div>
   {/if}
 
-  <ToolbarResults />
-  <ToolbarAdvanced />
-  <ToolbarExamples />
+  <span class="react-toolbar-results-slot" style="display: contents"></span>
+  <span class="react-toolbar-advanced-slot" style="display: contents"></span>
+  <span class="react-toolbar-examples-slot" style="display: contents"></span>
 
   <!-- Configuración + Proyecto wrapper for tour spotlight -->
   <div data-tour="config-project-section" style="display:flex;flex-direction:column;gap:1rem">
-    <ToolbarConfig />
-    <ToolbarProject />
+    <span class="react-toolbar-config-slot" style="display: contents"></span>
+    <span class="react-toolbar-project-slot" style="display: contents"></span>
   </div>
-
-  <input
-    bind:this={fileInput}
-    type="file"
-    accept=".ded,.json"
-    style="display:none"
-    onchange={handleLoadFile}
-  />
 </div>
 
 {#if show2DPlaneModal}

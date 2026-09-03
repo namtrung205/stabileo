@@ -3,8 +3,6 @@
   import Viewport from './components/Viewport.svelte';
   import Viewport3D from './components/Viewport3D.svelte';
   import Toolbar from './components/Toolbar.svelte';
-  import PropertyPanel from './components/PropertyPanel.svelte';
-  import DataTable from './components/DataTable.svelte';
   import { modelStore, uiStore, resultsStore, dsmStepsStore, tabManager, historyStore } from './lib/store';
   import { syncModelTabWithResults } from './lib/store/view-mode';
   import { t, i18n, setLocale } from './lib/i18n';
@@ -19,13 +17,9 @@
   } from './lib/store/file';
   import { requestAutosave } from './lib/store/autosave-service';
   import { loadFromURLHash } from './lib/utils/url-sharing';
-  import DxfImportDialog from './components/DxfImportDialog.svelte';
   import CadImportWizard from './components/CadImportWizard.svelte';
   import IfcImportDialog from './components/IfcImportDialog.svelte';
-  import FloatingTools from './components/FloatingTools.svelte';
-  import Ribbon from './components/ribbon/Ribbon.svelte';
-  import BasicPanel from './components/ribbon/BasicPanel.svelte';
-  import ToolOptionsBar from './components/ribbon/ToolOptionsBar.svelte';
+  import SectionChangerEventHost from './components/SectionChangerEventHost.svelte';
 
   /**
    * Which right-hand panel the ribbon has opened, if any.
@@ -97,13 +91,10 @@
   import WhatIfPanel from './components/WhatIfPanel.svelte';
   import SectionStressPanel from './components/SectionStressPanel.svelte';
   import KinematicPanel from './components/KinematicPanel.svelte';
-  import SwitchTo2DDialog from './components/SwitchTo2DDialog.svelte';
-  import MobileResultsPanel from './components/MobileResultsPanel.svelte';
   import Icon from './components/ribbon/Icon.svelte';
   import ProPanel from './components/pro/ProPanel.svelte';
   import RebarWorkspace from './components/pro/design/RebarWorkspace.svelte';
   import ProProjectFileActions from './components/pro/ProProjectFileActions.svelte';
-  import ToolbarConfig from './components/toolbar/ToolbarConfig.svelte';
   import { captureFocus } from './lib/utils/dialog-focus';
   import ProRibbon from './components/pro/ProRibbon.svelte';
   import EducativePanel from './components/edu/EducativePanel.svelte';
@@ -255,7 +246,7 @@
     uiStore.showKinematicPanel = true;
     /*
      * On desktop Basic the report is docked inside the Advanced tab of the
-     * right panel (see BasicPanel.svelte), so raising the flag on its own
+     * right panel (see React BasicPanel), so raising the flag on its own
      * opens a panel that is never mounted. On mobile it floats and the flag
      * is enough — the same asymmetry that made `?inspect` look like it
      * worked on a phone and did nothing on a laptop.
@@ -341,8 +332,6 @@
     replaceAppUrl(target, modelStore.model.name);
   }
 
-  let showDxfImport = $state(false);
-  let dxfImportFile = $state<File | null>(null);
   // CAD → RC draft wizard (PRO/3D modes route DXF files here instead of the
   // 2D bar-model import dialog).
   let showCadWizard = $state(false);
@@ -505,6 +494,22 @@
      * pointed at a panel it had just dismissed.
      */
     if (typeof panel === 'string') openBasicPanel(panel, { toggle: false });
+  }
+
+  function publishBasicPanelState() {
+    window.dispatchEvent(new CustomEvent('stabileo-basic-panel-state', {
+      detail: { activePanel: basicPanel, activeDataTab: basicDataTab },
+    }));
+  }
+
+  function handleOpenBasicPanelEvent(e: Event) {
+    const detail = (e as CustomEvent<{
+      panel: string | null;
+      opts?: { toggle?: boolean; dataTab?: string };
+    }>).detail;
+    if (!detail) return;
+    if (detail.panel === null) closeBasicPanel();
+    else openBasicPanel(detail.panel, detail.opts);
   }
 
   function handleExportPNG() {
@@ -693,8 +698,7 @@
         cadWizardFile = ce.detail;
         showCadWizard = true;
       } else {
-        dxfImportFile = ce.detail;
-        showDxfImport = true;
+        window.dispatchEvent(new CustomEvent('stabileo-open-dxf-dialog', { detail: ce.detail }));
       }
     };
     window.addEventListener('stabileo-dxf-drop', handleDxfDropEvent);
@@ -715,6 +719,8 @@
      * describes tour cards.
      */
     window.addEventListener('stabileo-open-panel', handleOpenPanelEvent);
+    window.addEventListener('stabileo-open-basic-panel', handleOpenBasicPanelEvent);
+    window.addEventListener('stabileo-request-basic-panel-state', publishBasicPanelState);
 
     return () => {
       saveWorkspaceToLocalStorage();
@@ -727,6 +733,8 @@
       window.removeEventListener('stabileo-import-ifc', handleIfcImportEvent);
       window.removeEventListener('stabileo-solve', handleGlobalSolve);
       window.removeEventListener('stabileo-open-panel', handleOpenPanelEvent);
+      window.removeEventListener('stabileo-open-basic-panel', handleOpenBasicPanelEvent);
+      window.removeEventListener('stabileo-request-basic-panel-state', publishBasicPanelState);
       window.removeEventListener('popstate', onPopState);
     };
   });
@@ -735,6 +743,12 @@
   $effect(() => {
     if (typeof window === 'undefined') return;
     replaceAppUrl(uiStore.appMode, modelStore.model.name);
+  });
+
+  $effect(() => {
+    void basicPanel;
+    void basicDataTab;
+    if (typeof window !== 'undefined') publishBasicPanelState();
   });
 
   // One model revision channel feeds the React islands while the editor shell
@@ -1023,7 +1037,7 @@
                   data-testid="pro-settings-close"
                 >✕</button>
               </header>
-              <ToolbarConfig inline={true} />
+              <span class="react-toolbar-config-inline-slot" style="display: contents"></span>
             </div>
           {/if}
         </div>
@@ -1032,8 +1046,8 @@
   </header>
 
   {#if uiStore.appMode === 'basico' && !uiStore.isMobile}
-    <Ribbon onOpenPanel={openBasicPanel} activePanel={basicPanel} activeDataTab={basicDataTab} />
-    <ToolOptionsBar />
+    <span class="react-basic-ribbon-slot" style="display: contents"></span>
+    <span class="react-tool-options-slot" style="display: contents"></span>
   {/if}
 
   <div class="app-body" class:app-body-pro={uiStore.appMode === 'pro'}>
@@ -1156,7 +1170,7 @@
           results, which an exercise author has no use for.
         -->
         {#if (uiStore.appMode === 'basico' && uiStore.isMobile) || (uiStore.appMode === 'educativo' && eduStore.authoring)}
-          <FloatingTools />
+          <span class="react-floating-tools-slot" style="display: contents"></span>
         {/if}
         <!--
           Advanced analyses float over the canvas only where there is nothing to
@@ -1169,7 +1183,7 @@
           <SectionStressPanel />
           <KinematicPanel />
         {/if}
-        <MobileResultsPanel />
+        <span class="react-mobile-results-slot" style="display: contents"></span>
         <!--
           Basic only, but in BOTH its layouts. The shortcuts used to ride along
           inside the left Toolbar, which desktop no longer renders — so they
@@ -1178,11 +1192,13 @@
           Not in PRO: `handleProKeydown` above already owns Ctrl+Z/Y there, and
           mounting both made one keystroke undo twice.
         -->
-      </main>
+</main>
+
+<SectionChangerEventHost />
     </div>
 
     {#if uiStore.appMode === 'basico' && basicPanel && !uiStore.isMobile}
-      <BasicPanel panel={basicPanel} bind:dataTab={basicDataTab} onClose={closeBasicPanel} />
+      <span class="react-basic-panel-slot" style="display: contents"></span>
     {/if}
 
     {#if !uiStore.isMobile}
@@ -1266,7 +1282,7 @@
               </button>
               {#if uiStore.showDataTable}
                 <div class="data-table-sidebar">
-                  <DataTable />
+                  <span class="react-sidebar-data-table-slot" style="display: contents"></span>
                 </div>
               {/if}
             {/if}
@@ -1303,13 +1319,13 @@
       {:else if dsmStepsStore.isOpen}
         <StepWizard />
       {:else}
-        <PropertyPanel {showResults} />
+        <span class="react-property-panel-slot" style="display: contents"></span>
         <button class="datatable-toggle" onclick={() => uiStore.showDataTable = !uiStore.showDataTable}>
           {uiStore.showDataTable ? '▾' : '▸'} {t('app.modelData')}
         </button>
         {#if uiStore.showDataTable}
           <div class="data-table-sidebar">
-            <DataTable />
+            <span class="react-drawer-data-table-slot" style="display: contents"></span>
           </div>
         {/if}
       {/if}
@@ -1377,18 +1393,6 @@
   </div>
 {/if}
 
-<!--
-  Modal over the whole app, so it sits with the other dialogs rather than
-  inside the viewport: what it decides replaces the model, which is not a
-  viewport-scoped act.
--->
-<SwitchTo2DDialog bind:open={uiStore.switchTo2DPrompt} />
-
-<DxfImportDialog
-  open={showDxfImport}
-  file={dxfImportFile}
-  onclose={() => { showDxfImport = false; dxfImportFile = null; }}
-/>
 <input
   bind:this={dxfFileInput}
   type="file"
@@ -1398,7 +1402,7 @@
     const f = (e.currentTarget as HTMLInputElement).files?.[0];
     if (f) {
       if (dxfGoesToCadWizard()) { cadWizardFile = f; showCadWizard = true; }
-      else { dxfImportFile = f; showDxfImport = true; }
+      else { window.dispatchEvent(new CustomEvent('stabileo-open-dxf-dialog', { detail: f })); }
     }
     (e.currentTarget as HTMLInputElement).value = '';
   }}

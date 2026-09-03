@@ -571,9 +571,9 @@ function createResultsStore() {
       movingLoadAbortController = null;
     },
 
-    setInfluenceLine(il: InfluenceLineResult) {
+    setInfluenceLine(il: InfluenceLineResult | null) {
       influenceLine = il;
-      diagramType = 'influenceLine';
+      diagramType = il ? 'influenceLine' : 'none';
       ilAnimating = false;
       ilAnimProgress = 0;
     },

@@ -1,0 +1,35 @@
+.react-property-panel { padding: .75rem; display: flex; flex-direction: column; gap: .75rem; overflow-y: auto; max-height: calc(100vh - 4rem); flex-shrink: 1; }
+.react-property-panel .panel-section { display: flex; flex-direction: column; gap: .5rem; }
+.react-property-panel .panel-section h3 { font-size: .75rem; text-transform: uppercase; color: #888; letter-spacing: .05em; }
+.react-property-panel h4 { font-size: .7rem; color: #aaa; margin-top: .5rem; }
+.react-property-panel .property-row { display: flex; justify-content: space-between; align-items: center; gap: .35rem; font-size: .875rem; padding: .25rem 0; }
+.react-property-panel .prop-input { width: 65px; padding: .2rem .3rem; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 3px; color: #eee; font-size: .8rem; }
+.react-property-panel select { padding: .5rem; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 4px; color: #eee; font-size: .875rem; }
+.react-property-panel .btn-small { padding: .25rem .5rem; font-size: .75rem; border: none; border-radius: 4px; cursor: pointer; margin-top: .5rem; }
+.react-property-panel .btn-danger { background: #e94560; color: white; }
+.react-property-panel .btn-danger:hover { background: #ff6b6b; }
+.react-property-panel .btn-secondary { background: #0f3460; color: #aaa; }
+.react-property-panel .btn-secondary:hover { background: #1a4a7a; color: white; }
+.react-property-panel .btn-small.active { background: #e94560; color: white; }
+.react-property-panel input[type="checkbox"] { accent-color: #e94560; }
+.react-property-panel .inline-select { display: flex; align-items: center; gap: .2rem; min-width: 0; }
+.react-property-panel .inline-select select { flex: 1; min-width: 0; padding: .25rem; font-size: .8rem; }
+.react-property-panel .icon-btn { padding: .15rem .35rem; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 3px; color: #aaa; cursor: pointer; font-size: .75rem; line-height: 1; flex-shrink: 0; }
+.react-property-panel .icon-btn:hover { background: #1a4a7a; color: white; }
+.react-property-panel .profile-icon-btn { color: #4ecdc4; }
+.react-property-panel .profile-icon-btn:hover { background: #0f4a3a; color: white; }
+.react-property-panel .hinge-toggles { display: flex; gap: .25rem; }
+.react-property-panel .hinge-btn { display: inline-flex; align-items: center; gap: .25rem; padding: .2rem .5rem; font-size: .72rem; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 4px; color: #888; cursor: pointer; transition: all .15s; }
+.react-property-panel .hinge-btn.active { background: #e94560; border-color: #ff6b6b; color: white; }
+.react-property-panel .hinge-btn:hover { background: #1a4a7a; color: white; }
+.react-property-panel .ratio-ok { color: #00e676; font-weight: 600; }
+.react-property-panel .ratio-warn { color: #ff5252; font-weight: 600; }
+.react-property-panel .axis-editor { flex-direction: column; align-items: flex-start; gap: 4px; }
+.react-property-panel .axis-fields { display: flex; gap: 4px; align-items: center; width: 100%; flex-wrap: wrap; }
+.react-property-panel .axis-fields label { display: flex; gap: 2px; align-items: center; font-size: .7rem; }
+.react-property-panel .axis-fields input { width: 50px; font-size: .7rem; }
+.react-property-panel .help-panel { background: #1a2a3e; border: 1px solid #2a4a6e; border-radius: 6px; padding: .75rem; margin-top: .5rem; }
+.react-property-panel .help-title { font-size: .8rem; color: #4ecdc4; font-weight: 700; margin-bottom: .5rem; }
+.react-property-panel .help-steps { list-style: none; padding: 0; margin: 0 0 .5rem; display: flex; flex-direction: column; gap: .25rem; }
+.react-property-panel .help-steps li { font-size: .75rem; color: #bbb; padding-left: .5rem; border-left: 2px solid #2a4a6e; }
+.react-property-panel .help-tip { font-size: .72rem; color: #f0a500; font-style: italic; margin: 0; padding-top: .25rem; border-top: 1px solid #2a4a6e; }

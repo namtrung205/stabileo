@@ -50,7 +50,7 @@ describe('2D axis naming', () => {
 });
 
 describe('the ribbon reads its 2D labels rather than spelling them', () => {
-  const ribbon = read('components/ribbon/Ribbon.svelte');
+  const ribbon = read('react/components/BasicRibbon.tsx');
 
   it('imports the canonical labels', () => {
     expect(ribbon).toMatch(/TWO_D_INTERNAL_FORCE_LABELS/);
@@ -89,8 +89,8 @@ describe('influence lines ask for quantities the engine accepts', () => {
     expect(groups).not.toMatch(/'Ry'/);
     expect(groups).not.toMatch(/'Mz'/);
     for (const file of [
-      'components/ribbon/ToolOptionsBar.svelte',
-      'components/FloatingTools.svelte',
+      'react/components/ToolOptionsBarCore.tsx',
+      'react/components/FloatingToolsCore.tsx',
     ]) {
       expect(read(file), `${file} must render the shared quantity groups`).toContain('IL_QUANTITY_GROUPS');
     }

@@ -1,0 +1,33 @@
+.preset-overlay { position: fixed; inset: 0; background: rgba(8, 16, 22, 0.72); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.preset-overlay .preset-modal { background: var(--st-surface); border: 1px solid var(--st-border); border-radius: var(--st-radius-lg); width: min(560px, 100%); max-height: min(78vh, 720px); display: flex; flex-direction: column; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55); font-family: var(--st-sans); }
+.preset-overlay .preset-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--st-border); }
+.preset-overlay .preset-header h3 { color: var(--st-text); font-family: var(--st-display); font-size: 0.95rem; font-weight: 600; margin: 0; }
+.preset-overlay .close-btn { background: none; border: none; color: var(--st-text-3); cursor: pointer; font-size: 1.05rem; line-height: 1; padding: 4px 6px; border-radius: var(--st-radius); }
+.preset-overlay .close-btn:hover { color: var(--st-text); background: var(--st-surface-3); }
+.preset-overlay .preset-tabs { display: flex; flex-wrap: wrap; gap: 2px; padding: 8px 12px 0; border-bottom: 1px solid var(--st-border); }
+.preset-overlay .tab-btn { padding: 5px 10px; border: none; background: transparent; color: var(--st-text-3); cursor: pointer; font-size: 0.76rem; white-space: nowrap; border-bottom: 2px solid transparent; border-radius: var(--st-radius) var(--st-radius) 0 0; }
+.preset-overlay .tab-btn:hover { color: var(--st-text); background: var(--st-surface-2); }
+.preset-overlay .tab-btn.active { color: var(--st-text); border-bottom-color: var(--st-accent); }
+.preset-overlay .preset-code { display: flex; align-items: center; gap: 8px; padding: 10px 16px 0; flex-wrap: wrap; }
+.preset-overlay .preset-code label { font-size: 0.76rem; color: var(--st-text-2); white-space: nowrap; }
+.preset-overlay .preset-code select { flex: 1; min-width: 170px; padding: 5px 8px; border-radius: var(--st-radius); border: 1px solid var(--st-border); background: var(--st-surface-3); color: var(--st-text); font-family: var(--st-sans); font-size: 0.8rem; }
+.preset-overlay .preset-code-hint { width: 100%; font-size: 0.68rem; color: var(--st-text-3); line-height: 1.4; }
+.preset-overlay .preset-lore-btn { width: 18px; height: 18px; flex: none; border-radius: 50%; border: 1px solid var(--st-border); background: none; color: var(--st-text-3); font-size: 0.72rem; font-weight: 700; line-height: 1; cursor: pointer; }
+.preset-overlay .preset-lore-btn:hover, .preset-overlay .preset-lore-btn.open { border-color: var(--st-value); color: var(--st-value); }
+.preset-overlay .preset-lore { width: 100%; margin-top: 6px; padding: 9px 11px; border-radius: var(--st-radius); background: var(--st-surface-2); border-left: 2px solid var(--st-value); }
+.preset-overlay .preset-lore-row { display: flex; gap: 8px; font-size: 0.72rem; line-height: 1.5; }
+.preset-overlay .preset-lore-row span:first-child { color: var(--st-text-3); min-width: 74px; }
+.preset-overlay .preset-lore-row span:last-child { color: var(--st-text-2); }
+.preset-overlay .preset-lore-trivia { margin: 6px 0 0; font-size: 0.72rem; line-height: 1.55; color: var(--st-text-2); }
+.preset-overlay .preset-search { padding: 10px 16px; }
+.preset-overlay .preset-search input { width: 100%; padding: 6px 10px; background: var(--st-surface-3); border: 1px solid var(--st-border); border-radius: var(--st-radius); color: var(--st-text); font-family: var(--st-sans); font-size: 0.82rem; }
+.preset-overlay .preset-search input:focus { outline: none; border-color: var(--st-accent); }
+.preset-overlay .preset-list { overflow-y: auto; flex: 1; padding: 0 12px 12px; }
+.preset-overlay .preset-item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; width: 100%; padding: 7px 10px; background: transparent; border: 1px solid transparent; border-radius: var(--st-radius); color: var(--st-text-2); cursor: pointer; font-family: var(--st-sans); font-size: 0.82rem; text-align: left; }
+.preset-overlay .preset-item:hover { background: var(--st-surface-2); border-color: var(--st-border); color: var(--st-text); }
+.preset-overlay .preset-name { font-weight: 500; color: var(--st-text); }
+.preset-overlay .preset-std { margin-left: 6px; font-weight: 400; font-size: 0.72rem; color: var(--st-text-3); }
+.preset-overlay .preset-band { margin-left: 3px; font-size: 0.68rem; color: var(--st-text-3); }
+.preset-overlay .preset-unver { margin-left: 5px; padding: 0 4px; border-radius: var(--st-radius); background: rgba(217, 164, 65, 0.16); color: var(--st-amber-text); font-size: 0.7rem; font-weight: 700; cursor: help; }
+.preset-overlay .preset-props { font-family: var(--st-mono); font-size: 0.7rem; color: var(--st-text-3); white-space: nowrap; }
+.preset-overlay .no-results { color: var(--st-text-3); text-align: center; padding: 20px; font-size: 0.82rem; }

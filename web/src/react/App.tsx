@@ -15,6 +15,10 @@ import { EditorChromePortals } from './components/EditorChromePortals';
 import { ElementEditor } from './components/ElementEditor';
 import { SectionEditor } from './components/SectionEditor';
 import { DespieceInspector } from './components/DespieceInspector';
+import { SwitchTo2DDialog } from './components/SwitchTo2DDialog';
+import { DxfImportDialog } from './components/DxfImportDialog';
+import { CalcReportDialog } from './components/CalcReportDialog';
+import { MaterialPresetSelector } from './components/MaterialPresetSelector';
 import { uiStore } from '../lib/store';
 import { useStoreRevision } from './store/useStoreRevision';
 
@@ -82,6 +86,10 @@ export function App() {
     <ElementEditor />
     <SectionEditor />
     <DespieceInspector />
+    <SwitchTo2DDialog />
+    <DxfImportDialog />
+    <CalcReportDialog />
+    <MaterialPresetSelector />
     {uiStore.appMode === 'basico' && <KeyboardShortcuts />}
     <ViewportOverlays />
     <EditorChromePortals />

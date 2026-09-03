@@ -26,11 +26,11 @@ const read = (rel: string) =>
 /** Every component reachable from the Basic left toolbar. */
 const BASIC_TOOLBAR_SOURCES = [
   '../../../components/Toolbar.svelte',
-  '../../../components/toolbar/ToolbarAdvanced.svelte',
-  '../../../components/toolbar/ToolbarResults.svelte',
-  '../../../components/toolbar/ToolbarExamples.svelte',
-  '../../../components/toolbar/ToolbarConfig.svelte',
-  '../../../components/toolbar/ToolbarProject.svelte',
+  '../../../react/components/ToolbarAdvanced.tsx',
+  '../../../react/components/ToolbarResults.tsx',
+  '../../../react/components/ToolbarExamples.tsx',
+  '../../../react/components/ToolbarConfig.tsx',
+  '../../../react/components/ToolbarProject.tsx',
   '../../../components/toolbar/ToolbarAiReview.svelte',
 ];
 
@@ -49,7 +49,7 @@ describe('Basic cannot launch the hardcoded CIRSOC spectrum', () => {
   }
 
   it('ToolbarAdvanced no longer calls the spectral solvers at all', () => {
-    const code = stripComments(read('../../../components/toolbar/ToolbarAdvanced.svelte'));
+    const code = stripComments(read('../../../react/components/ToolbarAdvanced.tsx'));
     expect(code).not.toContain('solveSpectral');
     expect(code).not.toContain('wasmSpectral3D');
     expect(code).not.toContain('handleSpectral');
@@ -57,7 +57,7 @@ describe('Basic cannot launch the hardcoded CIRSOC spectrum', () => {
   });
 
   it('the spectral button is gone from the Basic advanced panel', () => {
-    const code = read('../../../components/toolbar/ToolbarAdvanced.svelte');
+    const code = read('../../../react/components/ToolbarAdvanced.tsx');
     // Other advanced actions are untouched — this is a targeted removal.
     expect(code).toContain("t('advanced.pdelta')");
     expect(code).toContain("t('advanced.buckling')");

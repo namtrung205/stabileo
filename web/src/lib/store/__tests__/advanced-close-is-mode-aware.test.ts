@@ -18,11 +18,11 @@ import { join } from 'node:path';
  * which is visible statically and cheap to hold.
  */
 const SRC = readFileSync(
-  join(__dirname, '..', '..', '..', 'components', 'toolbar', 'ToolbarAdvanced.svelte'),
+  join(__dirname, '..', '..', '..', 'react', 'components', 'ToolbarAdvanced.tsx'),
   'utf8',
 );
 
-/** The registry entry for `key`, from `isActive` to the end of `close`. */
+/** The registry entry for `key`, from `active` to the end of `close`. */
 function entry(key: string): string {
   const start = SRC.indexOf(`{ key: '${key}'`);
   expect(start, `no registry entry for '${key}'`).toBeGreaterThan(-1);

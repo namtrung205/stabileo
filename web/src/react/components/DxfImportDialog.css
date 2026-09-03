@@ -1,0 +1,33 @@
+.dxf-overlay { position: fixed; inset: 0; z-index: 900; display: flex; align-items: center; justify-content: center; }
+.dxf-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.6); }
+.dxf-dialog { position: relative; background: #16213e; border: 1px solid #1a4a7a; border-radius: 8px; width: 480px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+.dxf-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid #1a4a7a; }
+.dxf-header h2 { font-size: 1rem; font-weight: 600; color: #eee; margin: 0; }
+.dxf-close { background: none; border: none; color: #888; font-size: 1.25rem; cursor: pointer; padding: 0.25rem; }
+.dxf-close:hover { color: #fff; }
+.dxf-error { background: rgba(233, 69, 96, 0.15); border: 1px solid #e94560; color: #ff8a9e; padding: 0.5rem 1.25rem; font-size: 0.8rem; }
+.dxf-filename { padding: 0.5rem 1.25rem; font-size: 0.8rem; color: #4ecdc4; font-family: monospace; }
+.dxf-body { padding: 0.75rem 1.25rem; overflow-y: auto; flex: 1; }
+.dxf-options { display: flex; gap: 1rem; margin-bottom: 0.75rem; }
+.dxf-field { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.dxf-field label { font-size: 0.75rem; color: #888; }
+.dxf-field select, .dxf-field input { padding: 0.35rem 0.5rem; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 4px; color: #eee; font-size: 0.85rem; }
+.dxf-preview { margin-bottom: 0.5rem; }
+.dxf-preview h3 { font-size: 0.7rem; text-transform: uppercase; color: #888; letter-spacing: 0.05em; margin: 0.75rem 0 0.35rem 0; }
+.dxf-layers { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.dxf-layer { font-size: 0.75rem; padding: 0.15rem 0.5rem; background: #0f3460; border-radius: 3px; color: #888; }
+.dxf-layer.known { color: #4ecdc4; background: rgba(78, 205, 196, 0.1); }
+.dxf-stats { display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.8rem; color: #aaa; }
+.dxf-stats-main { font-size: 0.85rem; }
+.dxf-stats-main strong { color: #4ecdc4; }
+.dxf-info { font-size: 0.8rem; color: #aaa; margin-top: 0.25rem; }
+.dxf-warnings { max-height: 100px; overflow-y: auto; border: 1px solid #554400; border-radius: 4px; padding: 0.25rem 0.5rem; background: rgba(240, 165, 0, 0.05); }
+.dxf-warning { font-size: 0.75rem; color: #f0a500; padding: 0.1rem 0; }
+.dxf-muted { font-size: 0.75rem; color: #666; font-style: italic; }
+.dxf-footer { display: flex; gap: 0.5rem; padding: 0.75rem 1.25rem; border-top: 1px solid #1a4a7a; justify-content: flex-end; }
+.dxf-footer .btn { padding: 0.4rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 500; }
+.dxf-footer .btn-primary { background: #e94560; color: white; }
+.dxf-footer .btn-primary:hover:not(:disabled) { background: #ff6b6b; }
+.dxf-footer .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.dxf-footer .btn-secondary { background: #0f3460; color: #aaa; border: 1px solid #1a4a7a; }
+.dxf-footer .btn-secondary:hover { background: #1a4a7a; color: white; }

@@ -4,6 +4,7 @@ import { IL_QUANTITY_GROUPS } from '../../lib/influence-line-quantities';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { ToolElementOptions, ToolLoadOptions, ToolNodeOptions, ToolSupportOptions } from './FloatingToolOptions';
+import { SelectedEntityPanel } from './SelectedEntityPanel';
 import './ToolOptionsBarCore.css';
 
 const OPTION_TOOLS = ['select', 'node', 'element', 'support', 'load', 'influenceLine'];
@@ -26,7 +27,7 @@ export function ToolOptionsBarCore() {
   const state = currentModelState();
   const showOptions = OPTION_TOOLS.includes(tool);
 
-  return <>
+  return <div className="tool-bar" data-testid="tool-options-bar">
     <div className="tb-opts" data-testid="tool-options">
       {showOptions ? <>
         <span className="tb-tool-name">{t(`float.${tool}`)}</span><span className="tb-sep" aria-hidden="true" />
@@ -44,5 +45,6 @@ export function ToolOptionsBarCore() {
     <div className="tb-state" data-testid="model-state" data-tone={state.tone}>
       <span className="tb-dot" data-tone={state.tone} aria-hidden="true" /><span className="tb-state-text">{t(state.key)}</span>
     </div>
-  </>;
+    <div className="tb-selection"><SelectedEntityPanel /></div>
+  </div>;
 }

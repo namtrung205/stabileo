@@ -1,0 +1,7 @@
+.react-supports-table .load-values { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+.react-supports-table .load-field { display: flex; align-items: center; gap: 0.15rem; font-size: 0.65rem; color: var(--st-text-3); }
+.react-supports-table .load-field input { width: 50px; }
+.react-supports-table .dof-chk { display: inline-flex; align-items: center; gap: 1px; font-size: 0.6rem; color: var(--st-text-2); cursor: pointer; white-space: nowrap; }
+.react-supports-table .dof-chk input { accent-color: var(--st-accent); margin: 0; width: 12px; height: 12px; }
+.react-supports-table .add-input-wide { width: auto; min-width: 80px; }
+.react-supports-table .preset-btn { padding: 1px 3px; font-size: 0.55rem; }

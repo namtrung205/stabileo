@@ -1,4 +1,5 @@
 import type { DSMStepData } from '../engine/solver-detailed';
+import { makeReactObservable } from './react-external-store';
 
 function createDSMStepsStore() {
   let stepData = $state<DSMStepData | null>(null);
@@ -62,4 +63,7 @@ function createDSMStepsStore() {
   };
 }
 
-export const dsmStepsStore = createDSMStepsStore();
+export const dsmStepsStore = makeReactObservable(createDSMStepsStore(), [
+  'setStepData', 'open', 'close', 'nextStep', 'prevStep', 'goToStep',
+  'highlightElement', 'selectElement', 'clear',
+]);

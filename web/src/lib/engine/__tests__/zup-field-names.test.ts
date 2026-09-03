@@ -85,7 +85,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
 
   it('2D load UI should label the global vertical direction as Z', () => {
     const toolLoadOptions = readFileSync(new URL('../../../react/components/FloatingToolOptions.tsx', import.meta.url), 'utf8');
-    const selectedEntityPanel = readFileSync(new URL('../../../components/floating-tools/SelectedEntityPanel.svelte', import.meta.url), 'utf8');
+    const selectedEntityPanel = readFileSync(new URL('../../../react/components/SelectedEntityPanel.tsx', import.meta.url), 'utf8');
 
     expect(toolLoadOptions).toMatch(/float\.loadForceYGlobal/);
     expect(toolLoadOptions).toContain('>Z</button>');
@@ -96,18 +96,18 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
   });
 
   it('2D load editors and summaries should use canonical fz/my helpers, not raw fy/mz aliases', () => {
-    const selectedEntityPanel = readFileSync(new URL('../../../components/floating-tools/SelectedEntityPanel.svelte', import.meta.url), 'utf8');
-    const nodeDetails = readFileSync(new URL('../../../components/property/NodeDetails.svelte', import.meta.url), 'utf8');
-    const loadsTable = readFileSync(new URL('../../../components/tables/LoadsTable.svelte', import.meta.url), 'utf8');
+    const selectedEntityPanel = readFileSync(new URL('../../../react/components/SelectedEntityPanel.tsx', import.meta.url), 'utf8');
+    const nodeDetails = readFileSync(new URL('../../../react/components/NodeDetails.tsx', import.meta.url), 'utf8');
+    const loadsTable = readFileSync(new URL('../../../react/components/LoadsTable.tsx', import.meta.url), 'utf8');
     const whatIfPanel = readFileSync(new URL('../../../components/WhatIfPanel.svelte', import.meta.url), 'utf8');
     const proPanel = readFileSync(new URL('../../../components/pro/ProPanel.svelte', import.meta.url), 'utf8');
     const drawLoads = readFileSync(new URL('../../canvas/draw-loads.ts', import.meta.url), 'utf8');
     const sceneSync = readFileSync(new URL('../../viewport3d/scene-sync.ts', import.meta.url), 'utf8');
 
     for (const [label, text] of [
-      ['SelectedEntityPanel.svelte', selectedEntityPanel],
-      ['NodeDetails.svelte', nodeDetails],
-      ['LoadsTable.svelte', loadsTable],
+      ['SelectedEntityPanel.tsx', selectedEntityPanel],
+      ['NodeDetails.tsx', nodeDetails],
+      ['LoadsTable.tsx', loadsTable],
       ['WhatIfPanel.svelte', whatIfPanel],
       ['ProPanel.svelte', proPanel],
       ['scene-sync.ts', sceneSync],
@@ -121,19 +121,17 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
   });
 
   it('manual solve buttons should validate 2D results via shared Z-up helpers', () => {
-    const toolbarResults = readFileSync(new URL('../../../components/toolbar/ToolbarResults.svelte', import.meta.url), 'utf8');
+    const toolbarResults = readFileSync(new URL('../../../react/components/ToolbarResults.tsx', import.meta.url), 'utf8');
     const solveAction = readFileSync(new URL('../../actions/solve.ts', import.meta.url), 'utf8');
     const coordSystem = readFileSync(new URL('../../geometry/coordinate-system.ts', import.meta.url), 'utf8');
 
     // Validation must use the shared hasInvalid2DDisplacements helper (which
     // reads uz/ry via fallback). ToolbarResults is the only solve button left
-    // in the toolbars — the mobile Toolbar's own copy was unreachable and was
-    // deleted — and the validation itself lives in the action it delegates to.
-    for (const [label, text] of [['ToolbarResults.svelte', toolbarResults], ['actions/solve.ts', solveAction]] as const) {
-      expect(text, `${label} should use shared hasInvalid2DDisplacements`).toContain('hasInvalid2DDisplacements');
-      expect(text, `${label} should not validate 2D solves with legacy inline uy`).not.toContain('!isFinite(d.uy)');
-      expect(text, `${label} should not validate 2D solves with legacy inline rz`).not.toContain('!isFinite(d.rz)');
-    }
+    // and delegates to that action instead of carrying a second validation copy.
+    expect(toolbarResults, 'ToolbarResults should delegate solving').toContain('runSolve');
+    expect(solveAction, 'actions/solve.ts should use shared hasInvalid2DDisplacements').toContain('hasInvalid2DDisplacements');
+    expect(solveAction, 'actions/solve.ts should not validate 2D solves with legacy inline uy').not.toContain('!isFinite(d.uy)');
+    expect(solveAction, 'actions/solve.ts should not validate 2D solves with legacy inline rz').not.toContain('!isFinite(d.rz)');
 
     // The shared helper must use get2DDisplayDisplacementVertical (uz ?? uy fallback)
     expect(coordSystem, 'hasInvalid2DDisplacements should use get2DDisplayDisplacementVertical').toContain('get2DDisplayDisplacementVertical');
@@ -177,7 +175,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
 
   it('PRO UI seams should treat pro mode as a 3D result/modeling path', () => {
     const aiDrawer = readFileSync(new URL('../../../components/AiDrawer.svelte', import.meta.url), 'utf8');
-    const mobileResults = readFileSync(new URL('../../../components/MobileResultsPanel.svelte', import.meta.url), 'utf8');
+    const mobileResults = readFileSync(new URL('../../../react/components/MobileResultsPanel.tsx', import.meta.url), 'utf8');
     const sectionStress = readFileSync(new URL('../../../components/SectionStressPanel.svelte', import.meta.url), 'utf8');
     const aiReview = readFileSync(new URL('../../../components/toolbar/ToolbarAiReview.svelte', import.meta.url), 'utf8');
     // Copy/paste moved out of Toolbar with the rest of the keyboard layer:
@@ -188,7 +186,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
 
     expect(aiDrawer, 'AiDrawer.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
     expect(aiDrawer, 'AiDrawer.svelte should send canonical 3D mode to the AI backend').toContain("const aiAnalysisMode = $derived(is3DMode ? '3d' : '2d');");
-    expect(mobileResults, 'MobileResultsPanel.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
+    expect(mobileResults, 'MobileResultsPanel.tsx should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
     expect(sectionStress, 'SectionStressPanel.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
     expect(aiReview, 'ToolbarAiReview.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
     expect(toolbar, 'KeyboardShortcuts.tsx should treat pro as 3D when pasting copied geometry').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
@@ -467,7 +465,7 @@ describe('Bug 2: 3D self-weight must apply gravity to fz (not fy)', () => {
 
     // And nothing may call solve3D without going through it: ToolbarResults is
     // the button every toolbar (desktop or mobile) renders, and it delegates.
-    const results = readFileSync(new URL('../../../components/toolbar/ToolbarResults.svelte', import.meta.url), 'utf8');
+    const results = readFileSync(new URL('../../../react/components/ToolbarResults.tsx', import.meta.url), 'utf8');
     expect(results, 'ToolbarResults must delegate rather than re-implement solving')
       .toMatch(/runSolve/);
   });

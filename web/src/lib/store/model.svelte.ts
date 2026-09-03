@@ -3306,4 +3306,16 @@ function createModelStore() {
   };
 }
 
-export const modelStore = makeReactObservable(createModelStore(), ['markProvenanceReviewed']);
+export const modelStore = makeReactObservable(createModelStore(), [
+  'markProvenanceReviewed', 'batch', 'clear', 'loadModel',
+  'addNode', 'updateNode', 'updateNodeZ', 'removeNode',
+  'addElement', 'removeElement', 'updateElementMaterial', 'updateElementSection', 'updateElementLocalY', 'toggleHinge',
+  'setElementOffset', 'setElementsOffset',
+  'addSupport', 'updateSupport', 'removeSupport',
+  'addNodalLoad', 'addNodalLoad3D', 'addDistributedLoad', 'addDistributedLoad3D',
+  'addPointLoadOnElement', 'addThermalLoad', 'updateLoad', 'removeLoad', 'updateLoadCaseId',
+  'addLoadCase', 'updateLoadCase', 'updateLoadCaseType', 'removeLoadCase',
+  'addCombination', 'updateCombination', 'removeCombination',
+  'addMaterial', 'updateMaterial', 'removeMaterial',
+  'addSection', 'updateSection', 'removeSection',
+]);

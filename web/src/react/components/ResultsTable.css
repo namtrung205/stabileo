@@ -1,0 +1,15 @@
+.react-results-table .results-case-bar { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid var(--st-border); }
+.react-results-table .results-case-bar select { flex: 1; min-width: 0; padding: 3px 6px; border-radius: var(--st-radius, 3px); border: 1px solid var(--st-border); background: var(--st-surface-3); color: var(--st-text); font-size: 0.74rem; }
+.react-results-table table { width: max-content; min-width: 100%; border-collapse: collapse; }
+.react-results-table th { text-align: left; padding: 0.25rem 0.35rem; color: var(--st-text-3); font-weight: 500; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 1px solid var(--st-surface-3); position: sticky; top: 0; background: var(--st-surface-2); white-space: nowrap; }
+.react-results-table td { padding: 0.2rem 0.35rem; border-bottom: 1px solid var(--st-bg); color: var(--st-text-2); white-space: nowrap; }
+.react-results-table .id-cell { color: var(--st-value); font-weight: 600; }
+.react-results-table .num { font-family: 'Courier New', monospace; text-align: right; }
+.react-results-table tr:hover { background: rgba(127, 212, 204, 0.05); }
+.react-results-table .results-sub-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--st-surface-3); background: var(--st-surface-2); flex-shrink: 0; }
+.react-results-table .results-sub-tabs button { padding: 0.35rem 0.75rem; border: none; background: transparent; color: var(--st-text-3); cursor: pointer; font-size: 0.72rem; border-bottom: 2px solid transparent; }
+.react-results-table .results-sub-tabs button:hover { color: var(--st-text); }
+.react-results-table .results-sub-tabs button.active { color: var(--st-accent); border-bottom-color: var(--st-accent); }
+.react-results-table .results-content { flex: 1; overflow: auto; }
+.react-results-table .severity-warn { color: var(--st-warn); font-weight: 600; }
+.react-results-table .severity-err { color: var(--st-accent); font-weight: 600; }

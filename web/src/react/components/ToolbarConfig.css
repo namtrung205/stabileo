@@ -1,0 +1,26 @@
+.react-toolbar-config.toolbar-section { display: flex; flex-direction: column; gap: 0.5rem; }
+.react-toolbar-config .section-toggle { width: 100%; padding: 0.4rem 0.5rem; background: none; border: 1px solid var(--st-hair); border-radius: 4px; color: var(--st-text-2); cursor: pointer; font-size: 0.75rem; font-weight: 600; text-align: left; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
+.react-toolbar-config .section-toggle:hover { background: var(--st-bg); color: var(--st-text); border-color: var(--st-hair-strong); }
+.react-toolbar-config .config-children { display: flex; flex-direction: column; gap: 0.25rem; padding-left: 0.2rem; padding-right: 0.2rem; }
+.react-toolbar-config .sub-heading { display: block; font-family: var(--st-mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--st-text-2); padding: 0.5rem 0 0.2rem; border-bottom: 1px solid var(--st-hair); margin-bottom: 0.25rem; }
+.react-toolbar-config .sub-toggle { width: 100%; padding: 0.25rem 0.4rem; background: none; border: 1px solid var(--st-hair); border-radius: 3px; color: var(--st-text-2); cursor: pointer; font-size: 0.68rem; font-weight: 500; text-align: left; letter-spacing: 0.03em; transition: all 0.2s; }
+.react-toolbar-config .sub-toggle:hover { background: var(--st-bg); color: var(--st-text); border-color: var(--st-hair-strong); }
+.react-toolbar-config .sub-content { padding: 0.4rem 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; border: 1px solid var(--st-hair); border-radius: 4px; margin-top: 0.15rem; overflow: hidden; }
+.react-toolbar-config .sub-content select { font-size: 0.68rem; padding: 0.2rem 0.3rem; }
+.react-toolbar-config .sub-content .input-group label { font-size: 0.65rem; }
+.react-toolbar-config .checkbox-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; cursor: pointer; }
+.react-toolbar-config .checkbox-item.checkbox-disabled { opacity: 0.4; pointer-events: none; }
+.react-toolbar-config .input-group { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; }
+.react-toolbar-config .input-group input { width: 70px; padding: 0.25rem; background: var(--st-surface-2); border: 1px solid var(--st-hair-strong); border-radius: 4px; color: var(--st-text); cursor: pointer; }
+.react-toolbar-config .input-group select { flex: 1; min-width: 100px; padding: 0.25rem; background: var(--st-surface-2); border: 1px solid var(--st-hair-strong); border-radius: 4px; color: var(--st-text); cursor: pointer; }
+.react-toolbar-config input[type="radio"], .react-toolbar-config input[type="checkbox"] { accent-color: var(--st-accent); }
+.react-toolbar-config .grid-dependent { display: flex; flex-direction: column; gap: 0.35rem; }
+.react-toolbar-config .range-group { flex-direction: column; align-items: stretch; }
+.react-toolbar-config .help-hint { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--st-hair-strong); color: var(--st-text-3); font-size: 0.6rem; font-weight: 600; cursor: help; flex-shrink: 0; }
+.react-toolbar-config .help-hint:hover { border-color: var(--st-interactive); color: var(--st-value); }
+.react-toolbar-config .config-action-btn { width: 100%; padding: 0.25rem 0.4rem; background: var(--st-surface-2); border: 1px solid var(--st-hair-strong); border-radius: 3px; color: var(--st-value); cursor: pointer; font-size: 0.68rem; transition: all 0.2s; }
+.react-toolbar-config .config-action-btn:hover { background: var(--st-surface-3); color: white; }
+.react-toolbar-config .live-calc-btn { color: var(--st-text-3); background: var(--st-bg); border-color: var(--st-hair); }
+.react-toolbar-config .live-calc-btn:hover { background: var(--st-bg); color: var(--st-text); }
+.react-toolbar-config .live-calc-active { color: var(--st-value); background: var(--st-surface-2); border-color: var(--st-interactive); }
+.react-toolbar-config .live-calc-active:hover { background: var(--st-surface-3); color: white; }

@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
 import { modelStore, uiStore } from '../../lib/store';
 import { TOOL_KEYS, type ToolKeyId } from '../../lib/tool-keys';
@@ -6,6 +6,7 @@ import { IL_QUANTITY_GROUPS } from '../../lib/influence-line-quantities';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { Icon, type IconName } from './Icon';
 import { ToolElementOptions, ToolLoadOptions, ToolNodeOptions, ToolSelectOptions, ToolSupportOptions } from './FloatingToolOptions';
+import { SelectedEntityPanel } from './SelectedEntityPanel';
 import './FloatingToolsCore.css';
 
 const TOOL_DISPLAY: Record<ToolKeyId, { icon: IconName; labelKey: string }> = {
@@ -48,4 +49,32 @@ export function FloatingToolsCore({ mode }: { mode: 'main' | 'reopen' }) {
       </>}
     </div>}
   </>;
+}
+
+export function FloatingTools() {
+  useStoreRevision(uiStore);
+  useStoreRevision(modelStore);
+
+  const hasOptions = ['select', 'node', 'element', 'support', 'load', 'influenceLine'].includes(uiStore.currentTool);
+  const hasSelectedEntity = uiStore.selectedLoads.size > 0 || uiStore.selectedSupports.size > 0;
+  const loadCaseIds = modelStore.loadCases.map((loadCase) => loadCase.id).join(',');
+
+  useEffect(() => {
+    if (!modelStore.loadCases.some((loadCase) => loadCase.id === uiStore.activeLoadCaseId)) {
+      uiStore.activeLoadCaseId = modelStore.loadCases[0]?.id ?? 1;
+    }
+  }, [loadCaseIds, uiStore.activeLoadCaseId]);
+
+  useEffect(() => {
+    uiStore.floatingToolsRows = uiStore.showFloatingTools
+      ? 1 + (hasOptions ? 1 : 0) + (hasSelectedEntity ? 1 : 0)
+      : 0;
+  }, [hasOptions, hasSelectedEntity, uiStore.showFloatingTools]);
+
+  return uiStore.showFloatingTools
+    ? <div className="floating-tools" data-tour="floating-tools">
+        <FloatingToolsCore mode="main" />
+        <SelectedEntityPanel />
+      </div>
+    : <FloatingToolsCore mode="reopen" />;
 }

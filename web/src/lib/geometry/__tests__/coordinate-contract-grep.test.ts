@@ -12,7 +12,7 @@ const seamFiles = [
   'web/src/lib/engine/solver-service.ts',
   'web/src/lib/engine/solver-shells.ts',
   'web/src/react/components/FloatingToolOptions.tsx',
-  'web/src/components/floating-tools/SelectedEntityPanel.svelte',
+  'web/src/react/components/SelectedEntityPanel.tsx',
   'web/src/lib/viewport3d/camera.ts',
   'web/src/lib/viewport3d/grid.ts',
   'web/src/lib/viewport3d/picking.ts',

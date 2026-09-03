@@ -1,0 +1,15 @@
+.react-toolbar-examples.ex-groups { display: flex; flex-direction: column; gap: 1rem; }
+.react-toolbar-examples .toolbar-section { display: flex; flex-direction: column; gap: 0.5rem; }
+.react-toolbar-examples .toolbar-section h3 { font-size: 0.75rem; text-transform: uppercase; color: var(--st-text-3); letter-spacing: 0.05em; }
+.react-toolbar-examples .ex-count { font-size: 0.6rem; color: var(--st-text-3); font-family: var(--st-mono, monospace); }
+.react-toolbar-examples .section-toggle { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; width: 100%; padding: 0.4rem 0.5rem; background: none; border: 1px solid var(--st-hair); border-radius: 4px; color: var(--st-text-2); cursor: pointer; font-size: 0.75rem; font-weight: 600; text-align: left; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
+.react-toolbar-examples .section-toggle:hover { background: var(--st-bg); color: var(--st-text); border-color: var(--st-hair-strong); }
+.basic-panel .react-toolbar-examples .examples-list { max-height: none; overflow-y: visible; border: none; border-radius: 0; padding: 0; gap: 0; }
+.basic-panel .react-toolbar-examples .example-item { padding: 6px 8px; border: 1px solid var(--st-hair); border-left: 2px solid transparent; border-radius: var(--st-radius, 3px); transition: background 0.12s, border-color 0.12s, color 0.12s; }
+.basic-panel .react-toolbar-examples .example-item:hover { border-left-color: var(--st-accent); }
+.react-toolbar-examples .examples-list { display: flex; flex-direction: column; gap: 2px; max-height: 260px; overflow-y: auto; border: 1px solid var(--st-hair-strong); border-radius: 4px; padding: 2px; }
+.react-toolbar-examples .example-item { display: flex; flex-direction: column; padding: 0.35rem 0.5rem; background: none; border: none; border-radius: 3px; color: var(--st-text); cursor: pointer; text-align: left; transition: all 0.15s; }
+.react-toolbar-examples .example-item:hover { background: var(--st-surface-3); color: white; }
+.react-toolbar-examples .example-name { font-size: 0.8rem; font-weight: 500; }
+.react-toolbar-examples .example-desc { font-size: 0.65rem; color: var(--st-text-3); }
+.react-toolbar-examples .example-item:hover .example-desc { color: var(--st-text-2); }

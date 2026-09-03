@@ -1,0 +1,10 @@
+
+> stabileo-web@0.1.0 typecheck
+> node scripts/typecheck.mjs
+
+typecheck: 480 errors reported, baseline 479
+
+typecheck: 1 NEW type error(s):
+
+  src/react/components/ElementDetails.tsx(34,165): error TS2322: Type 'string' is not assignable to type '"rect" | "L" | "CHS" | "C" | "T" | "RHS" | "I" | "H" | "U" | "generic" | "invL" | undefined'.
+

@@ -1,0 +1,4 @@
+.react-elements-table .pairing-note { display: flex; align-items: flex-start; gap: 6px; padding: 0 0.5rem; }
+.react-elements-table .pairing-elem { font-size: 0.66rem; color: var(--st-text-3); padding-top: 9px; flex: none; }
+.react-elements-table .hinge-cell { cursor: pointer; text-align: center; user-select: none; }
+.react-elements-table .hinge-cell:hover { color: var(--st-value); }

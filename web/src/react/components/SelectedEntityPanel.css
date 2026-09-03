@@ -1,0 +1,35 @@
+.ft-opt-btn { padding: 2px 8px; background: var(--st-surface-2); border: 1px solid var(--st-hair-strong); border-radius: 4px; color: var(--st-text-2); cursor: pointer; font-size: 0.7rem; transition: all 0.15s; white-space: nowrap; }
+.ft-opt-btn:hover:not(:disabled) { background: var(--st-surface-3); color: var(--st-text); }
+.ft-opt-btn:disabled { opacity: 0.35; cursor: not-allowed; color: var(--st-text-3); background: var(--st-surface-2); border-color: var(--st-hair); }
+.ft-opt-btn.active { background: var(--st-accent); border-color: var(--st-danger); color: white; }
+.ft-sup-btn { display: inline-flex; align-items: center; justify-content: center; gap: 3px; min-height: 22px; min-width: 22px; line-height: 1; }
+.ft-sup-svg { vertical-align: middle; flex-shrink: 0; }
+.ft-chk { display: inline-flex; align-items: center; gap: 2px; font-size: 0.68rem; color: var(--st-text-2); cursor: pointer; white-space: nowrap; }
+.ft-chk input { accent-color: var(--st-accent); margin: 0; width: 13px; height: 13px; }
+.ft-chk span { font-size: 0.65rem; }
+.ft-sep { color: var(--st-text-3); font-size: 0.8rem; margin: 0 2px; }
+.ft-case-select { background: var(--st-surface-2); color: var(--st-text); border: 1px solid var(--st-hair-strong); border-radius: 3px; padding: 2px 4px; font-size: 0.7rem; cursor: pointer; }
+.ft-case-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.ft-input-group { display: flex; align-items: center; gap: 3px; font-size: 0.7rem; color: var(--st-text-2); }
+.ft-input-group input { width: 55px; padding: 2px 4px; background: var(--st-surface-2); border: 1px solid var(--st-hair-strong); border-radius: 3px; color: var(--st-text); font-size: 0.7rem; }
+.ft-unit { font-size: 0.6rem; color: var(--st-text-3); white-space: nowrap; }
+.ft-dir-btn { min-width: 24px; font-size: 0.65rem; padding: 2px 4px; }
+.ft-coord-btn { min-width: 22px; font-size: 0.6rem; padding: 2px 5px; font-weight: 600; letter-spacing: 0.02em; }
+.ft-load-edit { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 4px 8px; border-top: 1px solid var(--st-hair-strong); background: var(--st-surface-2); }
+.ft-load-tag { font-size: 0.65rem; color: var(--st-value); font-weight: 600; white-space: nowrap; }
+.ft-load-delete { padding: 2px 6px; background: var(--st-accent); border: 1px solid var(--st-danger); border-radius: 3px; color: white; cursor: pointer; font-size: 0.65rem; white-space: nowrap; }
+.ft-load-delete:hover { background: var(--st-danger); }
+.ft-load-done { padding: 2px 6px; background: var(--st-surface-2); border: 1px solid var(--st-interactive); border-radius: 3px; color: var(--st-value); cursor: pointer; font-size: 0.7rem; }
+.ft-load-done:hover { background: var(--st-accent); color: var(--st-text-on-accent); }
+
+@media (max-width: 767px) {
+  .ft-opt-btn { white-space: nowrap; font-size: 0.6rem; padding: 4px 6px; }
+  .ft-sup-btn { padding: 3px 5px; font-size: 0.6rem; min-height: 20px; min-width: 20px; }
+  .ft-input-group input { width: 45px; }
+  .ft-input-group { font-size: 0.65rem; }
+  .ft-unit { font-size: 0.6rem; }
+  .ft-load-edit { font-size: 0.6rem; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .ft-load-tag { white-space: nowrap; }
+  .ft-dir-btn { padding: 3px 5px; font-size: 0.6rem; }
+  .ft-coord-btn { font-size: 0.55rem; letter-spacing: 0; padding: 2px 3px; min-width: 18px; }
+}

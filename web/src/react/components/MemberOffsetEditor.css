@@ -1,0 +1,5 @@
+.mo { border-top: 1px solid #1a3050; padding-top: .6rem; display: flex; flex-direction: column; gap: .4rem; }
+.mo-title { font-size: .78rem; font-weight: 600; color: #4ecdc4; }.mo-count { color: #888; font-weight: 400; }
+.mo-row { display: flex; align-items: center; gap: .4rem; }.mo-row label { font-size: .72rem; color: #aaa; display: flex; align-items: center; gap: 4px; }
+.mo-vec input,.mo-row select { padding: 3px 5px; background: #0f2840; border: 1px solid #1a3050; border-radius: 3px; color: #ddd; font-size: .72rem; }.mo-vec input { width: 56px; font-family: monospace; }
+.mo-unit { font-size: .68rem; color: #777; }.mo-actions { display: flex; gap: 6px; }.mo-btn { padding: 4px 10px; font-size: .72rem; color: #ccc; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 4px; cursor: pointer; }.mo-btn:hover { background: #1a4a7a; color: #fff; }.mo-clear { color: #ff9b9b; border-color: #5a2a2a; background: transparent; }.mo-btn:disabled { opacity: .4; cursor: not-allowed; }.mo-active { font-size: .66rem; color: #4ecdc4; }.mo-warn { font-size: .66rem; color: #e0a030; font-style: italic; }

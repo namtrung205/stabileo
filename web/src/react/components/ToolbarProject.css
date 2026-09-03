@@ -1,0 +1,15 @@
+.react-toolbar-project.toolbar-section { display: flex; flex-direction: column; gap: 0.5rem; }
+.react-toolbar-project .section-toggle { width: 100%; padding: 0.4rem 0.5rem; background: none; border: 1px solid var(--st-hair); border-radius: 4px; color: var(--st-text-2); cursor: pointer; font-size: 0.75rem; font-weight: 600; text-align: left; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
+.react-toolbar-project .section-toggle:hover { background: var(--st-bg); color: var(--st-text); border-color: var(--st-hair-strong); }
+.react-toolbar-project .sub-section-toggle { width: 100%; padding: 0.25rem 0.4rem; background: none; border: 1px solid var(--st-hair); border-radius: 3px; color: var(--st-text-3); cursor: pointer; font-size: 0.65rem; font-weight: 600; text-align: left; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; margin-left: 0.25rem; }
+.react-toolbar-project .sub-section-toggle:hover { background: var(--st-bg); color: var(--st-text-2); border-color: var(--st-hair-strong); }
+.react-toolbar-project .sub-section-content { margin-left: 0.25rem; padding-left: 0.4rem; border-left: 2px solid var(--st-hair); }
+.basic-panel .react-toolbar-project .sub-section-content { margin-left: 0; padding-left: 0; border-left: none; }
+.react-toolbar-project .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 0.3rem; }
+.react-toolbar-project .file-btn { display: flex; align-items: center; justify-content: center; min-height: 30px; padding: 0.35rem 0.5rem; background: none; border: 1px solid var(--st-hair); border-radius: var(--st-radius); color: var(--st-text-2); cursor: pointer; font-family: var(--st-sans); font-size: 0.75rem; text-align: center; transition: background 0.12s, color 0.12s, border-color 0.12s; }
+.react-toolbar-project .file-btn:hover:not(:disabled) { background: var(--st-surface-3); border-color: var(--st-hair-strong); color: white; }
+.react-toolbar-project .file-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.react-toolbar-project .proj-heading { font-family: var(--st-mono); font-size: 0.66rem; font-weight: 400; letter-spacing: 0.11em; text-transform: uppercase; color: var(--st-text-2); margin: 0.9rem 0 0.4rem; padding-bottom: 0.15rem; border-bottom: 1px solid var(--st-hair); }
+.react-toolbar-project .proj-heading:first-child { margin-top: 0; }
+.react-toolbar-project .proj-block { margin: 0.9rem 0 0; }
+.react-toolbar-project .file-sub-header { display: block; font-family: var(--st-mono); font-size: 0.62rem; text-transform: uppercase; color: var(--st-text-3); letter-spacing: 0.09em; margin: 0.7rem 0 0.3rem; }

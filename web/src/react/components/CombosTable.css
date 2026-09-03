@@ -1,0 +1,10 @@
+.react-combos-table { padding: 0.5rem; }
+.react-combos-table h4 { color: var(--st-value); font-size: 0.8rem; margin: 0.75rem 0 0.35rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.react-combos-table h4:first-child { margin-top: 0; }
+.react-combos-table table { margin-bottom: 0.25rem; }
+.react-combos-table td input[type="text"] { width: 80px; }
+.react-combos-table td input.case-type { width: 36px; text-align: center; }
+.react-combos-table .load-values { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+.react-combos-table .load-field { display: flex; align-items: center; gap: 0.15rem; font-size: 0.65rem; color: var(--st-text-3); }
+.react-combos-table .load-field input { width: 50px; }
+.react-combos-table .combo-warning { margin: 0.5rem; padding: 0.5rem; background: rgba(217, 164, 65, 0.1); border: 1px solid var(--st-warn); border-radius: 4px; color: var(--st-warn); font-size: 0.78rem; text-align: center; }
