@@ -39,6 +39,13 @@ describe('G4 Basic editor React ownership', () => {
       'src/components/dsm/MatrixExplorer.svelte',
       'src/components/dsm/MathEquation.svelte',
       'src/components/dsm/VectorDisplay.svelte',
+      'src/components/SectionStressPanel.svelte',
+      'src/components/stress/CentralCoreDetails.svelte',
+      'src/components/stress/GeometricPropertyWorking.svelte',
+      'src/components/stress/MohrCircleDisplay.svelte',
+      'src/components/stress/StressStateDetails.svelte',
+      'src/components/stress/StressTensorDetails.svelte',
+      'src/components/stress/TorsionDetails.svelte',
     ];
     for (const file of removed) expect(existsSync(join(root, file)), file).toBe(false);
   });
@@ -52,11 +59,11 @@ describe('G4 Basic editor React ownership', () => {
     for (const helper of ['getElementForces3D', 'getElementForces', 'computeElementStress']) expect(element).toContain(helper);
   });
 
-  it('limits the Svelte leaf bridge to advanced reports outside G4', () => {
+  it('owns every Basic advanced report root in React', () => {
     const panel = read('src/react/components/BasicPanel.tsx');
     const app = read('src/App.svelte');
     const portals = read('src/react/components/EditorChromePortals.tsx');
-    expect(panel).toContain('LegacySvelteSurface');
+    expect(panel).not.toContain('LegacySvelteSurface');
     expect(panel).toContain('<KinematicPanel docked />');
     expect(panel).not.toContain('component={KinematicPanel}');
     expect(app).toContain('react-kinematic-panel-slot');
@@ -75,7 +82,11 @@ describe('G4 Basic editor React ownership', () => {
     }
     expect(app).not.toContain("dsm/StepWizard.svelte");
     expect(portals).toContain('createPortal(<DSMStepWizard />');
-    expect(panel).toContain('component={SectionStressPanel}');
+    expect(panel).toContain('<SectionStressPanel docked />');
+    expect(panel).not.toContain("SectionStressPanel.svelte");
+    expect(app).toContain('react-section-stress-panel-slot');
+    expect(app).not.toContain("SectionStressPanel.svelte");
+    expect(portals).toContain('createPortal(<SectionStressPanel />');
     for (const migrated of ['ToolbarProject', 'ToolbarConfig', 'ToolbarResults', 'ToolbarAdvanced', 'DataTable', 'SelectionPanel']) expect(panel).toContain(`<${migrated}`);
   });
 
@@ -154,5 +165,34 @@ describe('G4 Basic editor React ownership', () => {
     expect(matrix).toContain('highlightRows');
     expect(explorer).toContain("useState<MatrixTab>('kLocal')");
     expect(explorer).toContain('showGlobalK');
+  });
+
+  it('preserves the section-stress detail contracts under their React root', () => {
+    const rootPanel = read('src/react/components/SectionStressPanel.tsx');
+    const panelModel = read('src/react/components/stress/sectionStressPanelModel.ts');
+    const mohr = read('src/react/components/stress/MohrCircleDisplay.tsx');
+    const core = read('src/react/components/stress/CentralCoreDetails.tsx');
+    const state = read('src/react/components/stress/StressStateDetails.tsx');
+    const tensors = read('src/react/components/stress/StressTensorDetails.tsx');
+    const geometry = read('src/react/components/stress/GeometricPropertyWorking.tsx');
+    const torsion = read('src/react/components/stress/TorsionDetails.tsx');
+    for (const token of ['mohrData.center', 'mohrData.radius', 'mohrData.sigma1', 'mohrData.sigma2', 'mohrSigma', 'mohrTau']) expect(mohr).toContain(token);
+    for (const token of ['centralCore.eyMax', 'centralCore.ezMax', 'kern.z', 'kern.y', 'stress.ccRectNote', 'stress.ccIHNote', 'stress.ccCHSNote']) expect(core).toContain(token);
+    for (const token of ['sigmaAtFiber', 'tauVyAtFiber', 'tauVzAtFiber', 'tauTorsion', 'vonMises', 'ratioTresca', 'ratioRankine', 'neutralAxis']) expect(state).toContain(token);
+    for (const token of ['tensorRows(tensors.stress)', 'tensorRows(tensors.strain)', 'tensors.invariants.j2', 'volumetricStrain', 'principalStress']) expect(tensors).toContain(token);
+    for (const token of ['centroidWorking(resolved)', 'shearCentreWorking(resolved)', 'work.parts.map', 'work.totalArea', 'engineShearCentre']) expect(geometry).toContain(token);
+    for (const token of ['computeTorsionFlow', 'closedVersusOpen', 'compareTorsionTheories', 'warpingProperties', 'warpingResponse', 'saintVenantShare']) expect(torsion).toContain(token);
+    for (const owner of ['StressStateDetails', 'TorsionDetails', 'StressTensorDetails', 'MohrCircleDisplay', 'GeometricPropertyWorking', 'CentralCoreDetails']) expect(rootPanel).toContain(`<${owner}`);
+    for (const behavior of ['canonicalPanelResult', 'canonicalStressState', 'resolveEccentric', 'crossCheckShearPeak', 'suggestCriticalSections3D']) expect(panelModel).toContain(behavior);
+  });
+
+  it('isolates the sole remaining Basic Svelte UI leaf to the cross-section SVG', () => {
+    const rootPanel = read('src/react/components/SectionStressPanel.tsx');
+    const adapter = read('src/components/stress/CrossSectionDrawingReactBridge.svelte');
+    expect(rootPanel).toContain('UpdatingSvelteSurface');
+    expect(rootPanel).toContain('CrossSectionDrawingReactBridge.svelte');
+    expect(adapter).toContain("CrossSectionDrawing.svelte");
+    expect(adapter).toContain('export function updateProps');
+    expect(adapter).toContain('bind:eccentricPoint');
   });
 });

@@ -84,7 +84,6 @@
       basicPanel = 'data';
     }
   });
-  import SectionStressPanel from './components/SectionStressPanel.svelte';
   import Icon from './components/ribbon/Icon.svelte';
   import ProPanel from './components/pro/ProPanel.svelte';
   import RebarWorkspace from './components/pro/design/RebarWorkspace.svelte';
@@ -1171,7 +1170,7 @@
         -->
         {#if !(uiStore.appMode === 'basico' && !uiStore.isMobile)}
           <span class="react-what-if-panel-slot" style="display: contents"></span>
-          <SectionStressPanel />
+          <span class="react-section-stress-panel-slot" style="display: contents"></span>
           <span class="react-kinematic-panel-slot" style="display: contents"></span>
         {/if}
         <span class="react-mobile-results-slot" style="display: contents"></span>

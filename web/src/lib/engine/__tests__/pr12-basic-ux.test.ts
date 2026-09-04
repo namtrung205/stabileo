@@ -131,15 +131,15 @@ describe('Task 2 — Select→Stresses removed, Advanced→Section Analysis kept
  */
 describe('closing section analysis returns the pointer to selection', () => {
   it("the panel's own close restores selectMode instead of only clearing the query", () => {
-    const panel = read('../../../components/SectionStressPanel.svelte');
+    const panel = read('../../../react/components/SectionStressPanel.tsx');
     expect(panel).toContain("if (uiStore.selectMode === 'stress') uiStore.selectMode = 'elements'");
   });
 
   it('both close buttons go through that path, not just the main one', () => {
-    const panel = read('../../../components/SectionStressPanel.svelte');
+    const panel = read('../../../react/components/SectionStressPanel.tsx');
     // The amorphous-section variant has its own header and used to clear the
     // query inline, stranding the pointer exactly as the main one did.
-    expect(panel).not.toMatch(/onclick=\{\(\)\s*=>\s*resultsStore\.stressQuery\s*=\s*null\}/);
+    expect(panel).not.toMatch(/onClick=\{\(\)\s*=>\s*resultsStore\.stressQuery\s*=\s*null\}/);
   });
 
   it('closing the whole right panel disarms it too', () => {

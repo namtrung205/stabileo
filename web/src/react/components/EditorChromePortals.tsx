@@ -29,6 +29,7 @@ import { ProSectionsTab } from './ProSectionsTab';
 import { KinematicPanel } from './KinematicPanel';
 import { WhatIfPanel } from './WhatIfPanel';
 import { DSMStepWizard } from './DSMStepWizard';
+import { SectionStressPanel } from './SectionStressPanel';
 
 export function EditorChromePortals() {
   const tabTarget = useEditorPortalTarget('.react-tab-bar-slot');
@@ -69,6 +70,7 @@ export function EditorChromePortals() {
   const whatIfTarget = useEditorPortalTarget('.react-what-if-panel-slot');
   const dsmSidebarTarget = useEditorPortalTarget('.react-dsm-sidebar-wizard-slot');
   const dsmDrawerTarget = useEditorPortalTarget('.react-dsm-drawer-wizard-slot');
+  const sectionStressTarget = useEditorPortalTarget('.react-section-stress-panel-slot');
   return <>
     {tabTarget && createPortal(<TabBar />, tabTarget)}
     {statusTarget && createPortal(<StatusBar />, statusTarget)}
@@ -108,5 +110,6 @@ export function EditorChromePortals() {
     {whatIfTarget && createPortal(<WhatIfPanel />, whatIfTarget)}
     {dsmSidebarTarget && createPortal(<DSMStepWizard />, dsmSidebarTarget)}
     {dsmDrawerTarget && createPortal(<DSMStepWizard />, dsmDrawerTarget)}
+    {sectionStressTarget && createPortal(<SectionStressPanel />, sectionStressTarget)}
   </>;
 }

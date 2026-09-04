@@ -1,0 +1,13 @@
+.react-mohr-circle { display: contents; }
+.react-mohr-circle .ssp-section-toggle { display:flex;align-items:center;gap:4px;width:100%;padding:3px 0;background:none;border:none;color:var(--st-text-3);font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;border-bottom:1px solid rgba(26,74,122,.3) }
+.react-mohr-circle .ssp-section-toggle:hover { color:var(--st-text-2) }
+.react-mohr-circle .ssp-chevron { font-size:.6rem;width:10px }
+.react-mohr-circle .ssp-svg-container { display:flex;justify-content:center;margin:4px 0 }
+.react-mohr-circle .ssp-mohr-svg { width:200px;height:200px;background:rgba(19,33,45,.3);border-radius:6px;border:1px solid rgba(26,74,122,.4) }
+.react-mohr-circle .ssp-mohr-values { display:flex;flex-direction:column;gap:2px;padding:2px 0 6px }
+.react-mohr-circle .ssp-mohr-row { display:flex;align-items:baseline;gap:4px;font-size:.68rem;color:var(--st-text-2) }
+.react-mohr-circle .ssp-mohr-label { min-width:24px;color:var(--st-text-3) }
+.react-mohr-circle .ssp-mohr-val { font-family:'Courier New',monospace;color:var(--st-text-2) }
+.react-mohr-circle .ssp-help { display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:rgba(127,212,204,.12);color:var(--st-value);font-size:.5rem;font-weight:700;cursor:help;flex-shrink:0;border:1px solid rgba(127,212,204,.25);opacity:.6;transition:opacity .15s;font-style:normal;line-height:1;vertical-align:middle }
+.react-mohr-circle .ssp-help:hover { opacity:1;background:rgba(127,212,204,.25) }
+.react-mohr-circle .ssp-help-inline { margin-left:auto }

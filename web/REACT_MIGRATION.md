@@ -60,8 +60,9 @@ The project-wide migration remains the umbrella goal. Work is delivered in small
 | G4.4 | Data-table shell and nodes/elements/supports/loads/materials/sections/results tables | CRUD, tab, import/export, undo/redo tests | Done |
 | G4.5 | Property panel and remaining entity detail editors | selection/edit/history tests | Done |
 | G4.6 | Basic automated closeout | Basic ownership/contracts, typecheck, targeted workflows, production bundle | Done |
+| G4.7 | Section-stress analysis closeout | React root/details/model, then native cross-section SVG and removal of the last Basic UI bridge | In progress — root/details/model done; SVG leaf remains |
 
-G4.3 was implemented as four reviewable sub-gates: Project/examples, Config, Results, then Advanced plus the final React panel shell. The Kinematic and What-if reports are now React-owned in both their docked Basic layouts and floating/mobile layouts. The complete DSM wizard — navigation, keyboard controls, all nine steps, equation/vector/matrix renderers, quiz cells, and Matrix Explorer — is React-owned with no Svelte bridge. Section stress remains the final Svelte leaf behind `LegacySvelteSurface`; it belongs to the later analysis/workspace conversion rather than the completed Basic chrome gate.
+G4.3 was implemented as four reviewable sub-gates: Project/examples, Config, Results, then Advanced plus the final React panel shell. The Kinematic and What-if reports are now React-owned in both their docked Basic layouts and floating/mobile layouts. The complete DSM wizard — navigation, keyboard controls, all nine steps, equation/vector/matrix renderers, quiz cells, and Matrix Explorer — is React-owned with no Svelte bridge. Section stress now has a React-owned root, calculation model, Mohr-circle, central-core, stress-state, tensor, torsion, centroid, and shear-centre views in both docked and floating/mobile placements. Its cross-section SVG is the sole remaining Svelte leaf in the Basic panel and is kept mounted through a live-prop adapter until its direct React port lands.
 
 ## Current migrated surface
 
@@ -91,7 +92,7 @@ G4.3 was implemented as four reviewable sub-gates: Project/examples, Config, Res
 - Property panel with node, element, support, nodal-load, hinge, local-axis, member-offset, stress, reaction, and displacement detail flows.
 - PRO Nodes, Elements, Supports, Materials, and Sections tabs, including curved-member generation and the steel/profile section builder.
 
-Current implementation priority is the editor. Public landing and blog surfaces are already stable and are excluded from the remaining incremental goals. The active editor goal is G7, incremental React ownership of the Education and PRO workspaces.
+Current implementation priority is the editor. Public landing and blog surfaces are already stable and are excluded from the remaining incremental goals. The active editor goal is G4.7, removal of the final Basic section-drawing leaf; G7 Education/PRO work remains paused until Basic is fully closed out.
 
 ### G5 2D viewport breakdown
 

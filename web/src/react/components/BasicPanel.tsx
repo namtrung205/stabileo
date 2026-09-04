@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type PointerEvent as ReactPointerEvent } from 'react';
-import SectionStressPanel from '../../components/SectionStressPanel.svelte';
 import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
 import { dsmStepsStore, resultsStore, uiStore } from '../../lib/store';
-import { LegacySvelteSurface } from '../LegacySvelteSurface';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { DataTable, type DataTab } from './DataTable';
 import { DSMStepWizard } from './DSMStepWizard';
 import { KinematicPanel } from './KinematicPanel';
 import { WhatIfPanel } from './WhatIfPanel';
+import { SectionStressPanel } from './SectionStressPanel';
 import { SelectionPanel } from './SelectionPanel';
 import { ToolbarAdvanced } from './ToolbarAdvanced';
 import { ToolbarConfig } from './ToolbarConfig';
@@ -43,6 +42,6 @@ export function BasicPanel() {
   else if (panel === 'settings') content = <ToolbarConfig flat />;
   else if (panel === 'project') content = <ToolbarProject flat />;
   else if (panel === 'data') content = dsmStepsStore.isOpen ? <DSMStepWizard /> : <DataTable syncBasicPanel initialTab={dataTab} />;
-  else if (panel === 'advanced') content = <><ToolbarAdvanced flat /><div ref={outputRef}><KinematicPanel docked /><WhatIfPanel docked /><LegacySvelteSurface component={SectionStressPanel} props={{ docked: true }} /></div></>;
+  else if (panel === 'advanced') content = <><ToolbarAdvanced flat /><div ref={outputRef}><KinematicPanel docked /><WhatIfPanel docked /><SectionStressPanel docked /></div></>;
   return <aside className="react-basic-panel" data-testid="basic-panel" data-panel={panel} style={{ width }}><div className={`bp-resize${dragging ? ' dragging' : ''}`} onPointerDown={startResize} role="separator" aria-orientation="vertical" aria-label={t('ribbon.resize')} /><header className="bp-head"><span className="bp-title" data-testid="bp-title">{t(`ribbon.${panel}`)}</span><button className="bp-close" onClick={close} title={t('ribbon.close')} aria-label={t('ribbon.close')}>×</button></header><div className="bp-body">{content}</div></aside>;
 }
