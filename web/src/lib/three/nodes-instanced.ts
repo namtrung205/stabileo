@@ -77,6 +77,7 @@ export class NodesInstanced {
     this._mat4.makeTranslation(x, y, z);
     this.mesh.setMatrixAt(idx, this._mat4);
     this.mesh.instanceMatrix.needsUpdate = true;
+    this.invalidateBounds();
   }
 
   /** Remove a node. Swap-pops the last instance into the removed slot. */
@@ -103,6 +104,7 @@ export class NodesInstanced {
     this.mesh.count = this.count;
     this.mesh.instanceMatrix.needsUpdate = true;
     if (this.mesh.instanceColor) this.mesh.instanceColor.needsUpdate = true;
+    this.invalidateBounds();
   }
 
   has(id: number): boolean {
@@ -150,6 +152,7 @@ export class NodesInstanced {
     this.baseColorById.clear();
     this.count = 0;
     this.mesh.count = 0;
+    this.invalidateBounds();
   }
 
   dispose(): void {
@@ -186,5 +189,17 @@ export class NodesInstanced {
     this.mesh.dispose();
     this.mesh = newMesh;
     this.capacity = newCap;
+  }
+
+  /**
+   * InstancedMesh lazily caches a world-enclosing sphere on its first raycast.
+   * Node transforms and count changes do not invalidate that cache in Three.js.
+   * This matters during deferred viewport startup: rendering or hover can
+   * inspect the empty batch first, cache an empty sphere, and make every
+   * subsequently loaded node fall outside the stale picking bounds.
+   */
+  private invalidateBounds(): void {
+    this.mesh.boundingBox = null;
+    this.mesh.boundingSphere = null;
   }
 }

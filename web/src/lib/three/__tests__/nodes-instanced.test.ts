@@ -45,6 +45,32 @@ describe('NodesInstanced', () => {
     expect(p.z).toBeCloseTo(9);
   });
 
+  it('remains raycastable when the empty batch was picked before nodes loaded', () => {
+    const ni = new NodesInstanced();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+    camera.position.set(0, 0, 5);
+    camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+    camera.updateMatrixWorld(true);
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+
+    // The first hover during deferred viewport startup can happen while the
+    // instance batch is empty. Three.js then caches an empty bounding sphere.
+    expect(raycaster.intersectObject(ni.mesh).length).toBe(0);
+    expect(ni.mesh.boundingSphere).not.toBeNull();
+
+    ni.upsert(7, 0, 0, 0);
+    ni.mesh.updateMatrixWorld(true);
+
+    // Adding the node must invalidate that stale cache so Member/Support/Load
+    // tools can hit the newly populated batch.
+    expect(ni.mesh.boundingSphere).toBeNull();
+    const hits = raycaster.intersectObject(ni.mesh);
+    expect(hits[0]?.instanceId).toBe(0);
+    expect(ni.nodeIdAt(hits[0]!.instanceId!)).toBe(7);
+  });
+
   it('remove swaps the last instance into the removed slot (swap-pop)', () => {
     const ni = new NodesInstanced();
     ni.upsert(1, 0, 0, 0);
