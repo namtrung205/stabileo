@@ -1,9 +1,9 @@
 /**
  * Behavior pin for the auto-split-on-node-place uiStore flag and the
  * underlying splitElementAtPoint contract that the click handler in
- * Viewport.svelte relies on.
+ * ViewportController relies on.
  *
- * The click handler itself lives in Svelte and is exercised by a
+ * The click handler itself lives in the framework-neutral controller and is exercised by a
  * Playwright probe. These tests pin the parts that are unit-testable:
  *   - The uiStore flag exists, defaults OFF, and is round-trip settable.
  *   - splitElementAtPoint preserves enough metadata for the auto-split

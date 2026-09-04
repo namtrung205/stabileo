@@ -18,6 +18,14 @@ import { PropertyPanel } from './PropertyPanel';
 import { MemberOffsetEditor } from './MemberOffsetEditor';
 import { BasicPanel } from './BasicPanel';
 import { MobileToolbar } from './MobileToolbar';
+import { Viewport2D } from './Viewport2D';
+import { Viewport3D } from './Viewport3D';
+import { ProProjectFileActions } from './ProProjectFileActions';
+import { ProNodesTab } from './ProNodesTab';
+import { ProSupportsTab } from './ProSupportsTab';
+import { ProMaterialsTab } from './ProMaterialsTab';
+import { ProElementsTab } from './ProElementsTab';
+import { ProSectionsTab } from './ProSectionsTab';
 
 export function EditorChromePortals() {
   const tabTarget = useEditorPortalTarget('.react-tab-bar-slot');
@@ -46,6 +54,14 @@ export function EditorChromePortals() {
   const basicPanelTarget = useEditorPortalTarget('.react-basic-panel-slot');
   const mobileSidebarToolbarTarget = useEditorPortalTarget('.react-mobile-sidebar-toolbar-slot');
   const mobileDrawerToolbarTarget = useEditorPortalTarget('.react-mobile-drawer-toolbar-slot');
+  const viewport2DTarget = useEditorPortalTarget('.react-viewport-2d-slot');
+  const viewport3DTarget = useEditorPortalTarget('.react-viewport-3d-slot');
+  const proProjectFileActionsTarget = useEditorPortalTarget('.react-pro-project-file-actions-slot');
+  const proNodesTabTarget = useEditorPortalTarget('.react-pro-nodes-tab-slot');
+  const proSupportsTabTarget = useEditorPortalTarget('.react-pro-supports-tab-slot');
+  const proMaterialsTabTarget = useEditorPortalTarget('.react-pro-materials-tab-slot');
+  const proElementsTabTarget = useEditorPortalTarget('.react-pro-elements-tab-slot');
+  const proSectionsTabTarget = useEditorPortalTarget('.react-pro-sections-tab-slot');
   return <>
     {tabTarget && createPortal(<TabBar />, tabTarget)}
     {statusTarget && createPortal(<StatusBar />, statusTarget)}
@@ -73,5 +89,13 @@ export function EditorChromePortals() {
     {basicPanelTarget && createPortal(<BasicPanel />, basicPanelTarget)}
     {mobileSidebarToolbarTarget && createPortal(<MobileToolbar />, mobileSidebarToolbarTarget)}
     {mobileDrawerToolbarTarget && createPortal(<MobileToolbar />, mobileDrawerToolbarTarget)}
+    {viewport2DTarget && createPortal(<Viewport2D />, viewport2DTarget)}
+    {viewport3DTarget && createPortal(<Viewport3D />, viewport3DTarget)}
+    {proProjectFileActionsTarget && createPortal(<ProProjectFileActions variant="mobile" />, proProjectFileActionsTarget)}
+    {proNodesTabTarget && createPortal(<ProNodesTab />, proNodesTabTarget)}
+    {proSupportsTabTarget && createPortal(<ProSupportsTab />, proSupportsTabTarget)}
+    {proMaterialsTabTarget && createPortal(<ProMaterialsTab />, proMaterialsTabTarget)}
+    {proElementsTabTarget && createPortal(<ProElementsTab />, proElementsTabTarget)}
+    {proSectionsTabTarget && createPortal(<ProSectionsTab />, proSectionsTabTarget)}
   </>;
 }

@@ -4,10 +4,20 @@
  * `runReactStoreAction` until each domain store owns its notifications.
  */
 export type ReactExternalStore = {
-  reactSubscribe(listener: () => void): () => void;
+  reactSubscribe(listener: (property?: PropertyKey) => void): () => void;
   reactSnapshot(): number;
   reactNotify(): void;
 };
+
+export type ReactStoreReadTracker = (store: ReactExternalStore, property: PropertyKey) => void;
+let activeReadTracker: ReactStoreReadTracker | null = null;
+
+/** Capture observable store properties read while `run` executes. */
+export function trackReactStoreReads<T>(tracker: ReactStoreReadTracker, run: () => T): T {
+  const previous = activeReadTracker;
+  activeReadTracker = tracker;
+  try { return run(); } finally { activeReadTracker = previous; }
+}
 
 export type ReactObservable<T extends object> = T & ReactExternalStore;
 
@@ -16,12 +26,12 @@ export function makeReactObservable<T extends object>(
   mutatingMethods: readonly PropertyKey[] = [],
 ): ReactObservable<T> {
   let revision = 0;
-  const listeners = new Set<() => void>();
-  const notify = () => {
+  const listeners = new Set<(property?: PropertyKey) => void>();
+  const notify = (property?: PropertyKey) => {
     revision += 1;
-    for (const listener of listeners) listener();
+    for (const listener of listeners) listener(property);
   };
-  const subscribe = (listener: () => void) => {
+  const subscribe = (listener: (property?: PropertyKey) => void) => {
     listeners.add(listener);
     return () => listeners.delete(listener);
   };
@@ -34,6 +44,7 @@ export function makeReactObservable<T extends object>(
       if (property === 'reactSubscribe') return subscribe;
       if (property === 'reactSnapshot') return snapshot;
       if (property === 'reactNotify') return notify;
+      activeReadTracker?.(receiver as ReactExternalStore, property);
       const value = Reflect.get(inner, property, receiver);
       if (typeof value !== 'function' || !mutators.has(property)) return value;
       const cached = methodCache.get(property);
@@ -57,7 +68,7 @@ export function makeReactObservable<T extends object>(
     set(inner, property, value, receiver) {
       const before = Reflect.get(inner, property, receiver);
       const changed = Reflect.set(inner, property, value, receiver);
-      if (changed && !Object.is(before, Reflect.get(inner, property, receiver))) notify();
+      if (changed && !Object.is(before, Reflect.get(inner, property, receiver))) notify(property);
       return changed;
     },
   });

@@ -106,7 +106,7 @@ describe('nothing colours members by walking the partial registry', () => {
   const FILES = [
     'src/lib/viewport3d/scene-sync.ts',
     'src/lib/viewport3d/results-sync.ts',
-    'src/components/Viewport3D.svelte',
+    'src/components/Viewport3DController.ts',
   ];
 
   /** The body of a brace-balanced block starting at `open`. */

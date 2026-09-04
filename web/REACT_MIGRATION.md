@@ -28,10 +28,10 @@ The existing stores remain the source of truth. `react-external-store.ts` expose
 | 3 | Public landing and blog | `/`, locale-prefixed routes, blog index/post/not-found, metadata, links, font preloads, and editor launch run without Svelte UI | Done |
 | 4 | Shared state subscriptions | React surfaces update from the same UI/model/tab/locale state used by the solver and legacy shell | In progress |
 | 5 | Editor chrome | header, mode switcher, tab bar, ribbon, option bars, sidebars, status bar, floating controls, menus, and dialogs are React | In progress |
-| 6 | 2D viewport | React owns the canvas lifecycle; drawing, hit testing, snapping, drag/drop, zoom/pan, overlays, and event contracts remain unchanged | Pending |
-| 7 | 3D viewport | React owns Three.js lifecycle; scene sync, selection, camera, clipping, measure, labels, animation invalidation, and disposal remain unchanged | Pending |
+| 6 | 2D viewport | React owns the canvas lifecycle; drawing, hit testing, snapping, drag/drop, zoom/pan, overlays, and event contracts remain unchanged | Done |
+| 7 | 3D viewport | React owns Three.js lifecycle; scene sync, selection, camera, clipping, measure, labels, animation invalidation, and disposal remain unchanged | Done |
 | 8 | Basic data/property/results panels | editors, tables, selection/property flows, imports, reports, and responsive drawers are React | In progress — G4 core complete; IFC remains deferred under G3 |
-| 9 | Education and PRO workspaces | every exercise, design, detailing, generator, diagnostics, and verification workflow is React | Pending |
+| 9 | Education and PRO workspaces | every exercise, design, detailing, generator, diagnostics, and verification workflow is React | In progress |
 | 10 | Remove compatibility | zero `.svelte` UI files, zero rune stores, no Svelte plugin/runtime/compiler dependency | Pending |
 | 11 | Parity verification | type/build gates, unit/E2E suites, route matrix, screenshot baselines, interaction matrix, memory/disposal checks | Pending |
 
@@ -45,9 +45,9 @@ The project-wide migration remains the umbrella goal. Work is delivered in small
 | G2 | Shared editor chrome and isolated editors | preserved test IDs plus typecheck/build | Done |
 | G3 | Independent editor dialogs and overlays | component contract checks, relevant domain tests, typecheck/build | In progress — 3D→2D, mobile results, 2D DXF import, calculation report, and material presets done |
 | G4 | Basic ribbon and right-side data/result panels | Basic workflow contract suite, typecheck, and production bundle | Done |
-| G5 | 2D viewport ownership | drawing, selection, snapping, drag, zoom/pan, and disposal tests | Pending |
-| G6 | 3D viewport ownership | camera, selection, clipping, measuring, rendering, and disposal tests | Pending |
-| G7 | Education and PRO workspaces | mode-specific workflow suites and responsive checks | Pending |
+| G5 | 2D viewport ownership | drawing, selection, snapping, drag, zoom/pan, and disposal tests | Done |
+| G6 | 3D viewport ownership | camera, selection, clipping, measuring, rendering, and disposal tests | Done |
+| G7 | Education and PRO workspaces | mode-specific workflow suites and responsive checks | In progress — G7.2 geometry/properties underway |
 | G8 | Remove compatibility layer and Svelte | zero `.svelte` files/dependencies and full parity matrix | Pending |
 
 ### G4 Basic editor breakdown
@@ -89,10 +89,42 @@ G4.3 was implemented as four reviewable sub-gates: Project/examples, Config, Res
 - Mobile Basic toolbar, dimension switching, undo/redo, and responsive drawer placement.
 - Model-data shell and nodes, elements, supports, loads, materials, sections, and results tables.
 - Property panel with node, element, support, nodal-load, hinge, local-axis, member-offset, stress, reaction, and displacement detail flows.
+- PRO Nodes, Elements, Supports, Materials, and Sections tabs, including curved-member generation and the steel/profile section builder.
 
-Current implementation priority is the editor. Public landing and blog surfaces are already stable and are excluded from the remaining incremental goals. The next editor goal is G5, React ownership of the 2D viewport.
+Current implementation priority is the editor. Public landing and blog surfaces are already stable and are excluded from the remaining incremental goals. The active editor goal is G7, incremental React ownership of the Education and PRO workspaces.
+
+### G5 2D viewport breakdown
+
+| Gate | Scope | Verification | Status |
+| --- | --- | --- | --- |
+| G5.1 | React canvas DOM, viewport controls, event-listener lifecycle, DXF drop, resize/disposal boundary | ownership contract, coordinate/selection regressions, typecheck/build | Done |
+| G5.2 | Extract invalidation renderer and drawing coordinator to framework-neutral TypeScript | diagram/theme/render invalidation tests | Done |
+| G5.3 | Extract pointer, touch, snapping, creation, selection, drag, and context-menu controller | spatial-query and interaction tests | Done |
+| G5.4 | Remove the headless Svelte controller and close the compatibility boundary | no 2D viewport Svelte dependency, production build | Done |
+
+React now owns the 2D canvas DOM and native event lifecycle. `ViewportController.ts` is framework-neutral and preserves the former drawing and interaction implementation, while dedicated invalidation, store-coordination, and input-geometry modules provide independently tested scheduling, transitions, wheel anchoring, pinch/pan, cursor, selection, and disposal contracts. The former `Viewport.svelte` compatibility surface has been removed.
+
+### G6 3D viewport breakdown
+
+| Gate | Scope | Verification | Status |
+| --- | --- | --- | --- |
+| G6.1 | React wrapper, camera controls, pointer-listener lifecycle, and scene readiness boundary | ownership contract, viewport3d regressions, typecheck/build | Done |
+| G6.2 | Extract render invalidation, animation scheduling, resize, and disposal coordination | scheduler, scene-cost, disposal, typecheck/build | Done |
+| G6.3 | Extract camera navigation, picking, creation, selection, dragging, measuring, and context controller | camera/picking/interaction suites | Done |
+| G6.4 | Move clipping, legends, coordinate dialog, selection rectangle, tooltip, gizmo, shell legend, and perf HUD overlays to React | overlay ownership contract and viewport regressions | Done |
+| G6.5 | Remove the headless Svelte scene controller and close the 3D compatibility boundary | no main 3D viewport Svelte dependency, production bundle | Done |
 
 The React root now places migrated chrome into the existing header, panel, viewport, and footer positions with portals. These portals replace nested React roots and keep the transitional Svelte shell from owning migrated component lifecycles.
+
+### G7 Education and PRO workspace breakdown
+
+| Gate | Scope | Verification | Status |
+| --- | --- | --- | --- |
+| G7.1 | PRO project open/save actions | file contracts, shortcut lifecycle, typecheck/build | Done |
+| G7.2 | PRO geometry, properties, conditions, and results tabs | tab CRUD and solve/result workflow suites | In progress — Nodes, Elements, Supports, Materials, and Sections done |
+| G7.3 | PRO design, steel, generators, connections, and diagnostics | domain workflow suites and ownership contracts | Pending |
+| G7.4 | Education exercise, authoring, review, and help surfaces | exercise/authoring suites and responsive contracts | Pending |
+| G7.5 | Remove PRO/Education Svelte workspace shells | no workspace `.svelte` dependency, production bundle | Pending |
 
 The remaining Svelte files are editor compatibility code; public Svelte components have been removed.
 

@@ -1,0 +1,45 @@
+.pro-elems { display: flex; flex-direction: column; height: 100%; }
+.pro-member-offset-wrap { padding: 6px 10px; }
+.pro-elems-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--st-surface-3); flex-shrink: 0; }
+.pro-elems-count { font-size: 0.82rem; color: var(--st-value); font-weight: 600; }
+.pro-elems-actions { display: flex; gap: 6px; }
+.pro-elems .pro-btn { padding: 5px 12px; font-size: 0.75rem; font-weight: 500; color: var(--st-text-2); background: var(--st-surface-3); border: 1px solid var(--st-surface-3); border-radius: 4px; cursor: pointer; }
+.pro-elems .pro-btn:hover { background: var(--st-surface-3); color: var(--st-text); }
+.pro-elems .pro-btn-active { background: var(--st-accent) !important; border-color: var(--st-danger) !important; color: var(--st-text) !important; }
+.pro-draw-status { padding: 8px 12px; font-size: 0.78rem; color: var(--st-value); background: rgba(127, 212, 204, 0.08); border-bottom: 1px solid var(--st-surface-3); }
+.pro-draw-status strong { color: var(--st-text); }
+.pro-elems .pro-paste-error { padding: 4px 10px; font-size: 0.7rem; color: var(--st-danger); background: rgba(229, 72, 42, 0.1); border-bottom: 1px solid var(--st-hair-strong); }
+.pro-elems .pro-paste-hint { padding: 6px 12px; font-size: 0.72rem; color: var(--st-text-3); font-style: italic; border-bottom: 1px solid var(--st-surface-3); flex-shrink: 0; }
+.pro-elems-table-wrap { flex: 1; overflow: auto; }
+.pro-elems-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; table-layout: fixed; }
+.pro-elems-table thead { position: sticky; top: 0; z-index: 1; }
+.pro-elems-table th { padding: 6px 4px; text-align: left; font-size: 0.68rem; font-weight: 600; color: var(--st-text-3); text-transform: uppercase; letter-spacing: 0.03em; background: var(--st-surface); border-bottom: 1px solid var(--st-surface-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pro-elems-table td { padding: 3px; border-bottom: 1px solid var(--st-surface-2); overflow: hidden; text-overflow: ellipsis; }
+.pro-elems-table tbody tr { cursor: pointer; transition: background 0.1s; }
+.pro-elems-table tbody tr:hover { background: rgba(127, 212, 204, 0.08); }
+.pro-elems-table tr.selected { background: rgba(127, 212, 204, 0.18); box-shadow: inset 3px 0 0 var(--st-value); }
+.pro-elems-table tr.unsaved td { opacity: 0.6; }
+.pro-elems-table .col-id { width: 32px; color: var(--st-text-3); font-family: monospace; font-size: 0.75rem; text-align: center; }
+.pro-elems-table .col-node { width: 50px; }
+.pro-elems-table .col-node input { width: 100%; padding: 4px 5px; background: transparent; border: 1px solid transparent; border-radius: 3px; color: var(--st-text); font-size: 0.78rem; font-family: monospace; }
+.pro-elems-table .col-node input:focus { background: var(--st-surface-3); border-color: var(--st-surface-3); outline: none; }
+.pro-elems-table .col-mat, .pro-elems-table .col-sec { width: auto; }
+.pro-elems-table .col-mat select, .pro-elems-table .col-sec select { width: 100%; padding: 3px; background: var(--st-surface-3); border: 1px solid transparent; border-radius: 3px; color: var(--st-text-2); font-size: 0.72rem; cursor: pointer; }
+.pro-elems-table .col-mat select:focus, .pro-elems-table .col-sec select:focus { border-color: var(--st-surface-3); outline: none; }
+.pro-elems-table .col-hinge { width: 40px; text-align: center; }
+.pro-elems-table .hinge-btn { padding: 3px 6px; font-size: 0.68rem; font-weight: 600; border: 1px solid var(--st-surface-3); border-radius: 3px; cursor: pointer; background: var(--st-surface-3); color: var(--st-text-3); min-width: 34px; }
+.pro-elems-table .hinge-btn.hinged { background: var(--st-surface-2); border-color: var(--st-warn); color: var(--st-warn); }
+.pro-elems-table .col-actions { width: 20px; text-align: center; }
+.pro-elems-table .pro-delete-btn { background: none; border: 0; color: var(--st-text-3); font-size: 1rem; cursor: pointer; padding: 0; line-height: 1; }
+.pro-elems-table .pro-delete-btn:hover { color: var(--st-danger); }
+.pro-elems-table .pro-empty { text-align: center; color: var(--st-text-3); font-style: italic; padding: 20px 10px !important; }
+.pro-elems .curved-section { border-top: 1px solid var(--st-surface-3); margin-top: 6px; }
+.pro-elems .curved-toggle { width: 100%; text-align: left; background: none; border: 1px solid var(--st-hair); color: var(--st-text); font-size: 0.78rem; font-weight: 600; padding: 8px 10px; cursor: pointer; }
+.pro-elems .curved-body { padding: 0 10px 10px; display: flex; flex-direction: column; gap: 6px; }
+.pro-elems .curved-hint { font-size: 0.68rem; color: var(--st-text-2); line-height: 1.3; }
+.pro-elems .curved-row { display: flex; align-items: center; gap: 6px; }
+.pro-elems .curved-row label { font-size: 0.7rem; color: var(--st-text-2); min-width: 70px; }
+.pro-elems .curved-row input[type='text'] { width: 48px; }
+.pro-elems .curved-row input, .pro-elems .curved-row select { background: var(--st-surface); border: 1px solid var(--st-surface-3); color: var(--st-text); border-radius: 3px; padding: 3px 5px; font-size: 0.7rem; }
+.pro-elems .curved-error { color: var(--st-danger); font-size: 0.68rem; }
+.pro-elems .curved-success { color: var(--st-value); font-size: 0.68rem; }

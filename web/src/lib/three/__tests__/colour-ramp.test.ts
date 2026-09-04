@@ -59,7 +59,7 @@ describe('the shared colour ramp', () => {
 
   it('is the ramp the legend and the 2D painter import', () => {
     /*
-     * Svelte components cannot be asserted colour-by-colour without a DOM, so
+     * Canvas components cannot be asserted colour-by-colour without a DOM, so
      * this pins the next best thing: neither file may carry its own ramp
      * again — both must read from the module this test covers.
      */
@@ -67,7 +67,7 @@ describe('the shared colour ramp', () => {
     const reactComponents = join(import.meta.dirname, '../../../react/components');
     expect(readFileSync(join(reactComponents, 'ColourScaleLegend.tsx'), 'utf8'))
       .toContain('colour-ramp');
-    expect(readFileSync(join(components, 'Viewport.svelte'), 'utf8'))
+    expect(readFileSync(join(components, 'ViewportController.ts'), 'utf8'))
       .toContain('colour-ramp');
   });
 });

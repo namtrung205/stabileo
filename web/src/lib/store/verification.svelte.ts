@@ -35,6 +35,7 @@ import { getDesignCode, type DesignCodeId } from '../engine/design/code-adapter'
 import type { OrientationIssue } from '../engine/design/orientation-diagnostic';
 import { failingLimits, isKnownBiaxialLimitation }
   from '../engine/detailing/element-status';
+import { makeReactObservable } from './react-external-store';
 
 export type VerificationStatus = 'ok' | 'warn' | 'fail';
 
@@ -553,4 +554,8 @@ function createVerificationStore() {
   };
 }
 
-export const verificationStore = createVerificationStore();
+export const verificationStore = makeReactObservable(createVerificationStore(), [
+  'bumpSolveGeneration', '_setReinforcementProvider', 'invalidateAnalysis', 'invalidateForCodeChange',
+  'setDemandData', 'setDesignBaseline', 'setConcrete', 'setSteel', 'setDesignResults',
+  'setDesignOutcomes', 'invalidateElement', 'invalidateElements', 'clear',
+]);

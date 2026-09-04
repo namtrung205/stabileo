@@ -1,14 +1,10 @@
-<script lang="ts">
-  import { onMount } from 'svelte';
   import { t } from '../lib/i18n';
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   import { modelStore, uiStore, resultsStore, historyStore, dsmStepsStore, verificationStore } from '../lib/store';
   import { boxSelect as boxSelectTargets, type BoxSelectMode } from '../lib/viewport/box-select';
-  import ViewportControlsHost from './ViewportControlsHost.svelte';
   import { COLORS, setGroupColor, findUserData, disposeObject, createTextSprite } from '../lib/three/selection-helpers';
   import { paintShell, paintShellEdge, restoreShellColor } from '../lib/three/create-shell-mesh';
-  import ShellContourLegend from './viewport/ShellContourLegend.svelte';
   import { NodesInstanced } from '../lib/three/nodes-instanced';
   import { ElementsBatched } from '../lib/three/elements-batched';
   import { ElementsPicking } from '../lib/three/elements-picking';
@@ -22,15 +18,43 @@
   import { syncNodes as _syncNodes, syncElements as _syncElements, syncSupports as _syncSupports, syncLoads as _syncLoads, syncShells as _syncShells, syncSelection as _syncSelection, syncLocalAxes as _syncLocalAxes, syncMemberOffsets as _syncMemberOffsets, syncShellOffsets as _syncShellOffsets, applyElementVisibility, type SceneSyncContext } from '../lib/viewport3d/scene-sync';
   import { syncDeformed as _syncDeformed, syncDiagrams3D as _syncDiagrams3D, syncColorMap3D as _syncColorMap3D, syncVerificationLabels as _syncVerificationLabels, syncReactions as _syncReactions, syncConstraintForces as _syncConstraintForces, syncLabels3D as _syncLabels3D, syncDespiece3D as _syncDespiece3D, DIAGRAM_3D_TYPES, type ResultsSyncContext } from '../lib/viewport3d/results-sync';
   import { applyLowDetail, isHeavyModel } from '../lib/viewport3d/lod';
+  import { createInvalidationLoop } from '../lib/viewport/invalidation-loop';
+  import { clientToNdc, viewport3DCursor } from '../lib/viewport3d/input-controller';
+  import { createStoreEffectScope } from '../lib/viewport3d/reactive-effects';
 
-  let container: HTMLDivElement;
+  export type Viewport3DControllerApi = {
+    handleMouseDown(event: MouseEvent): void;
+    handleMouseUp(event: MouseEvent): void;
+    handleMouseMove(event: MouseEvent): void;
+    handleMouseLeave(): void;
+    handleContextMenu(event: MouseEvent): void;
+    zoomToFit(): void;
+    setView(view: 'top' | 'front' | 'side' | 'iso'): void;
+    toggleCameraMode(): void;
+    createNodeAt(x: number, y: number, z: number): void;
+    getCursor(): string;
+  };
+  type BoxSelection3D = { startX: number; startY: number; endX: number; endY: number; additive: boolean };
+  type HoverTooltip3D = { text: string; x: number; y: number };
+  type PerfHud3D = { on: boolean; flush: number; fps: number; renderMs: number; syncMs: number; calls: number; tris: number; geos: number; texs: number };
+  export type Viewport3DControllerOptions = {
+    container: HTMLDivElement;
+    gizmoCanvas: HTMLCanvasElement;
+    onready(api: Viewport3DControllerApi | null): void;
+    onrequestcoordinates(): void;
+    onoverlaychange(state: { boxSelect: BoxSelection3D | null; hoverTooltip: HoverTooltip3D | null; perfHud: PerfHud3D }): void;
+  };
+
+  /** Framework-neutral Three.js scene controller for the React-owned 3D viewport. */
+  export function createViewport3DController(options: Viewport3DControllerOptions) {
+  const { container, gizmoCanvas, onready, onrequestcoordinates, onoverlaychange } = options;
+  const effectScope = createStoreEffectScope([modelStore, uiStore, resultsStore, verificationStore]);
   let renderer: THREE.WebGLRenderer;
   let scene: THREE.Scene;
   let camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   let perspCamera: THREE.PerspectiveCamera;
   let orthoCamera: THREE.OrthographicCamera;
   let controls: OrbitControls;
-  let animFrameId: number;
   let initialized = false;
 
   // ─── Invalidation-based rendering ───────────────────────────
@@ -75,7 +99,7 @@
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   let hoveredData: { type: string; id: number } | null = null;
-  let hoveredNodeId3D = $state<number | null>(null);
+  let hoveredNodeId3D: number | null = null;
   let mouseDownPos = { x: 0, y: 0 };
   // OrbitControls drag flag: skips per-event hover raycast while the user is
   // actively rotating/panning/zooming (recursive raycasts on large fixtures
@@ -90,39 +114,18 @@
   // ─── Box select state ──────────────────────────────────────
   // Mode to return to when the quick sections toggle is switched off — keeps
   // a 'solid' preference from Settings instead of always landing on wireframe.
-  let boxSelect3D = $state<{ startX: number; startY: number; endX: number; endY: number; additive: boolean } | null>(null);
+  let boxSelect3D: BoxSelection3D | null = null;
 
   // ─── Node dragging state ───────────────────────────────────
-  let draggedNodeId3D = $state<number | null>(null);
+  let draggedNodeId3D: number | null = null;
   let dragMoved3D = false;
   let dragStartWorld3D: THREE.Vector3 | null = null;
 
   // ─── Hover tooltip state ─────────────────────────────────────
-  let hoverTooltip = $state<{ text: string; x: number; y: number } | null>(null);
-
-  // ─── Diagram legend (overlay) ────────────────────────────────
-  const DIAGRAM_COLORS: Record<string, string> = {
-    momentZ: '#4488ff',
-    momentY: '#44bbaa',
-    shearY:  '#44bb44',
-    shearZ:  '#66aa66',
-    axial:   '#aa66dd',
-    torsion: '#ee8844',
-    deformed:    '#ff8800',
-    modeShape:   '#4ecdc4',
-    bucklingMode:'#e96941',
-  };
-  const DIAGRAM_LABEL_KEYS: Record<string, string> = {
-    momentZ: 'viewport3d.momentZ',
-    momentY: 'viewport3d.momentY',
-    shearY:  'viewport3d.shearY',
-    shearZ:  'viewport3d.shearZ',
-    axial:   'viewport3d.axial',
-    torsion: 'viewport3d.torsion',
-    deformed:    'viewport3d.deformed',
-    modeShape:   'viewport3d.modeShape',
-    bucklingMode:'viewport3d.bucklingMode',
-  };
+  let hoverTooltip: HoverTooltip3D | null = null;
+  function publishInteractionOverlay() { onoverlaychange({ boxSelect: boxSelect3D, hoverTooltip, perfHud }); }
+  function setBoxSelection(next: BoxSelection3D | null) { boxSelect3D = next; publishInteractionOverlay(); }
+  function setHoverTooltip(next: HoverTooltip3D | null) { hoverTooltip = next; publishInteractionOverlay(); }
 
   function shouldProject2DModel(): boolean {
     return shouldProjectModelToXZ({
@@ -138,70 +141,34 @@
 
   function syncResultsProjection(): void {
     if (!resultsParent) return;
-    // Results are built in projected scene coordinates (getProjectedNodes handles
-    // the 2D→XZ swap), so no parent-level rotation is needed.
     resultsParent.position.set(0, 0, 0);
     resultsParent.rotation.set(0, 0, 0);
   }
-  const diagramLegend = $derived.by(() => {
-    const dt = resultsStore.diagramType;
-    if (dt === 'none' || dt === 'axialColor' || dt === 'colorMap' || dt === 'verification') return null;
-    const color = DIAGRAM_COLORS[dt];
-    const key = DIAGRAM_LABEL_KEYS[dt];
-    if (!color || !key) return null;
-    return { name: t(key), color };
-  });
 
   // ─── Tool interaction state ─────────────────────────────────
   let pendingElementNodeI: number | null = null;  // first node for element tool
   let pendingLine: THREE.Line | null = null;       // preview line for element tool
 
-  // ─── Coordinate input dialog state ──────────────────────────
-  let showCoordDialog = $state(false);
-  let coordX = $state('0');
-  let coordY = $state('0');
-  let coordZ = $state('0');
-
-  function openCoordDialog() {
-    coordX = '0'; coordY = '0'; coordZ = '0';
-    showCoordDialog = true;
-  }
-
-  function submitCoordDialog() {
-    const x = parseFloat(coordX);
-    const y = parseFloat(coordY);
-    const z = parseFloat(coordZ);
-    if (isNaN(x) || isNaN(y) || isNaN(z)) return;
+  function createNodeAt(x: number, y: number, z: number) {
+    if (![x, y, z].every(Number.isFinite)) return;
     historyStore.pushState();
     const id = modelStore.addNode(x, y, z);
     uiStore.selectNode(id, false);
     uiStore.toast(t('viewport3d.nodeCreatedAt').replace('{id}', String(id)).replace('{x}', String(x)).replace('{y}', String(y)).replace('{z}', String(z)), 'success');
-    showCoordDialog = false;
-  }
-
-  function cancelCoordDialog() {
-    showCoordDialog = false;
   }
 
   // Cursor style based on active tool
-  let cursorStyle = $derived.by(() => {
-    if (uiStore.measureMode) return 'crosshair';
-    if (uiStore.selectMode === 'stress') return 'crosshair';
-    const tool = uiStore.currentTool;
-    if (tool === 'select') {
-      if (draggedNodeId3D !== null) return 'grabbing';
-      if (hoveredNodeId3D !== null) return 'grab';
-      return 'default';
-    }
-    if (tool === 'node') return 'crosshair';
-    if (tool === 'element') return 'crosshair';
-    if (tool === 'support') return 'pointer';
-    if (tool === 'load') return 'pointer';
-    if (tool === 'pan') return 'grab';
-    return 'default';
-  });
+  const cursorStyle = () => {
+    return viewport3DCursor({
+      measureMode: uiStore.measureMode,
+      selectMode: uiStore.selectMode,
+      currentTool: uiStore.currentTool,
+      draggedNodeId: draggedNodeId3D,
+      hoveredNodeId: hoveredNodeId3D,
+    });
+  };
 
-  onMount(() => {
+  function mount() {
     // Scene
     scene = new THREE.Scene();
     scene.background = new THREE.Color(COLORS.background);
@@ -345,7 +312,6 @@
     // Instead of running requestAnimationFrame every frame, we only render when
     // the scene is dirty (needsRender=true) or continuous rendering is required
     // (animations, keyboard navigation, or the user override flag).
-    let needsRender = true;
     let dampingFrames = 0; // extra frames for OrbitControls damping to settle
 
     /** Check if any animation is currently active that requires continuous rendering */
@@ -364,16 +330,6 @@
     function needsContinuous(): boolean {
       return uiStore.continuousRendering || keysPressed.size > 0 || isAnimating() || dampingFrames > 0;
     }
-
-    /** Mark the scene as needing a re-render. Schedules a frame if one isn't pending. */
-    function _invalidate() {
-      if (!needsRender) {
-        needsRender = true;
-        animFrameId = requestAnimationFrame(renderOnce);
-      }
-    }
-    // Expose invalidate to the outer scope for use in $effect blocks
-    invalidate = _invalidate;
 
     const _panVec = new THREE.Vector3();
     const _orbitSpherical = new THREE.Spherical();
@@ -425,9 +381,6 @@
     }
 
     function renderOnce() {
-      if (!needsRender && !needsContinuous()) return;
-      needsRender = false;
-
       // Keyboard camera movement
       handleKeyboardCamera();
 
@@ -505,7 +458,7 @@
         perfAcc.lastFrameT = _now;
         if (_now - perfAcc.lastFlush > 250) {
           const f = perfAcc.frames || 1;
-          perfHud = {
+          setPerfHud({
             on: true,
             // Monotonic window id. A spec measuring a gesture waits for this to advance
             // TWICE after the gesture starts: the first window straddles the gesture
@@ -518,32 +471,22 @@
             tris: renderer.info.render.triangles,
             geos: renderer.info.memory.geometries,
             texs: renderer.info.memory.textures,
-          };
+          });
           perfAcc.syncMs = 0; perfAcc.frames = 0; perfAcc.frameMsSum = 0;
           perfAcc.renderMsSum = 0; perfAcc.lastFlush = _now;
         }
       }
 
-      // Keep looping if continuous rendering is needed
-      if (needsContinuous() || needsRender) {
-        animFrameId = requestAnimationFrame(renderOnce);
-      } else if (perfHud.on) {
-        // The loop is about to STOP. This viewport renders on demand, so the next
-        // frame may be seconds away — and without this, that idle gap would be
-        // charged to `frameMsSum` as if it were one frame interval, which is how a
-        // 60fps orbit after a 1.2s pause used to report ~11fps. Zeroing `lastFrameT`
-        // makes the `if (perfAcc.lastFrameT)` guard above skip that first interval.
-        //
-        // ONLY `lastFrameT`. Clearing the rest of the window (frames/sums/lastFlush)
-        // looks tidier and is a trap: a mouse-driven gesture stops and restarts the
-        // loop between input events, so a per-stop reset means the window never
-        // reaches 250ms and the HUD stops flushing entirely mid-gesture. The window
-        // must survive stutter; only the gap interval must not enter the timing.
-        perfAcc.lastFrameT = 0;
-      }
     }
-    // Kick off the first frame
-    animFrameId = requestAnimationFrame(renderOnce);
+    const renderLoop = createInvalidationLoop({
+      draw: renderOnce,
+      shouldAnimate: needsContinuous,
+      continuous: () => false,
+      // Do not charge an idle gap to the next performance-HUD frame window.
+      onIdle: () => { if (perfHud.on) perfAcc.lastFrameT = 0; },
+    });
+    invalidate = () => renderLoop.invalidate();
+    renderLoop.start();
 
     // When OrbitControls interaction ends, allow damping frames to settle
     // During camera manipulation, drop to pixelRatio=1 so the GPU pushes ~4× fewer
@@ -625,29 +568,36 @@
     const handleKeyDown = (e: KeyboardEvent) => {
       // Shift+P — toggle the dev perf HUD live (also persisted for next load).
       if (e.key === 'P' && e.shiftKey) {
-        perfHud = { ...perfHud, on: !perfHud.on };
+        setPerfHud({ ...perfHud, on: !perfHud.on });
         try { localStorage.setItem('stabileo_perf', perfHud.on ? '1' : '0'); } catch { /* ignore */ }
         invalidate();
         return;
       }
       if (e.key === 'Escape') {
-        if (showCoordDialog) { cancelCoordDialog(); return; }
         if (uiStore.measureMode) { clearMeasureVisuals(); }
       }
       // "N" opens coordinate dialog when node tool is active (and no input is focused)
-      if (e.key === 'n' && uiStore.currentTool === 'node' && !showCoordDialog) {
+      if (e.key === 'n' && uiStore.currentTool === 'node') {
         const active = document.activeElement;
         if (!active || (active.tagName !== 'INPUT' && active.tagName !== 'TEXTAREA' && active.tagName !== 'SELECT')) {
           e.preventDefault();
-          openCoordDialog();
+          onrequestcoordinates();
         }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+    onready({
+      handleMouseDown, handleMouseUp, handleMouseMove, handleMouseLeave,
+      handleContextMenu: handleContextMenu3D, zoomToFit, setView, toggleCameraMode,
+      createNodeAt,
+      getCursor: cursorStyle,
+    });
+    publishInteractionOverlay();
 
     return () => {
+      onready(null);
       initialized = false;
-      cancelAnimationFrame(animFrameId);
+      renderLoop.dispose();
       ro.disconnect();
       renderer.dispose();
       controls.dispose();
@@ -660,7 +610,7 @@
         renderer.domElement.parentNode.removeChild(renderer.domElement);
       }
     };
-  });
+  }
 
   // ═══════════════════════════════════════════════════════════════
   //  SYNC CONTEXT — shared mutable state for scene-sync + results-sync
@@ -701,10 +651,14 @@
   // GPU-bound (draw calls / fill rate). Enable with ?perf in the URL or
   // localStorage.stabileo_perf='1', or toggle live with Shift+P. Zero cost when
   // off (perfTimed early-returns; the render block is guarded). Not for prod.
-  let perfHud = $state<{ on: boolean; flush: number; fps: number; renderMs: number; syncMs: number; calls: number; tris: number; geos: number; texs: number }>({
+  let perfHud: PerfHud3D = {
     on: (() => { try { return new URLSearchParams(location.search).has('perf') || localStorage.getItem('stabileo_perf') === '1'; } catch { return false; } })(),
     flush: 0, fps: 0, renderMs: 0, syncMs: 0, calls: 0, tris: 0, geos: 0, texs: 0,
-  });
+  };
+  function setPerfHud(next: PerfHud3D) {
+    perfHud = next;
+    publishInteractionOverlay();
+  }
   // Non-reactive accumulators so the HUD's own reactivity doesn't perturb the measurement.
   const perfAcc = { syncMs: 0, frames: 0, frameMsSum: 0, renderMsSum: 0, lastFlush: 0, lastFrameT: 0 };
   function perfTimed<T>(fn: () => T): T {
@@ -776,19 +730,19 @@
   }
 
   // ─── Clear stress query when leaving stress mode ────────────
-  $effect(() => {
+  effectScope.effect(() => {
     if (uiStore.selectMode !== 'stress') {
       resultsStore.stressQuery = null;
     }
   });
-  $effect(() => {
+  effectScope.effect(() => {
     if (!resultsStore.results3D && uiStore.selectMode === 'stress' && !uiStore.liveCalc) {
       uiStore.selectMode = 'elements';
     }
   });
 
   // ─── Reactive effects ────────────────────────────────────────
-  $effect(() => {
+  effectScope.effect(() => {
     // Trigger on model changes
     modelStore.nodes;
     syncNodes();
@@ -799,14 +753,14 @@
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.elements;
     syncElements();
     syncLoads(); // loads reference elements
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.plates;
     modelStore.quads;
     uiStore.renderMode3D; // flat ↔ extruded slab rebuild
@@ -814,26 +768,26 @@
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     uiStore.renderMode3D;
     syncElements();
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.modelVersion;
     uiStore.analysisMode;
     syncResultsProjection();
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.supports;
     syncSupports();
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.loads;
     uiStore.showLoads3D;
     uiStore.hideLoadsWithDiagram;
@@ -843,7 +797,7 @@
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     resultsStore.results3D;
     resultsStore.diagramType;
     resultsStore.deformedScale;
@@ -851,7 +805,7 @@
     resultsStore.activeModeIndex;
     resultsStore.bucklingResult3D;
     resultsStore.activeBucklingMode;
-    const animating = resultsStore.animateDeformed;
+    resultsStore.animateDeformed;
     const dt = resultsStore.diagramType;
     if (resultsCtx) resultsCtx.lastDeformedAnimScale = null;
     // Mode shapes and buckling modes always animate from the render loop
@@ -864,7 +818,7 @@
   });
 
   // When animation state changes, kick the render loop
-  $effect(() => {
+  effectScope.effect(() => {
     resultsStore.animateDeformed;
     resultsStore.animSpeed;
     invalidate();
@@ -872,7 +826,7 @@
 
   // Despiece (free-body) activation: restart the one-shot pull-apart; the render
   // loop builds/animates it and cleans up when the diagram type changes away.
-  $effect(() => {
+  effectScope.effect(() => {
     const dt = resultsStore.diagramType;
     resultsStore.results3D;
     if (dt === 'despiece') {
@@ -892,7 +846,7 @@
   // example switch / edit / render-mode change. That guarantees a stale
   // `visible = false` left by despiece can never persist on a signature-matched
   // reused group — the root cause of the intermittent partial 3D render.
-  $effect(() => {
+  effectScope.effect(() => {
     const hide = resultsStore.diagramType === 'despiece';
     modelStore.modelVersion; modelStore.nodes; modelStore.elements; // re-assert after re-sync
     applyElementVisibility(elementGroups, elementsBatched?.mesh, elementsParent, hide, uiStore.renderMode3D === 'wireframe');
@@ -902,7 +856,7 @@
   // Despiece option changes (vector mode / basis / sizes / reactions) must redraw
   // immediately — the render loop's despiece pass rebuilds when the signature
   // changes (no mouse movement needed).
-  $effect(() => {
+  effectScope.effect(() => {
     uiStore.despieceVectorMode; uiStore.despieceBasis;
     uiStore.despieceVectorSize; uiStore.despieceLabelSize;
     uiStore.despieceCombineVectors; uiStore.despieceLoadMode; modelStore.loads;
@@ -910,7 +864,7 @@
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     resultsStore.results3D;
     resultsStore.diagramType;
     resultsStore.diagramScale;
@@ -923,7 +877,7 @@
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     resultsStore.results3D;
     resultsStore.diagramType;
     resultsStore.colorMapKind;
@@ -951,21 +905,21 @@
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     resultsStore.results3D;
     resultsStore.showReactions;
     syncReactions();
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     resultsStore.constraintForces3D;
     resultsStore.showConstraintForces;
     syncConstraintForces();
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     uiStore.selectedNodes;
     uiStore.selectedElements;
     uiStore.selectedSupports;
@@ -978,7 +932,7 @@
   // The selection is NOT listed explicitly: syncLocalAxes reads it only in
   // 'selected' mode (nested reads are tracked), so 'always' mode does not
   // dispose + rebuild every triad on each selection click.
-  $effect(() => {
+  effectScope.effect(() => {
     uiStore.localAxesMode3D;
     uiStore.shellAxesMode3D;
     uiStore.analysisMode;
@@ -992,7 +946,7 @@
   });
 
   // Member-offset preview: ghost centerline + offset line + rigid arms.
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.elements;
     modelStore.nodes;
     modelStore.modelVersion;
@@ -1002,7 +956,7 @@
   });
 
   // Shell-offset preview: rigid arms + ghost outline of the offset surface.
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.plates;
     modelStore.quads;
     modelStore.nodes;
@@ -1012,7 +966,7 @@
     invalidate();
   });
 
-  $effect(() => {
+  effectScope.effect(() => {
     modelStore.nodes;
     modelStore.elements;
     uiStore.showNodeLabels3D;
@@ -1023,7 +977,7 @@
   });
 
   // Reactive grid: update when working plane, grid size, nodeCreateZ change
-  $effect(() => {
+  effectScope.effect(() => {
     uiStore.workingPlane;
     uiStore.nodeCreateZ;
     uiStore.gridSize3D;
@@ -1034,7 +988,7 @@
   });
 
   // Reactive axes visibility: gizmo replaces world-origin axes in Basic 3D and PRO
-  $effect(() => {
+  effectScope.effect(() => {
     const show = uiStore.showAxes3D;
     const mode = uiStore.analysisMode;
     // Hide world-origin axes in Basic 3D and PRO (gizmo replaces them)
@@ -1047,7 +1001,7 @@
   });
 
   // Reactive clipping plane: invalidate when clipping settings change
-  $effect(() => {
+  effectScope.effect(() => {
     uiStore.clippingEnabled;
     uiStore.clippingAxis;
     uiStore.clippingPosition;
@@ -1055,7 +1009,7 @@
   });
 
   // Cancel pending element when tool changes
-  $effect(() => {
+  effectScope.effect(() => {
     uiStore.currentTool;
     cancelPendingElement();
   });
@@ -1063,7 +1017,7 @@
   // ─── Stress query marker in 3D viewport ─────────────────────
   let stressMarkerGroup: THREE.Group | null = null;
 
-  $effect(() => {
+  effectScope.effect(() => {
     const sq = resultsStore.stressQuery;
 
     // Remove old marker
@@ -1116,7 +1070,7 @@
   });
 
   // Clean up measurement visuals when measureMode is toggled off
-  $effect(() => {
+  effectScope.effect(() => {
     if (!uiStore.measureMode) {
       clearMeasureVisuals();
       invalidate();
@@ -1130,8 +1084,8 @@
   function updateMouseNDC(e: MouseEvent) {
     if (!container) return;
     const rect = container.getBoundingClientRect();
-    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    const ndc = clientToNdc(e.clientX, e.clientY, rect);
+    mouse.set(ndc.x, ndc.y);
   }
 
   // ─── Context menu (right-click) ──────────────────────────
@@ -1194,7 +1148,7 @@
           const rect = container.getBoundingClientRect();
           const mx = e.clientX - rect.left;
           const my = e.clientY - rect.top;
-          boxSelect3D = { startX: mx, startY: my, endX: mx, endY: my, additive: e.shiftKey };
+          setBoxSelection({ startX: mx, startY: my, endX: mx, endY: my, additive: e.shiftKey });
           controls.enabled = false;
           // This is a box-select, not an orbit — undo the low-detail/low-res
           // state that OrbitControls 'start' just engaged, and re-render so the
@@ -1760,12 +1714,12 @@
         uiStore.setSelection(newNodes, newElems, true, newShells);
       } else {
         // Small drag = click → delegate to normal click selection
-        boxSelect3D = null;
+        setBoxSelection(null);
         controls.enabled = true;
         handleSelectionClick(e);
         return;
       }
-      boxSelect3D = null;
+      setBoxSelection(null);
       controls.enabled = true;
       return;
     }
@@ -2089,7 +2043,7 @@
     // ─── Box selection tracking ───────────────────────────────
     if (boxSelect3D) {
       const rect = container.getBoundingClientRect();
-      boxSelect3D = { ...boxSelect3D, endX: e.clientX - rect.left, endY: e.clientY - rect.top };
+      setBoxSelection({ ...boxSelect3D, endX: e.clientX - rect.left, endY: e.clientY - rect.top });
       // Keep re-rendering during the drag so the model stays visible (the camera
       // is static during box-select, so without this the canvas wouldn't repaint).
       invalidate();
@@ -2150,7 +2104,7 @@
         hoveredNodeId3D = null;
         invalidate();
       }
-      hoverTooltip = null;
+      setHoverTooltip(null);
       return;
     }
     pendingHoverEvent = e;
@@ -2208,7 +2162,7 @@
         if (sh) tooltipText = `${newHover.type === 'plate' ? 'Plate' : 'Quad'} ${newHover.id} · t=${sh.thickness}m`;
       }
       if (tooltipText) {
-        hoverTooltip = { text: tooltipText, x: e.clientX - rect.left + 15, y: e.clientY - rect.top - 10 };
+        setHoverTooltip({ text: tooltipText, x: e.clientX - rect.left + 15, y: e.clientY - rect.top - 10 });
       }
     }
 
@@ -2252,12 +2206,12 @@
         }
         if (diagramTooltip) {
           const rect = container.getBoundingClientRect();
-          hoverTooltip = { text: diagramTooltip, x: e.clientX - rect.left + 15, y: e.clientY - rect.top - 10 };
+          setHoverTooltip({ text: diagramTooltip, x: e.clientX - rect.left + 15, y: e.clientY - rect.top - 10 });
         } else {
-          hoverTooltip = null;
+          setHoverTooltip(null);
         }
       } else {
-        hoverTooltip = null;
+        setHoverTooltip(null);
       }
     }
 
@@ -2285,12 +2239,12 @@
       hoveredData = null;
       invalidate();
     }
-    hoverTooltip = null;
+    setHoverTooltip(null);
     hoveredNodeId3D = null;
 
     // Cancel box select / drag on mouse leave
     if (boxSelect3D) {
-      boxSelect3D = null;
+      setBoxSelection(null);
       controls.enabled = true;
     }
     if (draggedNodeId3D !== null) {
@@ -2415,8 +2369,6 @@
   }
 
   // ─── 3D Axis gizmo (bottom-left corner) ────────────────────
-  let gizmoCanvas: HTMLCanvasElement | null = null;
-
   function drawAxisGizmo() {
     if (!gizmoCanvas || !camera) return;
     const gc = gizmoCanvas.getContext('2d');
@@ -2523,443 +2475,13 @@
   function addAxisLabels() {
     axisLabelSprites = _addAxisLabels(scene);
   }
-</script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-  class="viewport3d-wrapper"
-  bind:this={container}
-  style="cursor: {cursorStyle};"
-  onmousedown={handleMouseDown}
-  onmouseup={handleMouseUp}
-  onmousemove={handleMouseMove}
-  onmouseleave={handleMouseLeave}
-  oncontextmenu={handleContextMenu3D}
->
-  <!-- Dev perf HUD (Shift+P or ?perf). Reads: high `calls` + stable `geos` = GPU
-       draw-call bound; `geos`/`texs` spiking + high `syncMs` while editing = CPU
-       teardown/rebuild churn. -->
-  {#if perfHud.on}
-    <div class="perf-hud" data-flush={perfHud.flush}>
-      <div><b>3D perf</b> <span style="opacity:.6">(Shift+P)</span></div>
-      <div>fps <b>{perfHud.fps}</b> · render <b>{perfHud.renderMs}</b>ms</div>
-      <!-- "/window", not "/250ms": the loop renders on demand, so a window is ≥250ms
-           and is however long it took to accumulate — it spans idle gaps. -->
-      <div>sync <b>{perfHud.syncMs}</b>ms/window</div>
-      <div>draw calls <b>{perfHud.calls}</b> · tris <b>{(perfHud.tris / 1000).toFixed(0)}</b>k</div>
-      <div>geos <b>{perfHud.geos}</b> · texs <b>{perfHud.texs}</b></div>
-    </div>
-  {/if}
-  <ViewportControlsHost
-    mode="3d"
-    top={uiStore.floatingToolsTopOffset}
-    onFit={zoomToFit}
-    onView={(view) => setView(view)}
-    onToggleCamera={toggleCameraMode}
-  />
-
-  <!-- Clipping plane controls -->
-  {#if uiStore.clippingEnabled}
-    <div class="clip-controls" style="top: {uiStore.floatingToolsTopOffset}px; left: {uiStore.showFloatingTools ? 12 : 48}px">
-      <div class="clip-axis-btns">
-        {#each ['x', 'y', 'z'] as ax}
-          <button
-            class:active-ax={uiStore.clippingAxis === ax}
-            onclick={() => { uiStore.clippingAxis = ax as 'x' | 'y' | 'z'; }}
-          >{ax.toUpperCase()}</button>
-        {/each}
-      </div>
-      <input
-        type="range"
-        min="-30"
-        max="30"
-        step="0.1"
-        value={uiStore.clippingPosition}
-        oninput={(e) => { uiStore.clippingPosition = +e.currentTarget.value; }}
-        class="clip-slider"
-      />
-      <span class="clip-val">{uiStore.clippingPosition.toFixed(1)}</span>
-    </div>
-  {/if}
-
-  <!-- Coordinate input dialog -->
-  {#if showCoordDialog}
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="coord-dialog-overlay" onkeydown={(e) => { if (e.key === 'Escape') cancelCoordDialog(); }}>
-      <div class="coord-dialog">
-        <div class="coord-title">{t('viewport3d.createNodeCoords')}</div>
-        <div class="coord-row">
-          <label>X</label>
-          <!-- svelte-ignore a11y_autofocus -->
-          <input type="number" step="any" bind:value={coordX} autofocus
-            onkeydown={(e) => { if (e.key === 'Enter') submitCoordDialog(); }}
-          />
-        </div>
-        <div class="coord-row">
-          <label>Y</label>
-          <input type="number" step="any" bind:value={coordY}
-            onkeydown={(e) => { if (e.key === 'Enter') submitCoordDialog(); }}
-          />
-        </div>
-        <div class="coord-row">
-          <label>Z</label>
-          <input type="number" step="any" bind:value={coordZ}
-            onkeydown={(e) => { if (e.key === 'Enter') submitCoordDialog(); }}
-          />
-        </div>
-        <div class="coord-actions">
-          <button class="coord-btn-ok" onclick={submitCoordDialog}>{t('viewport3d.create')}</button>
-          <button class="coord-btn-cancel" onclick={cancelCoordDialog}>{t('viewport3d.cancel')}</button>
-        </div>
-      </div>
-    </div>
-  {/if}
-
-  <!-- Diagram legend -->
-  {#if diagramLegend && resultsStore.results3D}
-    <div class="diagram-legend">
-      {#if resultsStore.isEnvelopeActive && resultsStore.fullEnvelope3D}
-        <span class="legend-color" style="background: #4169E1;"></span>
-        <span class="legend-text">{t('viewport3d.envPlus')}</span>
-        <span class="legend-color" style="background: #E15041; margin-left: 8px;"></span>
-        <span class="legend-text">{t('viewport3d.envMinus')}</span>
-      {:else}
-        <span class="legend-color" style="background: {diagramLegend.color};"></span>
-        <span class="legend-text">{diagramLegend.name}</span>
-      {/if}
-      {#if resultsStore.overlayResults3D && resultsStore.overlayLabel}
-        <span class="legend-color" style="background: #FFA500; margin-left: 8px;"></span>
-        <span class="legend-text">{t('viewport3d.overlay').replace('{label}', resultsStore.overlayLabel)}</span>
-      {/if}
-    </div>
-  {/if}
-
-  <!--
-    Axial-as-member-colour legend.
-    
-    `diagramLegend` above returns null for this mode on purpose — it describes a
-    diagram drawn in ONE colour, and this mode has two. But two colours with no
-    key is worse than one with a name: red and blue on a shed tell a reader
-    nothing until somebody says which is which. The same pair of strings the 2D
-    viewport paints, so the two modes read identically.
-  -->
-  {#if resultsStore.diagramType === 'axialColor' && resultsStore.results3D}
-    <div class="diagram-legend">
-      <span class="legend-color" style="background: #e5482a;"></span>
-      <span class="legend-text">{t('viewport.tension')}</span>
-      <span class="legend-color" style="background: #2c6cb4; margin-left: 8px;"></span>
-      <span class="legend-text">{t('viewport.compression')}</span>
-    </div>
-  {/if}
-
-  <!-- Despiece (free-body) legend -->
-  {#if resultsStore.diagramType === 'despiece' && resultsStore.results3D}
-    <div class="diagram-legend">
-      <span class="legend-color" style="background: #ff7070;"></span>
-      <span class="legend-text">{t('despiece.legendAxial')}</span>
-      <span class="legend-color" style="background: #4ecdc4; margin-left: 8px;"></span>
-      <span class="legend-text">{t('despiece.legendShear')}</span>
-      <span class="legend-color" style="background: #ffd166; margin-left: 8px;"></span>
-      <span class="legend-text">{t('despiece.legendMoment')}</span>
-      <span class="legend-color" style="background: #00e676; margin-left: 8px;"></span>
-      <span class="legend-text">{t('despiece.legendReaction')}</span>
-      <span class="legend-text" style="margin-left: 10px; opacity: 0.7; font-style: italic;">{t('despiece.legendNote')}</span>
-    </div>
-  {/if}
-
-  <!-- Verification color legend: utilization is demand/capacity, plus the three
-       honest display states (current / stale / unavailable). -->
-  {#if resultsStore.diagramType === 'verification' && (verificationStore.hasResults || verificationStore.hasDemandData)}
-    <div class="diagram-legend verification-legend" data-testid="overlay-legend">
-      <span class="legend-text legend-util-label">u = D/C</span>
-      <span class="legend-color" style="background: #22cc66;"></span>
-      <span class="legend-text">&le; 0.5</span>
-      <span class="legend-color" style="background: #88cc22; margin-left: 6px;"></span>
-      <span class="legend-text">&le; 0.9</span>
-      <span class="legend-color" style="background: #ddaa00; margin-left: 6px;"></span>
-      <span class="legend-text">&le; 1.0 &#9888;</span>
-      <span class="legend-color" style="background: #ee2222; margin-left: 6px;"></span>
-      <span class="legend-text">&gt; 1.0 &#10007;</span>
-      <span class="legend-sep">|</span>
-      <span class="legend-color legend-current" data-testid="overlay-legend-current" style="background: #22cc66;"></span>
-      <span class="legend-text">{t('design.overlay.current')}</span>
-      <span class="legend-color legend-stale" data-testid="overlay-legend-stale"></span>
-      <span class="legend-text">&#8987; {t('design.overlay.stale')}</span>
-      <span class="legend-color legend-unavailable" data-testid="overlay-legend-unavailable" style="background: #888888;"></span>
-      <span class="legend-text">&#9675; {t('design.overlay.unavailable')}</span>
-    </div>
-  {/if}
-
-  <!-- Box select overlay (AutoCAD-style) -->
-  {#if boxSelect3D}
-    {@const x = Math.min(boxSelect3D.startX, boxSelect3D.endX)}
-    {@const y = Math.min(boxSelect3D.startY, boxSelect3D.endY)}
-    {@const w = Math.abs(boxSelect3D.endX - boxSelect3D.startX)}
-    {@const h = Math.abs(boxSelect3D.endY - boxSelect3D.startY)}
-    {@const isWindow = boxSelect3D.endX >= boxSelect3D.startX}
-    <div
-      class="box-select-rect"
-      class:window-mode={isWindow}
-      class:crossing-mode={!isWindow}
-      style="left: {x}px; top: {y}px; width: {w}px; height: {h}px;"
-    ></div>
-  {/if}
-
-  <!-- Hover tooltip -->
-  {#if hoverTooltip}
-    <div class="hover-tooltip" style="left: {hoverTooltip.x}px; top: {hoverTooltip.y}px;">
-      {hoverTooltip.text}
-    </div>
-  {/if}
-  <canvas
-    bind:this={gizmoCanvas}
-    class="axis-gizmo"
-    width="80"
-    height="80"
-  ></canvas>
-
-  <!-- Shell contour legend (visible only while a shell contour map is active) -->
-  <ShellContourLegend />
-</div>
-
-<style>
-  .viewport3d-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
+  const disposeMount = mount();
+  effectScope.start();
+  return {
+    dispose() {
+      effectScope.dispose();
+      disposeMount();
+    },
+  };
   }
-
-  /* Dev perf HUD — measurement only (Shift+P / ?perf). */
-  .perf-hud {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    z-index: 50;
-    pointer-events: none;
-    font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
-    color: #cfe8ff;
-    background: rgba(10, 18, 28, 0.82);
-    border: 1px solid rgba(120, 180, 255, 0.25);
-    border-radius: 6px;
-    padding: 6px 8px;
-    white-space: nowrap;
-  }
-  .perf-hud b { color: #fff; }
-
-  .viewport3d-wrapper :global(canvas:not(.axis-gizmo)) {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
-  }
-  .axis-gizmo {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    width: 80px !important;
-    height: 80px !important;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  .clip-controls {
-    position: absolute;
-    transition: top 0.15s ease, left 0.15s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    z-index: 10;
-    background: rgba(22, 33, 62, 0.92);
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid #445;
-  }
-  .clip-axis-btns {
-    display: flex;
-    gap: 2px;
-  }
-  .clip-axis-btns button {
-    width: 24px;
-    height: 24px;
-    border: 1px solid #445;
-    border-radius: 3px;
-    background: transparent;
-    color: #aabbcc;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .clip-axis-btns button.active-ax {
-    background: rgba(78, 205, 196, 0.25);
-    color: #4ecdc4;
-    border-color: #4ecdc4;
-  }
-  .clip-slider {
-    width: 100px;
-    accent-color: #4ecdc4;
-  }
-  .clip-val {
-    color: #aabbcc;
-    font-size: 0.65rem;
-    min-width: 30px;
-    text-align: right;
-  }
-
-  .coord-dialog-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 50;
-    background: rgba(0,0,0,0.35);
-  }
-
-  .coord-dialog {
-    background: #16213e;
-    border: 1px solid #0f3460;
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    min-width: 200px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  }
-
-  .coord-title {
-    font-size: 0.85rem;
-    color: #4ecdc4;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-  }
-
-  .coord-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .coord-row label {
-    width: 20px;
-    color: #aaa;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  .coord-row input {
-    flex: 1;
-    background: #0f3460;
-    border: 1px solid #1a4a7a;
-    border-radius: 4px;
-    color: #eee;
-    padding: 0.3rem 0.5rem;
-    font-size: 0.85rem;
-    text-align: right;
-    font-family: monospace;
-  }
-
-  .coord-row input:focus {
-    outline: none;
-    border-color: #4ecdc4;
-  }
-
-  .coord-actions {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-    margin-top: 0.75rem;
-  }
-
-  .coord-btn-ok {
-    padding: 0.3rem 0.8rem;
-    background: #e94560;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-
-  .coord-btn-ok:hover { background: #ff6b6b; }
-
-  .coord-btn-cancel {
-    padding: 0.3rem 0.8rem;
-    background: #2a2a4e;
-    border: none;
-    border-radius: 4px;
-    color: #aaa;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-
-  .coord-btn-cancel:hover { background: #3a3a5e; }
-
-  .diagram-legend {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(10, 15, 30, 0.85);
-    padding: 5px 12px;
-    border-radius: 5px;
-    border: 1px solid #334;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  .legend-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-
-  .legend-text {
-    color: #ccd;
-    font-size: 0.78rem;
-    font-family: monospace;
-  }
-
-  .legend-util-label { opacity: 0.75; margin-right: 2px; }
-  .legend-sep { color: #445; margin: 0 6px; font-size: 0.78rem; }
-  /* Stale = desaturated status colour + diagonal hatch, so "not current" reads
-     without relying on hue alone. */
-  .legend-stale {
-    margin-left: 6px;
-    background:
-      repeating-linear-gradient(45deg, #8a8f7a 0 3px, #5d6154 3px 6px);
-  }
-  .legend-unavailable { margin-left: 6px; }
-  .legend-current { margin-left: 0; }
-
-  .hover-tooltip {
-    position: absolute;
-    background: rgba(10, 15, 30, 0.92);
-    color: #ccd;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-family: monospace;
-    pointer-events: none;
-    white-space: nowrap;
-    border: 1px solid #334;
-    z-index: 20;
-  }
-
-  /* ─── Box select overlay ─── */
-  .box-select-rect {
-    position: absolute;
-    pointer-events: none;
-    z-index: 15;
-  }
-  .box-select-rect.window-mode {
-    border: 1px solid #4ecdc4;
-    background: rgba(78, 205, 196, 0.08);
-  }
-  .box-select-rect.crossing-mode {
-    border: 1px dashed #44bb44;
-    background: rgba(68, 187, 68, 0.06);
-  }
-</style>

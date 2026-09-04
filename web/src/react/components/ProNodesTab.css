@@ -1,0 +1,47 @@
+.pro-nodes { display: flex; flex-direction: column; height: 100%; }
+.pro-nodes-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 10px; border-bottom: 1px solid var(--st-surface-3); flex-shrink: 0;
+}
+.pro-nodes-count { font-size: 0.82rem; color: var(--st-value); font-weight: 600; }
+.pro-nodes-actions { display: flex; gap: 6px; }
+.pro-nodes .pro-btn {
+  padding: 5px 12px; font-size: 0.75rem; font-weight: 500; color: var(--st-text-2);
+  background: var(--st-surface-3); border: 1px solid var(--st-surface-3); border-radius: 4px; cursor: pointer;
+}
+.pro-nodes .pro-btn:hover { background: var(--st-surface-3); color: var(--st-text); }
+.pro-nodes .pro-btn-sm { padding: 4px 10px; font-size: 0.72rem; }
+.pro-nodes .pro-btn-danger { color: var(--st-danger); border-color: var(--st-hair-strong); }
+.pro-nodes .pro-btn-danger:hover { background: var(--st-surface-2); color: var(--st-danger); }
+.pro-paste-error {
+  padding: 4px 10px; font-size: 0.7rem; color: var(--st-danger);
+  background: rgba(229, 72, 42, 0.1); border-bottom: 1px solid var(--st-hair-strong);
+}
+.pro-paste-hint {
+  padding: 6px 12px; font-size: 0.72rem; color: var(--st-text-3); font-style: italic;
+  border-bottom: 1px solid var(--st-surface-3); flex-shrink: 0;
+}
+.pro-nodes-table-wrap { flex: 1; overflow-y: auto; overflow-x: hidden; }
+.pro-nodes-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+.pro-nodes-table thead { position: sticky; top: 0; z-index: 1; }
+.pro-nodes-table th {
+  padding: 6px 8px; text-align: left; font-size: 0.72rem; font-weight: 600;
+  color: var(--st-text-3); text-transform: uppercase; letter-spacing: 0.03em;
+  background: var(--st-surface); border-bottom: 1px solid var(--st-surface-3);
+}
+.pro-nodes-table td { padding: 3px 4px; border-bottom: 1px solid var(--st-surface-2); }
+.pro-nodes-table tbody tr { cursor: pointer; transition: background 0.1s; }
+.pro-nodes-table tbody tr:hover { background: rgba(127, 212, 204, 0.08); }
+.pro-nodes-table tr.selected { background: rgba(127, 212, 204, 0.18); box-shadow: inset 3px 0 0 var(--st-value); }
+.pro-nodes-table tr.unsaved td { opacity: 0.6; }
+.pro-nodes-table .col-id { width: 36px; color: var(--st-text-3); font-family: monospace; font-size: 0.7rem; text-align: center; }
+.pro-nodes-table .col-coord { width: auto; }
+.pro-nodes-table .col-coord input {
+  width: 100%; padding: 4px 6px; background: transparent; border: 1px solid transparent;
+  border-radius: 3px; color: var(--st-text); font-size: 0.78rem; font-family: monospace;
+}
+.pro-nodes-table .col-coord input:focus { background: var(--st-surface-3); border-color: var(--st-surface-3); outline: none; }
+.pro-nodes-table .col-actions { width: 24px; text-align: center; }
+.pro-nodes-table .pro-delete-btn { background: none; border: 0; color: var(--st-text-3); font-size: 1rem; cursor: pointer; padding: 0 2px; line-height: 1; }
+.pro-nodes-table .pro-delete-btn:hover { color: var(--st-danger); }
+.pro-nodes-table .pro-empty { text-align: center; color: var(--st-text-3); font-style: italic; padding: 20px 10px !important; }

@@ -1,51 +1,66 @@
-<script lang="ts">
-  import { onMount } from 'svelte';
-  import ViewportControlsHost from './ViewportControlsHost.svelte';
-  import { t } from '../lib/i18n';
-  import { modelStore, uiStore, resultsStore, historyStore, dsmStepsStore } from '../lib/store';
-  import { TWO_D_VERTICAL_AXIS_LABEL, TWO_D_DISPLACEMENT_LABELS, get2DDisplayDisplacementVertical, get2DDisplayedVertical } from '../lib/geometry/coordinate-system';
-  import { projectNode, to3D } from '../lib/geometry/plane-projection';
-  import { drawDiagrams, drawEnvelopeDiagrams, computeDiagramGlobalMax, setDiagramUnitSystem, type DiagramKind } from '../lib/canvas/draw-diagrams';
-  import { computeDiagramValueAt, computeDisplacementAt } from '../lib/engine/diagrams';
-  import { effectiveBendingInertia } from '../lib/engine/solver-service';
-  import { computeLocalAxes3D } from '../lib/engine/local-axes-3d';
-  import { drawDeformed } from '../lib/canvas/draw-deformed';
-  import { drawDespiece, despieceElementSpan, remapLoadSpanToShrunk, distributedResultantVector, DESPIECE_LOAD_COLOR } from '../lib/canvas/draw-despiece';
-  import { drawDistributedLoads, drawPointLoadsOnElements, drawThermalLoads, drawMovingLoadAxles, drawMomentSymbol } from '../lib/canvas/draw-loads';
-  import { createLabelCollector, type LabelCollector } from '../lib/canvas/label-layout';
-  import { computeAxleWorldPositions } from '../lib/engine/moving-loads';
-  import { drawInfluenceLine } from '../lib/canvas/draw-influence';
-  import { drawModeShape, drawPlasticHinges } from '../lib/canvas/draw-modes';
-  import { computeElementStress } from '../lib/store/results.svelte';
-  import { colourScaleSource } from '../lib/store/result-view';
-  import { colourRampCss, colourMapUnit } from '../lib/three/colour-ramp';
-  import {
-    drawGrid as _drawGrid,
-    drawAxes as _drawAxes,
-    AXES_GIZMO_HEIGHT,
-    drawNode as _drawNode,
-    drawElement as _drawElement,
-    drawSupport as _drawSupport,
-    drawNodalLoad as _drawNodalLoad,
-    drawReactions as _drawReactions,
-    drawConstraintForces as _drawConstraintForces,
-    drawTooltip as _drawTooltip,
-    type DrawElementOpts,
-    type ReactionData,
-    type ConstraintForceData,
-  } from '../lib/viewport/draw-entities';
-  import {
-    findNearestNode as _findNearestNode,
-    findNearestElement as _findNearestElement,
-    findNearestSupport as _findNearestSupport,
-    findNearestMidpoint as _findNearestMidpoint,
-    findAllLoadsNear as _findAllLoadsNear,
-    snapWithMidpoint as _snapWithMidpoint,
-  } from '../lib/viewport/spatial-queries';
-  import { boxSelect as boxSelectTargets, normaliseDrag, type BoxSelectMode } from '../lib/viewport/box-select';
-  import { canvasTheme } from '../lib/canvas/theme';
+import { t } from '../lib/i18n';
+import { modelStore, uiStore, resultsStore, historyStore, dsmStepsStore } from '../lib/store';
+import { TWO_D_VERTICAL_AXIS_LABEL, TWO_D_DISPLACEMENT_LABELS, get2DDisplayDisplacementVertical, get2DDisplayedVertical } from '../lib/geometry/coordinate-system';
+import { projectNode, to3D } from '../lib/geometry/plane-projection';
+import { drawDiagrams, drawEnvelopeDiagrams, computeDiagramGlobalMax, setDiagramUnitSystem, type DiagramKind } from '../lib/canvas/draw-diagrams';
+import { computeDiagramValueAt, computeDisplacementAt } from '../lib/engine/diagrams';
+import { effectiveBendingInertia } from '../lib/engine/solver-service';
+import { computeLocalAxes3D } from '../lib/engine/local-axes-3d';
+import { drawDeformed } from '../lib/canvas/draw-deformed';
+import { drawDespiece, despieceElementSpan, remapLoadSpanToShrunk, distributedResultantVector, DESPIECE_LOAD_COLOR } from '../lib/canvas/draw-despiece';
+import { drawDistributedLoads, drawPointLoadsOnElements, drawThermalLoads, drawMovingLoadAxles, drawMomentSymbol } from '../lib/canvas/draw-loads';
+import { createLabelCollector, type LabelCollector } from '../lib/canvas/label-layout';
+import { computeAxleWorldPositions } from '../lib/engine/moving-loads';
+import { drawInfluenceLine } from '../lib/canvas/draw-influence';
+import { drawModeShape, drawPlasticHinges } from '../lib/canvas/draw-modes';
+import { computeElementStress } from '../lib/store/results.svelte';
+import { colourScaleSource } from '../lib/store/result-view';
+import { colourRampCss, colourMapUnit } from '../lib/three/colour-ramp';
+import {
+  drawGrid as _drawGrid,
+  drawAxes as _drawAxes,
+  AXES_GIZMO_HEIGHT,
+  drawNode as _drawNode,
+  drawElement as _drawElement,
+  drawSupport as _drawSupport,
+  drawNodalLoad as _drawNodalLoad,
+  drawReactions as _drawReactions,
+  drawConstraintForces as _drawConstraintForces,
+  drawTooltip as _drawTooltip,
+  type DrawElementOpts,
+  type ReactionData,
+  type ConstraintForceData,
+} from '../lib/viewport/draw-entities';
+import {
+  findNearestNode as _findNearestNode,
+  findNearestElement as _findNearestElement,
+  findNearestSupport as _findNearestSupport,
+  findNearestMidpoint as _findNearestMidpoint,
+  findAllLoadsNear as _findAllLoadsNear,
+  snapWithMidpoint as _snapWithMidpoint,
+} from '../lib/viewport/spatial-queries';
+import { boxSelect as boxSelectTargets, normaliseDrag, type BoxSelectMode } from '../lib/viewport/box-select';
+import { canvasTheme } from '../lib/canvas/theme';
+import { createInvalidationLoop } from '../lib/viewport/invalidation-loop';
+import { createViewportStateCoordinator } from '../lib/viewport/state-coordinator';
+import { canvasPoint, gestureMetrics, updatePinchTransform, viewportCursor, zoomAroundPoint } from '../lib/viewport/input-controller';
 
-  let canvas: HTMLCanvasElement;
+export type ViewportControllerApi = {
+  handleMouseDown(event: MouseEvent): void;
+  handleMouseMove(event: MouseEvent): void;
+  handleMouseUp(): void;
+  handleDblClick(event: MouseEvent): void;
+  handleWheel(event: WheelEvent): void;
+  handleContextMenu(event: MouseEvent): void;
+  handleTouchStart(event: TouchEvent): void;
+  handleTouchMove(event: TouchEvent): void;
+  handleTouchEnd(event: TouchEvent): void;
+  getCursor(): string;
+  dispose(): void;
+};
+
+/** Framework-neutral controller for the React-owned 2D canvas. */
+export function createViewport2DController(canvas: HTMLCanvasElement): ViewportControllerApi {
   let ctx: CanvasRenderingContext2D | null = null;
   let width = 800;
   let height = 600;
@@ -72,50 +87,6 @@
   // Diagram hover state (real-time value as mouse moves)
   let diagramHover: { elementId: number; t: number; value: number; worldX: number; worldY: number; label?: string; unit?: string; lines?: string[] } | null = null;
 
-  // Clear pending node when tool changes away from element
-  $effect(() => {
-    if (uiStore.currentTool !== 'element') {
-      pendingNode = null;
-      uiStore.elementMode = 'create';
-    }
-    if (uiStore.currentTool !== 'node') {
-      uiStore.nodeMode = 'create';
-    }
-  });
-  $effect(() => {
-    if (uiStore.elementMode === 'hinge') {
-      pendingNode = null;
-    }
-  });
-
-  // Clear selected supports/loads when switching away from select tool
-  $effect(() => {
-    if (uiStore.currentTool !== 'select') {
-      uiStore.clearSelectedSupports();
-      uiStore.clearSelectedLoads();
-    }
-  });
-
-  // Clear diagram query/hover when results or diagram type changes
-  $effect(() => {
-    resultsStore.diagramType;
-    resultsStore.results;
-    diagramQuery = null;
-    diagramHover = null;
-  });
-
-  // Clear stressQuery when leaving stress mode; auto-switch to elements if results cleared
-  $effect(() => {
-    if (uiStore.selectMode !== 'stress') {
-      resultsStore.stressQuery = null;
-    }
-  });
-  $effect(() => {
-    if (!resultsStore.results && uiStore.selectMode === 'stress' && !uiStore.liveCalc) {
-      uiStore.selectMode = 'elements';
-    }
-  });
-
   /** Project a 3D node to the selected 2D drawing plane using central helpers. */
   function project2DNode(node: { id: number; x: number; y: number; z?: number }): { id: number; x: number; y: number; z?: number } {
     return projectNode(uiStore.drawPlane2D, node);
@@ -130,122 +101,29 @@
   // ── Invalidation-based rendering ──────────────────────────────
   // Instead of running requestAnimationFrame every frame, we only redraw
   // when state changes (invalidate()) or when an animation is active.
-  let needsRedraw = true;
-  let animating = false;
-  let rafId: number | null = null;
   const DESPIECE_ANIM_MS = 700;   // one-shot pull-apart duration for the despiece view
   let despieceStart = 0;
 
-  function invalidate() {
-    if (!needsRedraw) {
-      needsRedraw = true;
-      if (rafId === null) {
-        rafId = requestAnimationFrame(drawOnce);
-      }
-    }
-  }
-
-  function drawOnce() {
-    rafId = null;
-    if (!needsRedraw && !animating && !uiStore.continuousRendering) return;
-    needsRedraw = false;
-    draw();
-    // Re-evaluate so time-based one-shot animations (e.g. despiece pull-apart) settle and stop.
-    updateAnimating();
-
-    if (animating || uiStore.continuousRendering) {
-      rafId = requestAnimationFrame(drawOnce);
-    }
-  }
-
-  /** Recalculate whether continuous animation is needed and start/stop the loop. */
-  function updateAnimating() {
-    const wasAnimating = animating;
-    animating =
+  const renderLoop = createInvalidationLoop({
+    draw: () => draw(),
+    continuous: () => uiStore.continuousRendering,
+    shouldAnimate: () =>
       (resultsStore.ilAnimating && !!resultsStore.influenceLine) ||
       (resultsStore.animateDeformed && resultsStore.diagramType === 'deformed' && !!resultsStore.results) ||
       (resultsStore.diagramType === 'modeShape' && !!resultsStore.modalResult) ||
       (resultsStore.diagramType === 'bucklingMode' && !!resultsStore.bucklingResult) ||
-      (resultsStore.diagramType === 'despiece' && !!resultsStore.results && (performance.now() - despieceStart) < DESPIECE_ANIM_MS);
-    // If we just became animating, kick the loop
-    if ((animating || uiStore.continuousRendering) && !wasAnimating && rafId === null) {
-      rafId = requestAnimationFrame(drawOnce);
-    }
-  }
-
-  // ── Reactive effects that trigger invalidation ──────────────────
-
-  // Model data changes
-  $effect(() => { modelStore.nodes; modelStore.elements; invalidate(); });
-  $effect(() => { modelStore.supports; invalidate(); });
-  $effect(() => { modelStore.loads; invalidate(); });
-  $effect(() => { modelStore.materials; modelStore.sections; invalidate(); });
-
-  // Results changes
-  $effect(() => { resultsStore.results; resultsStore.diagramType; invalidate(); });
-  // Despiece: restart the pull-apart animation whenever the view (re)activates.
-  $effect(() => {
-    if (resultsStore.diagramType === 'despiece') {
-      despieceStart = performance.now();
-      updateAnimating();
-      invalidate();
-    } else if (uiStore.despieceInspect) {
-      uiStore.despieceInspect = null; // clear stale inspection when leaving despiece
-    }
+      (resultsStore.diagramType === 'despiece' && !!resultsStore.results && (performance.now() - despieceStart) < DESPIECE_ANIM_MS),
   });
-  $effect(() => { resultsStore.deformedScale; resultsStore.diagramScale; invalidate(); });
-  $effect(() => { resultsStore.showDiagramValues; resultsStore.drawPositiveTowardLocalAxes; invalidate(); });
-  $effect(() => { resultsStore.colorMapKind; invalidate(); });
-  $effect(() => { resultsStore.showReactions; resultsStore.showConstraintForces; invalidate(); });
-  // Despiece controls must redraw the canvas immediately (no mouse-move needed).
-  $effect(() => {
-    uiStore.despieceVectorMode; uiStore.despieceBasis;
-    uiStore.despieceVectorSize; uiStore.despieceLabelSize;
-    uiStore.despieceCombineVectors; uiStore.despieceLoadMode;
-    uiStore.despieceInspect;
-    invalidate();
-  });
-  $effect(() => { resultsStore.influenceLine; invalidate(); });
-  $effect(() => { resultsStore.overlayResults; resultsStore.overlayLabel; invalidate(); });
-  $effect(() => { resultsStore.movingLoadEnvelope; resultsStore.activeMovingLoadPosition; resultsStore.movingLoadShowEnvelope; invalidate(); });
-  $effect(() => { resultsStore.modalResult; resultsStore.activeModeIndex; invalidate(); });
-  $effect(() => { resultsStore.bucklingResult; resultsStore.activeBucklingMode; invalidate(); });
-  $effect(() => { resultsStore.plasticResult; resultsStore.plasticStep; invalidate(); });
-  $effect(() => { resultsStore.stressQuery; invalidate(); });
-  $effect(() => { resultsStore.envelope; invalidate(); });
+  const invalidate = () => renderLoop.invalidate();
+  const updateAnimating = () => renderLoop.updateAnimation();
 
-  // Animation state changes need both invalidate and loop management
-  $effect(() => {
-    resultsStore.ilAnimating;
-    resultsStore.animateDeformed;
-    resultsStore.animSpeed;
-    resultsStore.diagramType;
-    resultsStore.modalResult;
-    resultsStore.bucklingResult;
-    updateAnimating();
-    invalidate();
-  });
-
-  // UI state changes
-  $effect(() => { uiStore.selectedNodes; uiStore.selectedElements; invalidate(); });
-  $effect(() => { uiStore.selectedLoads; uiStore.selectedSupports; invalidate(); });
-  $effect(() => { uiStore.zoom; uiStore.panX; uiStore.panY; invalidate(); });
-  $effect(() => { uiStore.showGrid; uiStore.showAxes; uiStore.showLoads; invalidate(); });
-  $effect(() => { uiStore.showNodeLabels; uiStore.showElementLabels; uiStore.showLengths; invalidate(); });
-  $effect(() => { uiStore.elementColorMode; invalidate(); });
-  $effect(() => { uiStore.localAxesMode3D; uiStore.elementSelectionManual; invalidate(); });
-  $effect(() => { uiStore.hideLoadsWithDiagram; invalidate(); });
-  $effect(() => { uiStore.currentTool; invalidate(); });
-  $effect(() => { uiStore.gridSize; uiStore.snapToGrid; invalidate(); });
-  $effect(() => { uiStore.selectMode; invalidate(); });
-  $effect(() => { uiStore.drawPlane2D; invalidate(); });
-  $effect(() => { uiStore.unitSystem; invalidate(); });
-
-  // Continuous rendering toggle
-  $effect(() => {
-    uiStore.continuousRendering;
-    updateAnimating();
-    invalidate();
+  const stateCoordinator = createViewportStateCoordinator({
+    stores: { model: modelStore, ui: uiStore, results: resultsStore },
+    invalidate,
+    updateAnimation: updateAnimating,
+    resetPendingElement: () => { pendingNode = null; },
+    resetDiagramProbe: () => { diagramQuery = null; diagramHover = null; },
+    beginDespieceAnimation: (now) => { despieceStart = now; },
   });
 
   // Draw context helper for canvas renderers
@@ -319,9 +197,11 @@
     return segs;
   }
 
-  onMount(() => {
+  function start() {
     ctx = canvas.getContext('2d')!;
     resizeCanvas();
+    stateCoordinator.start();
+
 
     // Use ResizeObserver to detect any container size changes
     // (sidebar open/close, window resize, etc.)
@@ -343,17 +223,16 @@
     };
     window.addEventListener('stabileo-zoom-to-fit', handleZoomToFitEvent);
 
-    // Initial draw — needsRedraw is already true, so schedule the first frame directly
-    rafId = requestAnimationFrame(drawOnce);
+    renderLoop.start();
 
     return () => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      rafId = null;
+      stateCoordinator.dispose();
+      renderLoop.dispose();
       ro.disconnect();
       if (resizeTimer) clearTimeout(resizeTimer);
       window.removeEventListener('stabileo-zoom-to-fit', handleZoomToFitEvent);
     };
-  });
+  }
 
   function resizeCanvas() {
     const rect = canvas.parentElement!.getBoundingClientRect();
@@ -1067,7 +946,9 @@
             nodes: modelStore.nodes as Map<number, { x: number; y: number }>,
             elements: modelStore.elements as Map<number, { nodeI: number; nodeJ: number }>,
           };
-          drawModeShape(mode.displacements, mdc, uiStore.zoom, animScale, '#4ecdc4');
+          drawModeShape(mode.displacements.map((d) => ({
+            nodeId: d.nodeId, ux: d.ux, uz: d.uy, ry: d.rz,
+          })), mdc, uiStore.zoom, animScale, '#4ecdc4');
         }
       } else if (dt === 'bucklingMode' && resultsStore.bucklingResult) {
         const mode = resultsStore.bucklingResult.modes[resultsStore.activeBucklingMode];
@@ -1079,7 +960,9 @@
             nodes: modelStore.nodes as Map<number, { x: number; y: number }>,
             elements: modelStore.elements as Map<number, { nodeI: number; nodeJ: number }>,
           };
-          drawModeShape(mode.displacements, mdc, uiStore.zoom, animScale, '#e96941');
+          drawModeShape(mode.displacements.map((d) => ({
+            nodeId: d.nodeId, ux: d.ux, uz: d.uy, ry: d.rz,
+          })), mdc, uiStore.zoom, animScale, '#e96941');
         }
       } else if (dt === 'plasticHinges' && resultsStore.plasticResult) {
         const mdc = {
@@ -1496,7 +1379,7 @@
     }
 
     // Block creation/mutation tools in simplified 2D mode
-    if (uiStore.simplified2DMode && uiStore.currentTool !== 'select' && uiStore.currentTool !== 'pan') {
+    if (uiStore.simplified2DMode && uiStore.currentTool !== 'select') {
       uiStore.toast(t('viewport.simplifiedReadOnly'), 'info');
       return;
     }
@@ -1517,7 +1400,9 @@
             const di = (world.x - ni.x) ** 2 + (world.y - ni.y) ** 2;
             const dj = (world.x - nj.x) ** 2 + (world.y - nj.y) ** 2;
             const end: 'i' | 'j' = di <= dj ? 'i' : 'j';
-            const cur = end === 'i' ? nearElem.releaseI : nearElem.releaseJ;
+            const cur = (end === 'i' ? nearElem.releaseI : nearElem.releaseJ) as
+              | { slide?: 'x' | 'z'; slideAxis?: 'global' | 'local' }
+              | undefined;
             const already = cur?.slide === slideKind && (cur?.slideAxis ?? 'global') === axis;
             modelStore.setSlide(nearElem.id, end, already ? undefined : slideKind, axis);
             resultsStore.clear();
@@ -1877,7 +1762,7 @@
             diagramQuery = null;
           }
         }
-      } else if (uiStore.multiKindSelect && sm !== 'stress' && sm !== 'shells') {
+      } else if (uiStore.multiKindSelect && sm !== 'shells') {
         /*
          * Multi-kind: try each active kind and take the first that hits.
          *
@@ -2103,11 +1988,13 @@
                   const sec = modelStore.sections.get(elem.sectionId);
                   if (mat && sec) EI = mat.e * 1000 * effectiveBendingInertia(sec); // kN·m²
                 }
+                const diCompat = di as typeof di & { uy?: number; rz?: number };
+                const djCompat = dj as typeof dj & { uy?: number; rz?: number };
                 const disp = computeDisplacementAt(
                   t,
                   ni.x, ni.y, nj.x, nj.y,
-                  di.ux, di.uz ?? di.uy, di.ry ?? di.rz,
-                  dj.ux, dj.uz ?? dj.uy, dj.ry ?? dj.rz,
+                  di.ux, di.uz ?? diCompat.uy ?? 0, di.ry ?? diCompat.rz ?? 0,
+                  dj.ux, dj.uz ?? djCompat.uy ?? 0, dj.ry ?? djCompat.rz ?? 0,
                   ef.length,
                   ef.hingeStart, ef.hingeEnd,
                   EI, ef.qI, ef.qJ, ef.pointLoads, ef.distributedLoads,
@@ -2115,7 +2002,9 @@
                 const ux = disp.ux * 1000; // mm
                 const uz = get2DDisplayDisplacementVertical(disp) * 1000; // mm
                 // Rotation: interpolate linearly between end rotations (good enough for display)
-                const ry = (di.ry ?? di.rz) + t * ((dj.ry ?? dj.rz) - (di.ry ?? di.rz));
+                const ri = di.ry ?? diCompat.rz ?? 0;
+                const rj = dj.ry ?? djCompat.rz ?? 0;
+                const ry = ri + t * (rj - ri);
                 const totalDisp = Math.sqrt(ux * ux + uz * uz);
                 diagramHover = {
                   elementId: nearElem.id, t, value: totalDisp, worldX: wx, worldY: wy,
@@ -2278,19 +2167,10 @@
   }
 
   function getCursor(): string {
-    switch (uiStore.currentTool) {
-      case 'pan': return isPanning ? 'grabbing' : 'grab';
-      case 'select':
-        if (draggedNodeId !== null) return 'grabbing';
-        if (uiStore.selectMode === 'stress') return 'crosshair';
-        return 'default';
-      case 'node': return uiStore.nodeMode === 'hinge' ? 'pointer' : 'cell';
-      case 'element': return 'crosshair';
-      case 'support': return 'crosshair';
-      case 'load': return 'crosshair';
-      case 'influenceLine': return 'crosshair';
-      default: return 'default';
-    }
+    return viewportCursor({
+      currentTool: uiStore.currentTool, isPanning, draggedNodeId,
+      selectMode: uiStore.selectMode, nodeMode: uiStore.nodeMode,
+    });
   }
 
   function handleContextMenu(e: MouseEvent) {
@@ -2325,10 +2205,7 @@
     e.preventDefault();
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const touches = Array.from(e.touches).map(t => ({
-      x: t.clientX - rect.left,
-      y: t.clientY - rect.top,
-    }));
+    const touches = Array.from(e.touches).map(t => canvasPoint(t.clientX, t.clientY, rect));
 
     if (touches.length === 1) {
       // Single touch — treat as mousedown + setup long-press
@@ -2367,11 +2244,7 @@
     } else if (touches.length === 2) {
       // Two fingers — pinch/pan
       cancelLongPress();
-      const dist = Math.hypot(touches[1].x - touches[0].x, touches[1].y - touches[0].y);
-      const center = {
-        x: (touches[0].x + touches[1].x) / 2,
-        y: (touches[0].y + touches[1].y) / 2,
-      };
+      const { distance: dist, center } = gestureMetrics(touches[0], touches[1]);
       touchState = {
         startTouches: touches,
         lastDist: dist,
@@ -2391,10 +2264,7 @@
     e.preventDefault();
     if (!touchState || !canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const touches = Array.from(e.touches).map(t => ({
-      x: t.clientX - rect.left,
-      y: t.clientY - rect.top,
-    }));
+    const touches = Array.from(e.touches).map(t => canvasPoint(t.clientX, t.clientY, rect));
 
     touchState.moved = true;
     cancelLongPress();
@@ -2412,25 +2282,15 @@
       handleMouseMove(synth);
     } else if (touches.length === 2 && touchState.isPinch) {
       // Pinch-to-zoom + two-finger pan
-      const dist = Math.hypot(touches[1].x - touches[0].x, touches[1].y - touches[0].y);
-      const center = {
-        x: (touches[0].x + touches[1].x) / 2,
-        y: (touches[0].y + touches[1].y) / 2,
-      };
-
-      // Zoom
-      if (touchState.lastDist > 0) {
-        const scale = dist / touchState.lastDist;
-        const worldBefore = uiStore.screenToWorld(center.x, center.y);
-        uiStore.zoom *= scale;
-        const worldAfter = uiStore.screenToWorld(center.x, center.y);
-        uiStore.panX += (worldAfter.x - worldBefore.x) * uiStore.zoom;
-        uiStore.panY -= (worldAfter.y - worldBefore.y) * uiStore.zoom;
-      }
-
-      // Pan
-      uiStore.panX += center.x - touchState.lastCenter.x;
-      uiStore.panY += center.y - touchState.lastCenter.y;
+      const { distance: dist, center } = gestureMetrics(touches[0], touches[1]);
+      const next = updatePinchTransform(
+        { zoom: uiStore.zoom, panX: uiStore.panX, panY: uiStore.panY },
+        { distance: touchState.lastDist, center: touchState.lastCenter },
+        { distance: dist, center },
+      );
+      uiStore.zoom = next.zoom;
+      uiStore.panX = next.panX;
+      uiStore.panY = next.panY;
 
       touchState.lastDist = dist;
       touchState.lastCenter = center;
@@ -2459,15 +2319,15 @@
   function handleWheel(e: WheelEvent) {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-
-    const worldBefore = uiStore.screenToWorld(mx, my);
-    uiStore.zoom *= e.deltaY < 0 ? 1.1 : 0.9;
-    const worldAfter = uiStore.screenToWorld(mx, my);
-
-    uiStore.panX += (worldAfter.x - worldBefore.x) * uiStore.zoom;
-    uiStore.panY -= (worldAfter.y - worldBefore.y) * uiStore.zoom;
+    const point = canvasPoint(e.clientX, e.clientY, rect);
+    const next = zoomAroundPoint(
+      { zoom: uiStore.zoom, panX: uiStore.panX, panY: uiStore.panY },
+      point,
+      e.deltaY < 0 ? 1.1 : 0.9,
+    );
+    uiStore.zoom = next.zoom;
+    uiStore.panX = next.panX;
+    uiStore.panY = next.panY;
     invalidate();
   }
 
@@ -2512,58 +2372,10 @@
   }
 
 
-</script>
 
-<div class="viewport2d-wrapper">
-  <canvas
-    bind:this={canvas}
-    onmousedown={handleMouseDown}
-    onmousemove={handleMouseMove}
-    onmouseup={handleMouseUp}
-    onmouseleave={handleMouseUp}
-    ondblclick={handleDblClick}
-    onwheel={handleWheel}
-    oncontextmenu={handleContextMenu}
-    ontouchstart={handleTouchStart}
-    ontouchmove={handleTouchMove}
-    ontouchend={handleTouchEnd}
-    ondragover={(e) => { e.preventDefault(); if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy'; }}
-    ondrop={(e) => {
-      e.preventDefault();
-      const file = e.dataTransfer?.files[0];
-      if (file && file.name.toLowerCase().endsWith('.dxf')) {
-        window.dispatchEvent(new CustomEvent('stabileo-dxf-drop', { detail: file }));
-      }
-    }}
-    style="cursor: {getCursor()}"
-  ></canvas>
-
-  <ViewportControlsHost
-    mode="2d"
-    top={uiStore.floatingToolsTopOffset}
-    onFit={() => {
-      if (modelStore.nodes.size === 0) return;
-      uiStore.zoomToFit(modelStore.nodes.values(), canvas.width, canvas.height);
-    }}
-  />
-</div>
-
-<style>
-  .viewport2d-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    /* The drawing surface is the same ground as the shell, so the model sits
-       on the page rather than in a differently-coloured box inside it. */
-    background: var(--st-bg);
-  }
-
-  canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    touch-action: none;
-  }
-
-</style>
+  const dispose = start();
+  return {
+    handleMouseDown, handleMouseMove, handleMouseUp, handleDblClick, handleWheel,
+    handleContextMenu, handleTouchStart, handleTouchMove, handleTouchEnd, getCursor, dispose,
+  };
+}

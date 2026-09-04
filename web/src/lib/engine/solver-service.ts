@@ -100,7 +100,7 @@ function getElemAngleAtNode(nodeId: number, nodes: Map<number, Node>, elements: 
  *  When the section is rotated by angle α around the bar axis,
  *  the effective inertia for 2D bending is:
  *    I_eff = Iy·cos²α + Iz·sin²α
- *  This is exported so Viewport.svelte can reuse it for deformed-shape rendering.
+ *  This is exported so the 2D viewport controller can reuse it for deformed-shape rendering.
  *  Callers that already resolved the section's properties may pass them in and
  *  save the second lookup (`props` defaults to a fresh `solverProperties`). */
 export function effectiveBendingInertia(

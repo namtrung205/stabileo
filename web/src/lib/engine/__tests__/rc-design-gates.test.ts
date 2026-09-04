@@ -84,7 +84,7 @@ describe('GATE: status is provided-first, not baseline-first', () => {
   });
 
   it('Viewport3D reacts to design + provided-verification changes', () => {
-    const s = read('../../../components/Viewport3D.svelte');
+    const s = read('../../../components/Viewport3DController.ts');
     expect(s).toContain('verificationStore.design;');
     expect(s).toContain('verificationStore.providedRevision;');
   });

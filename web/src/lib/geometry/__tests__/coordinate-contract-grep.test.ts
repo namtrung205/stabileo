@@ -18,7 +18,7 @@ const seamFiles = [
   'web/src/lib/viewport3d/picking.ts',
   'web/src/lib/viewport3d/scene-sync.ts',
   'web/src/lib/viewport3d/results-sync.ts',
-  'web/src/components/Viewport3D.svelte',
+  'web/src/components/Viewport3DController.ts',
   'backend/src/capabilities/build_model.rs',
   'backend/src/capabilities/generators.rs',
   'backend/src/capabilities/edit_executor.rs',
@@ -62,7 +62,7 @@ const axisLiteralGuardedFiles = [
   'web/src/lib/three/diagram-render-3d.ts',
   'web/src/lib/three/deformed-shape-3d.ts',
   'web/src/lib/viewport3d/grid.ts',
-  'web/src/components/Viewport3D.svelte',
+  'web/src/components/Viewport3DController.ts',
 ];
 
 const axisLiteralPatterns: Array<[RegExp, string]> = [

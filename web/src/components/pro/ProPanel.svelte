@@ -1,7 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte';
   import { t } from '../../lib/i18n';
-  import ProProjectFileActions from './ProProjectFileActions.svelte';
   import { modelStore, resultsStore, uiStore, verificationStore, tabManager, historyStore } from '../../lib/store';
   import { openReport } from '../../lib/engine/pro-report';
   import type { ReportData, ReportConfig } from '../../lib/engine/pro-report';
@@ -15,12 +14,7 @@
   import type { FrameLineElevationOpts } from '../../lib/engine/reinforcement-svg';
   import { runGlobalSolve } from '../../lib/engine/live-calc';
   import ProReportDialog from './ProReportDialog.svelte';
-  import ProNodesTab from './ProNodesTab.svelte';
   import ProProjectTab from './ProProjectTab.svelte';
-  import ProElementsTab from './ProElementsTab.svelte';
-  import ProMaterialsTab from './ProMaterialsTab.svelte';
-  import ProSectionsTab from './ProSectionsTab.svelte';
-  import ProSupportsTab from './ProSupportsTab.svelte';
   import ProLoadsTab from './ProLoadsTab.svelte';
   import ProResultsTab from './ProResultsTab.svelte';
   import ProDesignTab from './ProDesignTab.svelte';
@@ -774,7 +768,7 @@
           stays off here: the two bars are mutually exclusive, and only the desktop one binds
           Ctrl+S / Ctrl+O.
         -->
-        <ProProjectFileActions variant="mobile" />
+        <span class="react-pro-project-file-actions-slot" style="display: contents"></span>
         <button class="pm-action pm-example" onclick={toggleExampleMenu}>{t('pro.exampleBtn')}</button>
         <button class="pm-action pm-solve" onclick={handleSolve} disabled={!hasModel || solving}>{solving ? t('pro.solving') : t('pro.solve')}</button>
         <button class="pm-action pm-report" onclick={handleOpenReportDialog} disabled={modelStore.nodes.size === 0}>{t('pro.reportBtn')}</button>
@@ -841,17 +835,17 @@
         {#if activeTab === 'project'}
           <ProProjectTab groups={proExampleGroups} onLoadExample={loadProExample} />
         {:else if activeTab === 'nodes'}
-          <ProNodesTab />
+          <span class="react-pro-nodes-tab-slot" style="display: contents"></span>
         {:else if activeTab === 'elements'}
-          <ProElementsTab />
+          <span class="react-pro-elements-tab-slot" style="display: contents"></span>
         {:else if activeTab === 'shells'}
           <ProShellTab />
         {:else if activeTab === 'materials'}
-          <ProMaterialsTab />
+          <span class="react-pro-materials-tab-slot" style="display: contents"></span>
         {:else if activeTab === 'sections'}
-          <ProSectionsTab />
+          <span class="react-pro-sections-tab-slot" style="display: contents"></span>
         {:else if activeTab === 'supports'}
-          <ProSupportsTab />
+          <span class="react-pro-supports-tab-slot" style="display: contents"></span>
         {:else if activeTab === 'constraints'}
           <ProConstraintsTab />
         {:else if activeTab === 'loads'}

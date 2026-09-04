@@ -1,0 +1,150 @@
+.viewport3d-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.viewport3d-wrapper canvas:not(.axis-gizmo) {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.viewport3d-wrapper .axis-gizmo {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: 80px !important;
+  height: 80px !important;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.viewport3d-wrapper .perf-hud {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 50;
+  pointer-events: none;
+  font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #cfe8ff;
+  background: rgba(10, 18, 28, 0.82);
+  border: 1px solid rgba(120, 180, 255, 0.25);
+  border-radius: 6px;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+.viewport3d-wrapper .perf-hud b { color: #fff; }
+.viewport3d-wrapper .perf-hud-shortcut { opacity: 0.6; }
+
+.viewport3d-wrapper .shell-legend {
+  position: absolute;
+  right: 12px;
+  bottom: 64px;
+  background: rgba(20, 24, 38, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #e6e9f0;
+  font-size: 11px;
+  pointer-events: none;
+  z-index: 20;
+  user-select: none;
+}
+.viewport3d-wrapper .shell-legend-title { font-weight: 600; margin-bottom: 6px; text-align: center; }
+.viewport3d-wrapper .shell-legend-body { display: flex; gap: 6px; }
+.viewport3d-wrapper .shell-legend-bar {
+  width: 14px;
+  height: 96px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.viewport3d-wrapper .shell-legend-ticks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+.viewport3d-wrapper .shell-legend-unit { margin-top: 5px; text-align: center; opacity: 0.7; }
+.viewport3d-wrapper .shell-legend-unit-inline { font-weight: 400; opacity: 0.6; font-size: 10px; }
+.viewport3d-wrapper .shell-legend-unavailable { font-size: 10px; opacity: 0.75; max-width: 140px; line-height: 1.3; }
+.viewport3d-wrapper .shell-legend-empty { border-color: rgba(255, 179, 71, 0.5); }
+.viewport3d-wrapper .shell-legend-flat { border-color: rgba(120, 140, 170, 0.5); }
+.viewport3d-wrapper .shell-legend-flat-note { font-size: 10px; opacity: 0.85; max-width: 150px; line-height: 1.35; }
+.viewport3d-wrapper .shell-legend-flat-range { font-size: 10px; opacity: 0.6; margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+.viewport3d-wrapper .clip-controls {
+  position: absolute;
+  transition: top 0.15s ease, left 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
+  background: rgba(22, 33, 62, 0.92);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #445;
+}
+
+.viewport3d-wrapper .clip-axis-btns { display: flex; gap: 2px; }
+.viewport3d-wrapper .clip-axis-btns button {
+  width: 24px; height: 24px; border: 1px solid #445; border-radius: 3px;
+  background: transparent; color: #aabbcc; font-size: 11px; font-weight: 600; cursor: pointer;
+}
+.viewport3d-wrapper .clip-axis-btns button.active-ax {
+  background: rgba(78, 205, 196, 0.25); color: #4ecdc4; border-color: #4ecdc4;
+}
+.viewport3d-wrapper .clip-slider { width: 100px; accent-color: #4ecdc4; }
+.viewport3d-wrapper .clip-val { color: #aabbcc; font-size: 0.65rem; min-width: 30px; text-align: right; }
+
+.viewport3d-wrapper .diagram-legend {
+  position: absolute; bottom: 12px; left: 12px; display: flex; align-items: center; gap: 6px;
+  background: rgba(10, 15, 30, 0.85); padding: 5px 12px; border-radius: 5px;
+  border: 1px solid #334; pointer-events: none; z-index: 10;
+}
+.viewport3d-wrapper .legend-color { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.viewport3d-wrapper .legend-text { color: #ccd; font-size: 0.78rem; font-family: monospace; }
+.viewport3d-wrapper .legend-note { margin-left: 10px; opacity: 0.7; font-style: italic; }
+.viewport3d-wrapper .legend-util-label { opacity: 0.75; margin-right: 2px; }
+.viewport3d-wrapper .legend-sep { color: #445; margin: 0 6px; font-size: 0.78rem; }
+.viewport3d-wrapper .legend-stale {
+  margin-left: 6px;
+  background: repeating-linear-gradient(45deg, #8a8f7a 0 3px, #5d6154 3px 6px);
+}
+.viewport3d-wrapper .legend-unavailable { margin-left: 6px; }
+.viewport3d-wrapper .legend-current { margin-left: 0; }
+
+.viewport3d-wrapper .coord-dialog-overlay {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  z-index: 50; background: rgba(0, 0, 0, 0.35);
+}
+.viewport3d-wrapper .coord-dialog {
+  background: #16213e; border: 1px solid #0f3460; border-radius: 8px;
+  padding: 1rem 1.25rem; min-width: 200px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+.viewport3d-wrapper .coord-title { font-size: 0.85rem; color: #4ecdc4; margin-bottom: 0.75rem; font-weight: 600; }
+.viewport3d-wrapper .coord-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.viewport3d-wrapper .coord-row label { width: 20px; color: #aaa; font-size: 0.8rem; font-weight: 600; text-align: center; }
+.viewport3d-wrapper .coord-row input {
+  flex: 1; background: #0f3460; border: 1px solid #1a4a7a; border-radius: 4px;
+  color: #eee; padding: 0.3rem 0.5rem; font-size: 0.85rem; text-align: right; font-family: monospace;
+}
+.viewport3d-wrapper .coord-row input:focus { outline: none; border-color: #4ecdc4; }
+.viewport3d-wrapper .coord-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.75rem; }
+.viewport3d-wrapper .coord-btn-ok, .viewport3d-wrapper .coord-btn-cancel {
+  padding: 0.3rem 0.8rem; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;
+}
+.viewport3d-wrapper .coord-btn-ok { background: #e94560; color: white; }
+.viewport3d-wrapper .coord-btn-ok:hover { background: #ff6b6b; }
+.viewport3d-wrapper .coord-btn-cancel { background: #2a2a4e; color: #aaa; }
+.viewport3d-wrapper .coord-btn-cancel:hover { background: #3a3a5e; }
+
+.viewport3d-wrapper .hover-tooltip {
+  position: absolute; background: rgba(10, 15, 30, 0.92); color: #ccd; padding: 4px 10px;
+  border-radius: 4px; font-size: 0.75rem; font-family: monospace; pointer-events: none;
+  white-space: nowrap; border: 1px solid #334; z-index: 20;
+}
+.viewport3d-wrapper .box-select-rect { position: absolute; pointer-events: none; z-index: 15; }
+.viewport3d-wrapper .box-select-rect.window-mode { border: 1px solid #4ecdc4; background: rgba(78, 205, 196, 0.08); }
+.viewport3d-wrapper .box-select-rect.crossing-mode { border: 1px dashed #44bb44; background: rgba(68, 187, 68, 0.06); }

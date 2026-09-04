@@ -1,7 +1,5 @@
 <script lang="ts">
   import { onMount, untrack } from 'svelte';
-  import Viewport from './components/Viewport.svelte';
-  import Viewport3D from './components/Viewport3D.svelte';
   import { modelStore, uiStore, resultsStore, dsmStepsStore, tabManager, historyStore } from './lib/store';
   import { syncModelTabWithResults } from './lib/store/view-mode';
   import { t, i18n, setLocale } from './lib/i18n';
@@ -93,7 +91,6 @@
   import Icon from './components/ribbon/Icon.svelte';
   import ProPanel from './components/pro/ProPanel.svelte';
   import RebarWorkspace from './components/pro/design/RebarWorkspace.svelte';
-  import ProProjectFileActions from './components/pro/ProProjectFileActions.svelte';
   import { captureFocus } from './lib/utils/dialog-focus';
   import ProRibbon from './components/pro/ProRibbon.svelte';
   import EducativePanel from './components/edu/EducativePanel.svelte';
@@ -1103,9 +1100,9 @@
     <div class="main-area">
       <main class="viewport-container">
         {#if uiStore.analysisMode === '2d' || uiStore.analysisMode === 'edu'}
-          <Viewport />
+          <span class="react-viewport-2d-slot" style="display: contents"></span>
         {:else}
-          <Viewport3D />
+          <span class="react-viewport-3d-slot" style="display: contents"></span>
         {/if}
         {#if uiStore.simplified2DMode}
           {@const st = uiStore.simplified2DStats}

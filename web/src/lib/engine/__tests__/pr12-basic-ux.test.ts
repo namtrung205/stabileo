@@ -55,7 +55,7 @@ describe('Task 1 — local-axes display wiring', () => {
   });
 
   it('Viewport 2D draws member local axes (x + z, NOT y) from the unified setting', () => {
-    const vp = read('../../../components/Viewport.svelte');
+    const vp = read('../../../components/ViewportController.ts');
     expect(vp).toContain('drawLocalAxes2D');
     expect(vp).toContain('uiStore.localAxesMode3D');
     // Uses the same 3D basis as the triad, projected to X-Z.
