@@ -4,7 +4,6 @@
   import { syncModelTabWithResults } from './lib/store/view-mode';
   import { t, i18n, setLocale } from './lib/i18n';
   import { OFFERED_LOCALES } from './lib/i18n/store.svelte';
-  import StepWizard from './components/dsm/StepWizard.svelte';
   import { resolveDeleteTargets } from './lib/store/delete-selection';
   import {
     loadAutosave, clearAutosave,
@@ -85,9 +84,7 @@
       basicPanel = 'data';
     }
   });
-  import WhatIfPanel from './components/WhatIfPanel.svelte';
   import SectionStressPanel from './components/SectionStressPanel.svelte';
-  import KinematicPanel from './components/KinematicPanel.svelte';
   import Icon from './components/ribbon/Icon.svelte';
   import ProPanel from './components/pro/ProPanel.svelte';
   import RebarWorkspace from './components/pro/design/RebarWorkspace.svelte';
@@ -1173,9 +1170,9 @@
           Explore end up as two boxes covering the structure they describe.
         -->
         {#if !(uiStore.appMode === 'basico' && !uiStore.isMobile)}
-          <WhatIfPanel />
+          <span class="react-what-if-panel-slot" style="display: contents"></span>
           <SectionStressPanel />
-          <KinematicPanel />
+          <span class="react-kinematic-panel-slot" style="display: contents"></span>
         {/if}
         <span class="react-mobile-results-slot" style="display: contents"></span>
         <!--
@@ -1269,7 +1266,7 @@
         {#if uiStore.rightSidebarOpen}
           <aside class="sidebar right" data-tour="right-sidebar" class:wizard-open={dsmStepsStore.isOpen}>
             {#if dsmStepsStore.isOpen}
-              <StepWizard />
+              <span class="react-dsm-sidebar-wizard-slot" style="display: contents"></span>
             {:else}
               <button class="datatable-toggle" onclick={() => uiStore.showDataTable = !uiStore.showDataTable}>
                 {uiStore.showDataTable ? '▾' : '▸'} {t('app.modelData')}
@@ -1311,7 +1308,7 @@
       {:else if uiStore.appMode === 'educativo'}
         <EducativePanel />
       {:else if dsmStepsStore.isOpen}
-        <StepWizard />
+        <span class="react-dsm-drawer-wizard-slot" style="display: contents"></span>
       {:else}
         <span class="react-property-panel-slot" style="display: contents"></span>
         <button class="datatable-toggle" onclick={() => uiStore.showDataTable = !uiStore.showDataTable}>

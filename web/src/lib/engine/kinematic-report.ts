@@ -1,7 +1,7 @@
 // Didactic Kinematic Analysis Report Generator
 //
 // Generates a structured step-by-step report explaining the kinematic
-// stability of a 2D structure. Used by KinematicPanel.svelte.
+// stability of a 2D structure. Used by the React KinematicPanel.
 //
 // Reuses computeStaticDegree() and analyzeKinematics() from kinematic-2d.ts,
 // then adds didactic context: per-support DOF breakdown, per-node hinge

@@ -1,0 +1,12 @@
+.react-vector-display { display: contents; }
+.react-vector-display .vec-title { font-size: 0.7rem; color: var(--st-text-3); margin-bottom: 0.25rem; font-weight: 600; }
+.react-vector-display .vec-scroll { overflow: auto; max-height: 300px; }
+.react-vector-display .vec-scroll.horizontal { overflow-x: auto; overflow-y: hidden; max-height: none; }
+.react-vector-display .vec-table { border-collapse: collapse; font-family: 'Courier New', monospace; font-size: 0.65rem; white-space: nowrap; }
+.react-vector-display .vec-table th { padding: 0.15rem 0.3rem; background: var(--st-surface-2); color: var(--st-text-3); font-weight: 500; font-size: 0.6rem; text-align: right; }
+.react-vector-display .vec-table th.hl { background: rgba(127, 212, 204, 0.2); color: var(--st-value); }
+.react-vector-display .vec-table td { padding: 0.15rem 0.4rem; text-align: right; border: 1px solid var(--st-surface); background: var(--st-bg); }
+.react-vector-display .vec-table td.pos { color: var(--st-value); }
+.react-vector-display .vec-table td.neg { color: var(--st-accent); }
+.react-vector-display .vec-table td.zero { color: var(--st-text-3); }
+.react-vector-display .vec-table td.hl { background: rgba(127, 212, 204, 0.08); }

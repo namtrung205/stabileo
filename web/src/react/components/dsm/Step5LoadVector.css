@@ -1,0 +1,15 @@
+.react-dsm-step-5 { display: flex; flex-direction: column; gap: 0.6rem; }
+.react-dsm-step-5 .explanation { font-size: 0.72rem; color: var(--st-text-2); line-height: 1.5; }
+.react-dsm-step-5 .explanation p { margin: 0; }
+.react-dsm-step-5 .contrib-section { margin-top: 0.3rem; }
+.react-dsm-step-5 .contrib-title { font-size: 0.7rem; color: var(--st-text-3); font-weight: 600; margin-bottom: 0.25rem; }
+.react-dsm-step-5 .contrib-scroll { overflow: auto; max-height: 250px; }
+.react-dsm-step-5 .contrib-table { width: 100%; border-collapse: collapse; font-size: 0.6rem; font-family: 'Courier New', monospace; }
+.react-dsm-step-5 .contrib-table th { background: var(--st-surface-2); color: var(--st-text-3); padding: 0.2rem 0.4rem; font-weight: 600; position: sticky; top: 0; text-align: left; font-size: 0.55rem; }
+.react-dsm-step-5 .contrib-table td { padding: 0.15rem 0.4rem; border-bottom: 1px solid var(--st-surface-2); }
+.react-dsm-step-5 .dof-cell { color: var(--st-text-2); }
+.react-dsm-step-5 .val-cell { text-align: right; }
+.react-dsm-step-5 .val-cell.pos { color: var(--st-value); }
+.react-dsm-step-5 .val-cell.neg { color: var(--st-accent); }
+.react-dsm-step-5 .src-cell { color: var(--st-text-3); font-size: 0.55rem; }
+.react-dsm-step-5 .no-loads { font-size: 0.7rem; color: var(--st-text-3); text-align: center; padding: 1rem; }

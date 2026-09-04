@@ -99,7 +99,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
     const selectedEntityPanel = readFileSync(new URL('../../../react/components/SelectedEntityPanel.tsx', import.meta.url), 'utf8');
     const nodeDetails = readFileSync(new URL('../../../react/components/NodeDetails.tsx', import.meta.url), 'utf8');
     const loadsTable = readFileSync(new URL('../../../react/components/LoadsTable.tsx', import.meta.url), 'utf8');
-    const whatIfPanel = readFileSync(new URL('../../../components/WhatIfPanel.svelte', import.meta.url), 'utf8');
+    const whatIfPanel = readFileSync(new URL('../../../react/components/WhatIfPanel.tsx', import.meta.url), 'utf8');
     const proPanel = readFileSync(new URL('../../../components/pro/ProPanel.svelte', import.meta.url), 'utf8');
     const drawLoads = readFileSync(new URL('../../canvas/draw-loads.ts', import.meta.url), 'utf8');
     const sceneSync = readFileSync(new URL('../../viewport3d/scene-sync.ts', import.meta.url), 'utf8');
@@ -108,7 +108,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
       ['SelectedEntityPanel.tsx', selectedEntityPanel],
       ['NodeDetails.tsx', nodeDetails],
       ['LoadsTable.tsx', loadsTable],
-      ['WhatIfPanel.svelte', whatIfPanel],
+      ['WhatIfPanel.tsx', whatIfPanel],
       ['ProPanel.svelte', proPanel],
       ['scene-sync.ts', sceneSync],
     ] as const) {

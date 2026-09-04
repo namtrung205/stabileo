@@ -1,0 +1,4 @@
+.react-dsm-step-7 { display: flex; flex-direction: column; gap: 0.6rem; }
+.react-dsm-step-7 .explanation { font-size: 0.72rem; color: var(--st-text-2); line-height: 1.5; }
+.react-dsm-step-7 .explanation p { margin: 0; }
+.react-dsm-step-7 .separator { border-top: 1px solid var(--st-surface-3); margin: 0.2rem 0; }

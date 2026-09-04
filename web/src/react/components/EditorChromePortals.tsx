@@ -26,6 +26,9 @@ import { ProSupportsTab } from './ProSupportsTab';
 import { ProMaterialsTab } from './ProMaterialsTab';
 import { ProElementsTab } from './ProElementsTab';
 import { ProSectionsTab } from './ProSectionsTab';
+import { KinematicPanel } from './KinematicPanel';
+import { WhatIfPanel } from './WhatIfPanel';
+import { DSMStepWizard } from './DSMStepWizard';
 
 export function EditorChromePortals() {
   const tabTarget = useEditorPortalTarget('.react-tab-bar-slot');
@@ -62,6 +65,10 @@ export function EditorChromePortals() {
   const proMaterialsTabTarget = useEditorPortalTarget('.react-pro-materials-tab-slot');
   const proElementsTabTarget = useEditorPortalTarget('.react-pro-elements-tab-slot');
   const proSectionsTabTarget = useEditorPortalTarget('.react-pro-sections-tab-slot');
+  const kinematicTarget = useEditorPortalTarget('.react-kinematic-panel-slot');
+  const whatIfTarget = useEditorPortalTarget('.react-what-if-panel-slot');
+  const dsmSidebarTarget = useEditorPortalTarget('.react-dsm-sidebar-wizard-slot');
+  const dsmDrawerTarget = useEditorPortalTarget('.react-dsm-drawer-wizard-slot');
   return <>
     {tabTarget && createPortal(<TabBar />, tabTarget)}
     {statusTarget && createPortal(<StatusBar />, statusTarget)}
@@ -97,5 +104,9 @@ export function EditorChromePortals() {
     {proMaterialsTabTarget && createPortal(<ProMaterialsTab />, proMaterialsTabTarget)}
     {proElementsTabTarget && createPortal(<ProElementsTab />, proElementsTabTarget)}
     {proSectionsTabTarget && createPortal(<ProSectionsTab />, proSectionsTabTarget)}
+    {kinematicTarget && createPortal(<KinematicPanel />, kinematicTarget)}
+    {whatIfTarget && createPortal(<WhatIfPanel />, whatIfTarget)}
+    {dsmSidebarTarget && createPortal(<DSMStepWizard />, dsmSidebarTarget)}
+    {dsmDrawerTarget && createPortal(<DSMStepWizard />, dsmDrawerTarget)}
   </>;
 }

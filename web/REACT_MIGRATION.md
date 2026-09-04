@@ -61,7 +61,7 @@ The project-wide migration remains the umbrella goal. Work is delivered in small
 | G4.5 | Property panel and remaining entity detail editors | selection/edit/history tests | Done |
 | G4.6 | Basic automated closeout | Basic ownership/contracts, typecheck, targeted workflows, production bundle | Done |
 
-G4.3 was implemented as four reviewable sub-gates: Project/examples, Config, Results, then Advanced plus the final React panel shell. Advanced report bodies (Kinematic, What-if, section stress, and the DSM step wizard) remain isolated Svelte leaves behind `LegacySvelteSurface`; their controls, routing, docking shell, and lifecycle owner are React. Those report bodies belong to the later analysis/workspace conversion rather than the completed Basic chrome gate.
+G4.3 was implemented as four reviewable sub-gates: Project/examples, Config, Results, then Advanced plus the final React panel shell. The Kinematic and What-if reports are now React-owned in both their docked Basic layouts and floating/mobile layouts. The complete DSM wizard — navigation, keyboard controls, all nine steps, equation/vector/matrix renderers, quiz cells, and Matrix Explorer — is React-owned with no Svelte bridge. Section stress remains the final Svelte leaf behind `LegacySvelteSurface`; it belongs to the later analysis/workspace conversion rather than the completed Basic chrome gate.
 
 ## Current migrated surface
 
