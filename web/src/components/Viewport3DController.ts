@@ -39,6 +39,7 @@
   type PerfHud3D = { on: boolean; flush: number; fps: number; renderMs: number; syncMs: number; calls: number; tris: number; geos: number; texs: number };
   export type Viewport3DControllerOptions = {
     container: HTMLDivElement;
+    canvas: HTMLCanvasElement;
     gizmoCanvas: HTMLCanvasElement;
     onready(api: Viewport3DControllerApi | null): void;
     onrequestcoordinates(): void;
@@ -47,7 +48,7 @@
 
   /** Framework-neutral Three.js scene controller for the React-owned 3D viewport. */
   export function createViewport3DController(options: Viewport3DControllerOptions) {
-  const { container, gizmoCanvas, onready, onrequestcoordinates, onoverlaychange } = options;
+  const { container, canvas, gizmoCanvas, onready, onrequestcoordinates, onoverlaychange } = options;
   const effectScope = createStoreEffectScope([modelStore, uiStore, resultsStore, verificationStore]);
   let renderer: THREE.WebGLRenderer;
   let scene: THREE.Scene;
@@ -110,6 +111,8 @@
   // to one raycast per frame instead of one per event.
   let pendingHoverEvent: MouseEvent | null = null;
   let hoverRafId: number | null = null;
+  let lastPointerStatusPublish = -Infinity;
+  const POINTER_STATUS_INTERVAL_MS = 100;
 
   // ─── Box select state ──────────────────────────────────────
   // Mode to return to when the quick sections toggle is switched off — keeps
@@ -212,10 +215,12 @@
     camera = uiStore.cameraMode3D === 'orthographic' ? orthoCamera : perspCamera;
 
     // Renderer
-    renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    // React owns the canvas node. Supplying it explicitly keeps OrbitControls
+    // and the interaction listeners on a stable DOM target across portal
+    // re-renders instead of appending an unmanaged child under React's tree.
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.localClippingEnabled = true;
-    container.appendChild(renderer.domElement);
 
     // Orbit controls
     controls = new OrbitControls(camera, renderer.domElement);
@@ -297,13 +302,6 @@
     initialized = true;
     sceneCtx.initialized = true;
     resultsCtx.initialized = true;
-
-    // Initial sync
-    syncNodes();
-    syncElements();
-    syncSupports();
-    syncLoads();
-    syncShells();
 
     // Set initial camera to match model type (flat 2D → front view, 3D → isometric)
     if (modelStore.nodes.size > 0) zoomToFit();
@@ -606,9 +604,8 @@
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keydown', onNavKeyDown);
       window.removeEventListener('keyup', onNavKeyUp);
-      if (renderer.domElement.parentNode) {
-        renderer.domElement.parentNode.removeChild(renderer.domElement);
-      }
+      // React removes the canvas with the viewport. Three only owns its WebGL
+      // resources, so controller teardown must not mutate React's DOM tree.
     };
   }
 
@@ -1987,6 +1984,12 @@
   }
 
   function handleMouseMove(e: MouseEvent) {
+    // OrbitControls already owns the camera gesture. Do not run status-bar
+    // projection, React store publication, or hover picking for every native
+    // mousemove while it is active; those tasks used to starve the control's
+    // pointermove handler on real models.
+    if (isOrbiting && controls.enabled) return;
+
     updateMouseNDC(e);
     if (!camera || !initialized) return;
 
@@ -2003,8 +2006,10 @@
       groundPlane = new THREE.Plane(planeNormal('XZ'), -uiStore.nodeCreateZ);
     }
     const worldPt = new THREE.Vector3();
-    if (raycaster.ray.intersectPlane(groundPlane, worldPt)) {
+    if (raycaster.ray.intersectPlane(groundPlane, worldPt)
+      && performance.now() - lastPointerStatusPublish >= POINTER_STATUS_INTERVAL_MS) {
       const rect = container.getBoundingClientRect();
+      lastPointerStatusPublish = performance.now();
       uiStore.setMouse(e.clientX - rect.left, e.clientY - rect.top, worldPt.x, worldPt.y);
     }
 
@@ -2477,7 +2482,13 @@
   }
 
   const disposeMount = mount();
-  effectScope.start();
+  // Svelte scheduled the former `$effect` blocks after mount. Running every
+  // replacement effect synchronously here both duplicated the scene syncs
+  // removed above and monopolised the click that switches Basic into 3D.
+  // One initial effect per task keeps the UI responsive while the scene is
+  // populated; later store changes remain property-filtered and microtask
+  // batched as before.
+  effectScope.start({ deferInitial: true, initialBatchSize: 1 });
   return {
     dispose() {
       effectScope.dispose();

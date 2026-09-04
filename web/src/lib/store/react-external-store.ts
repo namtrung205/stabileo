@@ -21,15 +21,30 @@ export function trackReactStoreReads<T>(tracker: ReactStoreReadTracker, run: () 
 
 export type ReactObservable<T extends object> = T & ReactExternalStore;
 
+export type ReactMethodNotificationProperties = Readonly<Record<string, PropertyKey | readonly PropertyKey[]>>;
+
 export function makeReactObservable<T extends object>(
   target: T,
   mutatingMethods: readonly PropertyKey[] = [],
+  methodNotificationProperties: ReactMethodNotificationProperties = {},
 ): ReactObservable<T> {
   let revision = 0;
   const listeners = new Set<(property?: PropertyKey) => void>();
   const notify = (property?: PropertyKey) => {
     revision += 1;
     for (const listener of listeners) listener(property);
+  };
+  const notifyProperties = (properties?: PropertyKey | readonly PropertyKey[]) => {
+    if (!Array.isArray(properties)) {
+      notify(properties as PropertyKey | undefined);
+      return;
+    }
+    // One store revision is enough for React. Fine-grained subscribers receive
+    // every changed key and coalesce duplicate effects in their microtask.
+    revision += 1;
+    for (const property of properties) {
+      for (const listener of listeners) listener(property);
+    }
   };
   const subscribe = (listener: (property?: PropertyKey) => void) => {
     listeners.add(listener);
@@ -49,16 +64,25 @@ export function makeReactObservable<T extends object>(
       if (typeof value !== 'function' || !mutators.has(property)) return value;
       const cached = methodCache.get(property);
       if (cached?.source === value) return cached.wrapped;
+      // Most legacy store methods mutate closure-backed state, so their exact
+      // changed property is unknown and callers must conservatively refresh.
+      // High-frequency methods can provide a synthetic property instead. React
+      // revision subscribers still update, while fine-grained scene effects do
+      // not mistake a pointer-coordinate update for a complete model change.
+      const notificationProperty = typeof property === 'string'
+        ? methodNotificationProperties[property]
+        : undefined;
+      const notifyMutation = () => notifyProperties(notificationProperty);
       const wrapped = (...args: unknown[]) => {
         try {
           const result = Reflect.apply(value, receiver, args);
-          notify();
+          notifyMutation();
           if (result && typeof (result as unknown as PromiseLike<unknown>).then === 'function') {
-            void Promise.resolve(result).finally(notify);
+            void Promise.resolve(result).finally(notifyMutation);
           }
           return result;
         } catch (error) {
-          notify();
+          notifyMutation();
           throw error;
         }
       };

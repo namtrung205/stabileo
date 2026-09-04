@@ -937,4 +937,14 @@ export const resultsStore = makeReactObservable(createResultsStore(), [
   'setResults', 'setCombinationResults', 'clear', 'setResults3D', 'clear3D', 'setGoverning2D',
   'setGoverning3D', 'setCombinationResults3D', '_update3DView', 'addDiagnostics',
   'setConstraintForces', 'clearDiagnostics',
-]);
+], {
+  // These methods mutate closure-backed fields. Publishing an unspecified
+  // store change here would wake every 3D effect. In particular,
+  // syncColorMap3D() calls setColourScale(), so a full-store notification
+  // would immediately schedule the same effect again forever.
+  _setOnResultsPublish: 'resultsPublishHandler',
+  _setOnDiagramShown: 'diagramShownHandler',
+  setColourScale: 'colourScale',
+  setOverlay: ['overlayResults', 'overlayResults3D', 'overlayLabel'],
+  setOverlay3D: ['overlayResults', 'overlayResults3D', 'overlayLabel'],
+});

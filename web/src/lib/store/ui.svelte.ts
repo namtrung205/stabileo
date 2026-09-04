@@ -1221,4 +1221,36 @@ export const uiStore = makeReactObservable(createUIStore(), [
   'setSupport3DPreset', 'setMouse', 'selectNode', 'selectElement', 'startShellNodePick',
   'pushShellNodePick', 'cancelShellNodePick', 'selectShell', 'selectLoad', 'selectSupport',
   'clearSelection', 'setSelection', 'releaseManualSelection', 'resetSession', 'zoomToFit',
-]);
+], {
+  // Pointer coordinates drive the status bar only. Treating this as an unknown
+  // mutation made every 3D scene effect rebuild on each mousemove after the
+  // Svelte-to-React migration.
+  setMouse: 'pointerPosition',
+  // Selection methods mutate several closure-backed sets at once. Publishing
+  // their actual keys keeps highlighting reactive without rebuilding every
+  // model/result decoration after each click.
+  selectNode: ['selectedNodes', 'selectedElements', 'selectedShells'],
+  selectElement: ['selectedNodes', 'selectedElements', 'selectedShells', 'elementSelectionManual'],
+  startShellNodePick: ['shellNodePick', 'selectedNodes', 'selectedElements', 'selectedShells'],
+  pushShellNodePick: ['shellNodePick', 'selectedNodes'],
+  cancelShellNodePick: 'shellNodePick',
+  selectShell: ['selectedShells', 'selectedNodes', 'selectedElements', 'selectedSupports', 'selectedLoads'],
+  selectLoad: ['selectedLoads', 'selectedNodes', 'selectedElements', 'selectedSupports', 'selectedShells'],
+  selectSupport: ['selectedSupports', 'selectedNodes', 'selectedElements', 'selectedLoads', 'selectedShells'],
+  clearSelectedLoads: 'selectedLoads',
+  deleteSelectedLoad: 'selectedLoads',
+  clearSelectedSupports: 'selectedSupports',
+  clearSelection: ['selectedNodes', 'selectedElements', 'selectedLoads', 'selectedSupports', 'selectedShells'],
+  setSelection: ['selectedNodes', 'selectedElements', 'selectedShells', 'elementSelectionManual'],
+  releaseManualSelection: 'elementSelectionManual',
+  toast: 'toastState',
+  dismissToast: 'toastState',
+  toggleSelectKind: ['selectKinds', 'selectMode'],
+  onEditToolArmed: 'editToolHandler',
+  toggleJointDof3d: 'jointDof3d',
+  setSupport3DPreset: ['sup3dTx', 'sup3dTy', 'sup3dTz', 'sup3dRx', 'sup3dRy', 'sup3dRz'],
+  useNative3DPresentation: 'viewportPresentation3D',
+  useUpright2DIn3DPresentation: 'viewportPresentation3D',
+  _setModelFlatnessProvider: 'modelFlatnessProvider',
+  zoomToFit: ['zoom', 'panX', 'panY'],
+});

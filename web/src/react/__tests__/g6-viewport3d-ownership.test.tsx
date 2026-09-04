@@ -17,17 +17,19 @@ describe('G6.1 React 3D viewport shell ownership', () => {
   it('gives React ownership of wrapper, camera controls and native pointer listeners', () => {
     const react = read('src/react/components/Viewport3D.tsx');
     expect(react).toContain('className="viewport3d-wrapper"');
+    expect(react).toContain('ref={setRenderCanvas} className="viewport3d-canvas"');
     expect(react).toContain('<ViewportControls');
-    for (const event of ['mousedown', 'mouseup', 'mousemove', 'mouseleave', 'contextmenu']) {
-      expect(react).toContain(`addEventListener('${event}'`);
-      expect(react).toContain(`removeEventListener('${event}'`);
-    }
+    expect(react).toContain('bindViewport3DInteractions(renderCanvas, controller, cursor)');
   });
 
   it('uses a framework-neutral scene controller with explicit readiness cleanup', () => {
     const controller = read('src/components/Viewport3DController.ts');
     expect(controller).toContain('createViewport3DController');
     expect(controller).toContain('createStoreEffectScope');
+    expect(controller).toContain('new THREE.WebGLRenderer({ canvas,');
+    expect(controller).not.toContain('container.appendChild(renderer.domElement)');
+    expect(controller).toContain('effectScope.start({ deferInitial: true, initialBatchSize: 1 })');
+    expect(controller).not.toContain('// Initial sync');
     expect(controller).toContain('onready({');
     expect(controller).toContain('onready(null)');
     expect(controller).not.toMatch(/\$effect\s*\(/);

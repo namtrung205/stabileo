@@ -5,10 +5,11 @@
   overflow: hidden;
 }
 
-.viewport3d-wrapper canvas:not(.axis-gizmo) {
+.viewport3d-wrapper .viewport3d-canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
+  touch-action: none;
 }
 
 .viewport3d-wrapper .axis-gizmo {

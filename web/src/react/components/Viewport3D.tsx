@@ -4,6 +4,7 @@ import {
   type Viewport3DControllerApi,
 } from '../../components/Viewport3DController';
 import { uiStore } from '../../lib/store';
+import { bindViewport3DInteractions } from '../../lib/viewport3d/interaction-binding';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { ViewportControls } from './ViewportControls';
 import {
@@ -24,6 +25,7 @@ type Viewport3DInteractionOverlay = {
 export function Viewport3D() {
   const uiRevision = useStoreRevision(uiStore);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
+  const [renderCanvas, setRenderCanvas] = useState<HTMLCanvasElement | null>(null);
   const [gizmoCanvas, setGizmoCanvas] = useState<HTMLCanvasElement | null>(null);
   const [controller, setController] = useState<Viewport3DControllerApi | null>(null);
   const [showCoordinates, setShowCoordinates] = useState(false);
@@ -37,45 +39,30 @@ export function Viewport3D() {
   const overlayChanged = useCallback((next: Viewport3DInteractionOverlay) => setInteractionOverlay(next), []);
 
   useEffect(() => {
-    if (!container || !gizmoCanvas) return;
+    if (!container || !renderCanvas || !gizmoCanvas) return;
     const scene = createViewport3DController({
       container,
+      canvas: renderCanvas,
       gizmoCanvas,
       onready: controllerReady,
       onrequestcoordinates: requestCoordinates,
       onoverlaychange: overlayChanged,
     });
     return () => scene.dispose();
-  }, [container, gizmoCanvas, controllerReady, requestCoordinates, overlayChanged]);
+  }, [container, renderCanvas, gizmoCanvas, controllerReady, requestCoordinates, overlayChanged]);
 
   useEffect(() => {
-    if (!container || !controller) return;
+    if (!container || !renderCanvas || !controller) return;
     const cursor = () => { container.style.cursor = controller.getCursor(); };
-    const down = (event: MouseEvent) => { controller.handleMouseDown(event); cursor(); };
-    const up = (event: MouseEvent) => { controller.handleMouseUp(event); cursor(); };
-    const move = (event: MouseEvent) => { controller.handleMouseMove(event); cursor(); };
-    const leave = () => { controller.handleMouseLeave(); cursor(); };
-    const menu = (event: MouseEvent) => controller.handleContextMenu(event);
-    container.addEventListener('mousedown', down);
-    container.addEventListener('mouseup', up);
-    container.addEventListener('mousemove', move);
-    container.addEventListener('mouseleave', leave);
-    container.addEventListener('contextmenu', menu);
-    cursor();
-    return () => {
-      container.removeEventListener('mousedown', down);
-      container.removeEventListener('mouseup', up);
-      container.removeEventListener('mousemove', move);
-      container.removeEventListener('mouseleave', leave);
-      container.removeEventListener('contextmenu', menu);
-    };
-  }, [container, controller]);
+    return bindViewport3DInteractions(renderCanvas, controller, cursor);
+  }, [container, renderCanvas, controller]);
 
   useEffect(() => {
     if (container && controller) container.style.cursor = controller.getCursor();
   }, [container, controller, uiRevision]);
 
   return <div className="viewport3d-wrapper" ref={setContainer}>
+    <canvas ref={setRenderCanvas} className="viewport3d-canvas" aria-label="3D structural model viewport" />
     <ViewportControls
       mode="3d"
       top={uiStore.floatingToolsTopOffset}
