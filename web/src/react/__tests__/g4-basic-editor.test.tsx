@@ -6,14 +6,56 @@ const root = process.cwd();
 const read = (path: string) => readFileSync(join(root, path), 'utf8');
 
 describe('G4 Basic editor React ownership', () => {
-  it('routes the Basic ribbon, mobile toolbar, right panel, data and property panels through React portals', () => {
-    const app = read('src/App.svelte');
-    const portals = read('src/react/components/EditorChromePortals.tsx');
-    for (const slot of ['react-basic-ribbon-slot', 'react-basic-panel-slot', 'react-mobile-sidebar-toolbar-slot', 'react-mobile-drawer-toolbar-slot', 'react-property-panel-slot']) {
-      expect(app).toContain(slot);
-      expect(portals).toContain(slot);
+  it('owns the Basic header identity and actions in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const header = read('src/react/components/BasicHeader.tsx');
+    expect(shell).toContain('<BasicHeaderIdentity />');
+    expect(shell).toContain('<BasicHeaderActions />');
+    for (const behavior of [
+      'stabileo-navigate', 'OFFERED_LOCALES.map', 'data-testid="basic-mode-label"',
+      'tabManager.updateDefaultNames()', "openBasicPanel('settings')", '<Icon name="settings"',
+    ]) expect(header).toContain(behavior);
+    expect(header).not.toContain('switchEditorMode');
+    expect(app).not.toContain('react-basic-header-identity-slot');
+    expect(app).not.toContain('react-basic-header-actions-slot');
+    expect(app).not.toContain('class:on={basicPanel');
+  });
+
+  it('owns Basic panel state and its legacy event bridge outside the Svelte shell', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const controller = read('src/react/components/BasicPanelController.tsx');
+    const store = read('src/lib/store/basic-panel.ts');
+    const ribbon = read('src/react/components/BasicRibbon.tsx');
+    const panel = read('src/react/components/BasicPanel.tsx');
+    expect(shell).toContain('<BasicPanelController />');
+    expect(app).not.toContain('let basicPanel = $state');
+    expect(app).not.toContain('let basicDataTab = $state');
+    expect(app).not.toContain('publishBasicPanelState');
+    expect(controller).toContain("window.addEventListener('stabileo-open-basic-panel'");
+    expect(controller).toContain("openBasicPanel('data', { toggle: false })");
+    expect(store).toContain('syncModelTabWithResults(state.activePanel, state.activeDataTab)');
+    expect(store).toMatch(/closeBasicPanel[\s\S]{0,400}selectMode = 'elements'/);
+    expect(ribbon).toContain('basicPanelStore.subscribe');
+    expect(panel).toContain('basicPanelStore.subscribe');
+  });
+
+  it('composes the full Basic command strip and workspace natively in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const workspace = read('src/react/components/BasicWorkspace.tsx');
+    for (const slot of ['react-basic-ribbon-slot', 'react-tool-options-slot']) {
+      expect(app).not.toContain(slot);
     }
-    for (const owner of ['BasicRibbon', 'BasicPanel', 'MobileToolbar', 'DataTable', 'PropertyPanel']) expect(portals).toContain(`<${owner}`);
+    expect(app).not.toContain('react-basic-workspace-slot');
+    expect(existsSync(join(root, 'src/react/components/EditorChromePortals.tsx'))).toBe(false);
+    expect(shell).toContain('<BasicRibbon />');
+    expect(shell).toContain('<ToolOptionsBarCore />');
+    expect(shell).toContain('<BasicWorkspace />');
+    for (const owner of ['Viewport2D', 'Viewport3D', 'BasicPanel', 'BasicMobileShell', 'MobileResultsPanel']) {
+      expect(workspace).toContain(`<${owner}`);
+    }
   });
 
   it('has removed every legacy Svelte component that belonged to the G4 surface', () => {
@@ -46,12 +88,24 @@ describe('G4 Basic editor React ownership', () => {
       'src/components/stress/StressStateDetails.svelte',
       'src/components/stress/StressTensorDetails.svelte',
       'src/components/stress/TorsionDetails.svelte',
+      'src/components/stress/CrossSectionDrawing.svelte',
+      'src/components/stress/CrossSectionDrawingReactBridge.svelte',
+      'src/components/SectionChanger.svelte',
+      'src/components/SectionChangerEventHost.svelte',
+      'src/components/TourOverlay.svelte',
+      'src/components/AiDrawer.svelte',
+      'src/components/toolbar/ToolbarAiReview.svelte',
+      'src/components/SectionShapeBuilder.svelte',
+      'src/components/FeedbackWidget.svelte',
+      'src/components/CadImportWizard.svelte',
+      'src/components/IfcImportDialog.svelte',
+      'src/react/LegacySvelteSurface.tsx',
     ];
     for (const file of removed) expect(existsSync(join(root, file)), file).toBe(false);
   });
 
   it('keeps property mutations observable to React and both 2D/3D result branches present', () => {
-    const store = read('src/lib/store/model.svelte.ts');
+    const store = read('src/lib/store/model.ts');
     const node = read('src/react/components/NodeDetails.tsx');
     const element = read('src/react/components/ElementDetails.tsx');
     for (const method of ['updateElementLocalY', 'setElementOffset', 'setElementsOffset', 'updateSupport', 'updateLoad', 'toggleHinge']) expect(store).toContain(`'${method}'`);
@@ -61,32 +115,28 @@ describe('G4 Basic editor React ownership', () => {
 
   it('owns every Basic advanced report root in React', () => {
     const panel = read('src/react/components/BasicPanel.tsx');
-    const app = read('src/App.svelte');
-    const portals = read('src/react/components/EditorChromePortals.tsx');
+    const app = read('src/react/App.tsx');
+    const workspace = read('src/react/components/BasicWorkspace.tsx');
     expect(panel).not.toContain('LegacySvelteSurface');
     expect(panel).toContain('<KinematicPanel docked />');
     expect(panel).not.toContain('component={KinematicPanel}');
-    expect(app).toContain('react-kinematic-panel-slot');
+    expect(workspace).toContain('<KinematicPanel />');
     expect(app).not.toContain("KinematicPanel.svelte");
-    expect(portals).toContain('createPortal(<KinematicPanel />');
     expect(panel).toContain('<WhatIfPanel docked />');
     expect(panel).not.toContain('component={WhatIfPanel}');
-    expect(app).toContain('react-what-if-panel-slot');
+    expect(workspace).toContain('<WhatIfPanel />');
     expect(app).not.toContain("WhatIfPanel.svelte");
-    expect(portals).toContain('createPortal(<WhatIfPanel />');
     expect(panel).toContain('<DSMStepWizard />');
     expect(panel).not.toContain('component={StepWizard}');
-    for (const slot of ['react-dsm-sidebar-wizard-slot', 'react-dsm-drawer-wizard-slot']) {
-      expect(app).toContain(slot);
-      expect(portals).toContain(slot);
-    }
+    const mobileShell = read('src/react/components/BasicMobileShell.tsx');
+    expect(app).not.toContain('react-dsm-sidebar-wizard-slot');
+    expect(panel).toContain('<DSMStepWizard />');
+    expect(mobileShell).toContain('<DSMStepWizard />');
     expect(app).not.toContain("dsm/StepWizard.svelte");
-    expect(portals).toContain('createPortal(<DSMStepWizard />');
     expect(panel).toContain('<SectionStressPanel docked />');
     expect(panel).not.toContain("SectionStressPanel.svelte");
-    expect(app).toContain('react-section-stress-panel-slot');
+    expect(workspace).toContain('<SectionStressPanel />');
     expect(app).not.toContain("SectionStressPanel.svelte");
-    expect(portals).toContain('createPortal(<SectionStressPanel />');
     for (const migrated of ['ToolbarProject', 'ToolbarConfig', 'ToolbarResults', 'ToolbarAdvanced', 'DataTable', 'SelectionPanel']) expect(panel).toContain(`<${migrated}`);
   });
 
@@ -186,13 +236,124 @@ describe('G4 Basic editor React ownership', () => {
     for (const behavior of ['canonicalPanelResult', 'canonicalStressState', 'resolveEccentric', 'crossCheckShearPeak', 'suggestCriticalSections3D']) expect(panelModel).toContain(behavior);
   });
 
-  it('isolates the sole remaining Basic Svelte UI leaf to the cross-section SVG', () => {
+  it('owns the interactive cross-section SVG directly in React', () => {
     const rootPanel = read('src/react/components/SectionStressPanel.tsx');
-    const adapter = read('src/components/stress/CrossSectionDrawingReactBridge.svelte');
-    expect(rootPanel).toContain('UpdatingSvelteSurface');
-    expect(rootPanel).toContain('CrossSectionDrawingReactBridge.svelte');
-    expect(adapter).toContain("CrossSectionDrawing.svelte");
-    expect(adapter).toContain('export function updateProps');
-    expect(adapter).toContain('bind:eccentricPoint');
+    const drawing = read('src/react/components/stress/CrossSectionDrawing.tsx');
+    expect(rootPanel).toContain('<CrossSectionDrawing');
+    expect(rootPanel).not.toContain('SvelteSurface');
+    for (const behavior of ['stressMapRamp', 'NeutralAxis3D', 'PerpendicularDistribution', 'ThinWallShear', 'MassiveShear', 'TorsionDiagram', 'EccentricLayer', 'setPointerCapture', "event.key === 'Escape'", 'ResizeObserver']) expect(drawing).toContain(behavior);
+    for (const callback of ['onShowSigmaChange', 'onShowShearOnDrawingChange', 'onFiberRatioYChange', 'onEccentricPointChange', 'onEccentricPointVChange']) expect(rootPanel).toContain(callback);
+  });
+
+  it('owns the section catalogue, custom builder and event host directly in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const changer = read('src/react/components/SectionChanger.tsx');
+    expect(app).not.toContain('SectionChangerEventHost.svelte');
+    expect(shell).toContain('<SectionChangerEventHost />');
+    for (const behavior of [
+      'stabileo-open-section-changer', 'profileToSection', 'familiesForCode',
+      'computeSectionProperties', 'generateSectionName', 'onProfileSelect',
+      'onShapeSelect', 'onAmorphousSelect', "event.key === 'Escape'",
+    ]) expect(changer).toContain(behavior);
+  });
+
+  it('owns the guided Basic walkthrough overlay and its polling lifecycle in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const overlay = read('src/react/components/TourOverlay.tsx');
+    const store = read('src/lib/store/tour.ts');
+    expect(app).not.toContain('TourOverlay.svelte');
+    expect(shell).toContain('<TourOverlay />');
+    for (const behavior of [
+      'tourStore.updateTargetRect()', 'requestAnimationFrame(tick)', 'setInterval(poll, 300)',
+      'autoAdvanceArmed.current', 'tourStore.armedForTest', "event.key === 'Escape'",
+      "event.key === 'ArrowRight'", 'step.actionButton', 'step.multiAction',
+      'dangerouslySetInnerHTML', 'tour-active',
+    ]) expect(overlay).toContain(behavior);
+    expect(store).toContain('makeReactObservable(createTourStore()');
+  });
+
+  it('owns global toasts and the live-calculation recovery banner in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const notifications = read('src/react/components/GlobalNotifications.tsx');
+    expect(app).not.toContain('{#if uiStore.toasts.length');
+    expect(app).not.toContain('{#if uiStore.liveCalcError');
+    expect(shell).toContain('<GlobalNotifications />');
+    for (const behavior of [
+      'uiStore.toasts.map', "toast.actionId === 'kinematic'", 'uiStore.dismissToast',
+      'uiStore.showKinematicPanel = true', 'uiStore.liveCalc = false',
+      'uiStore.liveCalcError = null', 'historyStore.undo()', 'role="alert"',
+    ]) expect(notifications).toContain(behavior);
+  });
+
+  it('owns the Basic coordinate-import event and modal in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const dialog = read('src/react/components/ImportCoordinatesDialog.tsx');
+    expect(app).not.toContain('showImportDialog');
+    expect(shell).toContain('<ImportCoordinatesDialog />');
+    for (const behavior of [
+      'stabileo-import-coords', "split(/[,;\\t\\s]+/)", 'modelStore.addNode',
+      'resultsStore.clear()', "uiStore.toast(t('app.nodesImported')", "event.key === 'Escape'",
+    ]) expect(dialog).toContain(behavior);
+  });
+
+  it('owns the Basic mobile drawers and bottom navigation in one React shell', () => {
+    const app = read('src/react/App.tsx');
+    const workspace = read('src/react/components/BasicWorkspace.tsx');
+    const shell = read('src/react/components/BasicMobileShell.tsx');
+    expect(app).not.toContain('react-basic-mobile-shell-slot');
+    expect(workspace).toContain('<BasicMobileShell />');
+    for (const legacySlot of ['react-mobile-drawer-toolbar-slot', 'react-property-panel-slot', 'react-drawer-data-table-slot', 'react-dsm-drawer-wizard-slot']) expect(app).not.toContain(legacySlot);
+    for (const owner of ['<MobileToolbar />', '<PropertyPanel />', '<DataTable />', '<DSMStepWizard />']) expect(shell).toContain(owner);
+    for (const behavior of ['uiStore.leftDrawerOpen', 'uiStore.rightDrawerOpen', 'uiStore.showDataTable', "uiStore.appMode !== 'basico'"]) {
+      expect(app + shell).toContain(behavior);
+    }
+  });
+
+  it('owns IFC file selection, parsing, mapping preview and model import in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const dialog = read('src/react/components/IfcImportDialog.tsx');
+    expect(app).not.toContain('IfcImportDialog.svelte');
+    expect(shell).toContain('<IfcImportEventHost />');
+    for (const behavior of [
+      'stabileo-import-ifc', "accept=\".ifc\"", "import('../../lib/ifc/ifc-parser')",
+      'mapIfcToModel', 'snapTolerance', 'historyStore.pushState()', 'modelStore.clear()',
+      'modelStore.addNode', 'modelStore.addMaterial', 'modelStore.addSection',
+      'modelStore.addElement', "uiStore.analysisMode = '3d'", "event.key === 'Escape'",
+    ]) expect(dialog).toContain(behavior);
+  });
+
+  it('owns the Basic AI build and review drawer directly in React', () => {
+    const app = read('src/react/App.tsx');
+    const workspace = read('src/react/components/BasicWorkspace.tsx');
+    const drawer = read('src/react/components/AiDrawer.tsx');
+    expect(app).not.toContain('AiDrawer.svelte');
+    expect(workspace).toContain('<AiDrawer />');
+    for (const behavior of [
+      'reviewModel(', 'buildModel(', 'validateSnapshot', 'normalizeSnapshotReleases',
+      'historyStore.pushState()', 'historyStore.undo()', 'runGlobalSolve()',
+      'lastSolverDiagnostics', 'AbortController', 'uiStore.setSelection',
+    ]) expect(drawer).toContain(behavior);
+  });
+
+  it('owns the 2D DXF file route and 3D CAD-to-RC wizard directly in React', () => {
+    const app = read('src/react/App.tsx');
+    const shell = read('src/react/editor/BasicEditorApp.tsx');
+    const wizard = read('src/react/components/CadImportWizard.tsx');
+    expect(app).not.toContain('CadImportWizard.svelte');
+    expect(app).not.toContain('dxfFileInput');
+    expect(shell).toContain('<CadImportEventHost />');
+    for (const behavior of [
+      'stabileo-import-dxf', 'stabileo-dxf-drop', 'stabileo-open-dxf-dialog',
+      'parseCadDxf', 'suggestLayerMappings', 'extractArchPlan',
+      'drawCadPreview', 'drawSemanticPreview', 'drawDraftPreview',
+      'zoomAround', 'panView', 'cropDoc', 'densestPlanWindow',
+      'validateFloorRanges', 'diagnoseDraft', 'buildDraft',
+      'historyStore.pushState()', 'modelStore.restore(draft.snapshot)',
+    ]) expect(wizard).toContain(behavior);
   });
 });

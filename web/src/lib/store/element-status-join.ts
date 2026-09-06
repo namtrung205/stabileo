@@ -13,8 +13,8 @@
  * lives here, next to the stores it reads, and both screens call it.
  */
 
-import { modelStore } from './model.svelte';
-import { verificationStore } from './verification.svelte';
+import { modelStore } from './model';
+import { verificationStore } from './verification';
 import { failingLimits, type DesignOutcomeSummary }
   from '../engine/detailing/element-status';
 

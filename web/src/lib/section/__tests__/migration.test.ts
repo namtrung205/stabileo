@@ -12,8 +12,8 @@ import { restoreSectionState, restoreSections, supersededInertiaDelta } from '..
 import { resolveSectionState } from '../state';
 import { CANONICAL_STATE_VERSION } from '../version';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import { modelStore } from '../../store/model.svelte';
-import type { Section } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
+import type { Section } from '../../store/model';
 
 function sec(over: Partial<Section> & { id?: number }): Section {
   return { id: 1, name: '', a: 0.01, iz: 1e-5, ...over } as Section;

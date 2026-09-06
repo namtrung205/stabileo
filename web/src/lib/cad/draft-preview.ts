@@ -7,7 +7,7 @@
 // coupling. The categorization is split out (draftPreviewStats) so it can be
 // unit-tested without a canvas.
 
-import type { ModelSnapshot } from '../store/history.svelte';
+import type { ModelSnapshot } from '../store/history';
 
 interface PNode { id: number; x: number; y: number; z: number }
 

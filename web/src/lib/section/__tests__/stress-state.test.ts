@@ -20,7 +20,7 @@ import {
   analyzeSectionTorsion,
   hasSectionFieldExport,
 } from '../../engine/wasm-solver';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 function sec(over: Partial<Section>): Section {
   const s = { id: 1, name: '', a: 0.01, iz: 1e-5, ...over } as Section;

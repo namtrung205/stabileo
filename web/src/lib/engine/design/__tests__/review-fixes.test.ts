@@ -28,7 +28,7 @@ import {
 } from '../../station-design-forces';
 import type { DesignAxes } from '../design-axes';
 import { BIAXIAL_RATIO_THRESHOLD } from '../design-axes';
-import type { ProvidedReinforcement } from '../../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../../store/model';
 
 // ─── Shared builders ─────────────────────────────────────────
 

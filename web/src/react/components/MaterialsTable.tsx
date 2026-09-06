@@ -1,6 +1,6 @@
 import { useState, useSyncExternalStore } from 'react';
 import type { MaterialPreset } from '../../lib/data/material-presets';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, resultsStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './EditorTables.css';

@@ -29,7 +29,7 @@
  * should reach them from a search, and changing them would break links people
  * already hold.
  */
-import { PUBLIC_LOCALES, type PublicLocale } from './store.svelte';
+import { PUBLIC_LOCALES, type PublicLocale } from './store';
 
 /** Where the site lives. Used for canonical and hreflang, which must be absolute. */
 export const SITE_ORIGIN = 'https://stabileo.com';

@@ -15,7 +15,7 @@ import { createDeformedLines, type ElementEI } from '../three/deformed-shape-3d'
 import { createDiagramGroup3D, createEnvelopeDiagramGroup3D } from '../three/diagram-render-3d';
 import { createDespiece3DGroup } from '../three/despiece-3d';
 import { COLORS, setGroupColor, disposeObject, axialForceColor, verificationStateColor, createTextSpriteCached, heatmapColor } from '../three/selection-helpers';
-import { verificationStore } from '../store/verification.svelte';
+import { verificationStore } from '../store/verification';
 import { createReactionArrow, createConstraintForceArrow } from '../three/create-load-arrow';
 import type { Diagram3DKind } from '../engine/diagrams-3d';
 import type { Displacement3D } from '../engine/types-3d';

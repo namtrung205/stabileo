@@ -14,7 +14,7 @@ interface Node {
 // ─── splitElementAtPoint: new node Z preservation ─────────
 
 describe('splitElementAtPoint — Z coordinate', () => {
-  // Replicate the interpolation + node creation logic from model.svelte.ts
+  // Replicate the interpolation + node creation logic from model.ts
   function computeSplitNode(ni: Node, nj: Node, t: number): { x: number; y: number; z?: number } {
     const px = ni.x + t * (nj.x - ni.x);
     const py = ni.y + t * (nj.y - ni.y);

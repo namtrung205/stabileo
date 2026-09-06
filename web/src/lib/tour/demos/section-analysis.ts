@@ -11,7 +11,7 @@
  * model first".
  */
 
-import type { TourStep } from '../../store/tour.svelte';
+import type { TourStep } from '../../store/tour';
 import { t } from '../../i18n';
 import { ANCHORS, loadExample, solve, hasResults, setDimension, openPanel } from '../demo-helpers';
 import { uiStore, resultsStore } from '../../store';

@@ -12,10 +12,8 @@ document.getElementById('prerender')?.remove();
 const target = document.getElementById('app');
 if (!target) throw new Error('Stabileo root element #app was not found');
 
-// StrictMode intentionally stays off while the Svelte compatibility seam is
-// present: development-only effect replay would mount the legacy WebGL tree
-// twice and distort lifecycle/performance checks. It can be enabled once all
-// route branches are native React.
+// Keep StrictMode off because development-only effect replay would mount the
+// WebGL editor twice and distort lifecycle/performance checks.
 createRoot(target).render(<App />);
 
 // Preserve the production-safe, build-time-gated browser test contract.

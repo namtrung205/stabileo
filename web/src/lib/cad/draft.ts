@@ -37,7 +37,7 @@ import type { SectionScheduleEntry, SpecSource } from './types';
 import type { MemberOffset } from '../model/element-3d-metadata';
 import { findCoincidentNode, beamThrough } from '../engine/mesh-weld';
 import { buildBilinearQuadGrid } from '../engine/shell-mesh-gen';
-import type { ModelSnapshot } from '../store/history.svelte';
+import type { ModelSnapshot } from '../store/history';
 import type { ModelProvenance } from '../model/provenance';
 
 const NO_RELEASE = { my: false, mz: false, t: false };

@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { historyStore, modelStore, uiStore } from '../../lib/store';
-import { NO_RELEASE } from '../../lib/store/model.svelte';
+import { NO_RELEASE } from '../../lib/store/model';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './ElementEditor.css';
 

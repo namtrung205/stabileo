@@ -28,7 +28,7 @@
 
 import type { SolverInput } from './types';
 import type { Constraint3D } from './types-3d';
-import type { Element, ReleaseEnd } from '../store/model.svelte';
+import type { Element, ReleaseEnd } from '../store/model';
 
 const EPS = 1e-12;
 

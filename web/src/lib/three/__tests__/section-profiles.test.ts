@@ -14,7 +14,7 @@ import {
   createCShape,
   createSectionShape,
 } from '../section-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 describe('Section Profile Shapes', () => {
   describe('createIShape', () => {

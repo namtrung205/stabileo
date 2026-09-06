@@ -5,8 +5,8 @@
 // selection channels straight through — shells deleted ONLY from selectedShells.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { resolveDeleteTargets } from '../../store/delete-selection';
-import { modelStore } from '../../store/model.svelte';
-import { historyStore } from '../../store/history.svelte';
+import { modelStore } from '../../store/model';
+import { historyStore } from '../../store/history';
 import { buildStabileoTemplateDxf } from '../template';
 import { parseCadDxf } from '../parse';
 import { suggestLayerMappings, extractArchPlan } from '../classify';

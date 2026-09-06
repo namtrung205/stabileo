@@ -9,7 +9,7 @@
  * Pure: no store access, no side effects.
  */
 
-import type { ProvidedReinforcement } from '../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../store/model';
 import type { ProvidedRebarResult } from '../station-design-forces';
 import type { DesignAxes, MomentAxis, ShearAxis } from './design-axes';
 

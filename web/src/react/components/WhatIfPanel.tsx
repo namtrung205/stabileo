@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { get2DDisplayNodalLoadMoment, get2DDisplayNodalLoadVertical } from '../../lib/geometry/coordinate-system';
 import { solve } from '../../lib/engine/wasm-solver';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
-import type { ModelSnapshot } from '../../lib/store/history.svelte';
+import type { ModelSnapshot } from '../../lib/store/history';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './WhatIfPanel.css';
 

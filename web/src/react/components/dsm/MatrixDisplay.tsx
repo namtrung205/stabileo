@@ -1,5 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import './MatrixDisplay.css';
 
 type Feedback = 'correct' | 'wrong' | null;

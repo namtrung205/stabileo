@@ -21,8 +21,8 @@
  * Nothing here decides anything structural. It builds, it opens, it reports what happened.
  */
 
-import { detailingStore } from './detailing.svelte';
-import { rebarWorkspace } from './rebar-workspace.svelte';
+import { detailingStore } from './detailing';
+import { rebarWorkspace } from './rebar-workspace';
 import { markOpenPhase } from '../utils/open-timeline';
 
 export interface OpenRebar3DOptions {

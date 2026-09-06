@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
+import { modelStore } from '../model';
 import {
   REGULATIONS_SCHEMA_VERSION, bindRole, defaultRegulations, migrateRegulations,
 } from '../../codes/roles';

@@ -15,7 +15,7 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { buildSolverInput2D, buildSolverInput3D } from '../../engine/solver-service';
 import { resolveSectionState, solverProperties, cloneSectionState } from '../state';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 function sec(over: Partial<Section> & { id?: number }): Section {
   return { id: 1, name: '', a: 0.01, iz: 1e-5, ...over } as Section;
@@ -293,7 +293,7 @@ describe('resolution is idempotent and serialization-stable', () => {
 
 describe('geometry-backed derived properties are read-only', () => {
   it('an attempt to set A/Iy/Iz/J on a geometry-backed section is ignored', async () => {
-    const { modelStore } = await import('../../store/model.svelte');
+    const { modelStore } = await import('../../store/model');
     modelStore.clear();
     const id = modelStore.addSection({
       name: 'IPE 300', a: 53.8e-4, iy: 8356e-8, iz: 604e-8,
@@ -313,7 +313,7 @@ describe('geometry-backed derived properties are read-only', () => {
   });
 
   it('a properties-only section keeps its declared-property editing', async () => {
-    const { modelStore } = await import('../../store/model.svelte');
+    const { modelStore } = await import('../../store/model');
     modelStore.clear();
     // A section the user declares by properties alone — no catalogue name, no
     // shape — is the case that must stay editable.
@@ -325,7 +325,7 @@ describe('geometry-backed derived properties are read-only', () => {
   });
 
   it('editing geometry regenerates derived state atomically', async () => {
-    const { modelStore } = await import('../../store/model.svelte');
+    const { modelStore } = await import('../../store/model');
     modelStore.clear();
     const id = modelStore.addSection({ name: 'Rect', shape: 'rect', b: 0.2, h: 0.4, a: 0.08, iz: 2.6667e-4 });
     modelStore.updateSection(id, { shape: 'rect' });

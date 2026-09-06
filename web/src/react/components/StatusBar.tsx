@@ -1,5 +1,5 @@
 import { useState, useSyncExternalStore } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { modelStore, uiStore } from '../../lib/store';
 import { toDisplay, unitLabel } from '../../lib/utils/units';
 import { useStoreRevision } from '../store/useStoreRevision';

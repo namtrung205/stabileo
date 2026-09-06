@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { inspectMember, inspectNode } from '../../lib/canvas/draw-despiece';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
 import { inspectMember3D, inspectNode3D } from '../../lib/three/despiece-3d';
 import { useStoreRevision } from '../store/useStoreRevision';

@@ -8,7 +8,7 @@
  * - releaseManualSelection() / clearSelection() reset it to false.
  */
 import { describe, it, expect, beforeEach } from 'vitest';
-import { uiStore } from '../ui.svelte';
+import { uiStore } from '../ui';
 
 describe('uiStore manual-selection semantics', () => {
   beforeEach(() => uiStore.clearSelection());

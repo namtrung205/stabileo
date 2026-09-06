@@ -4,9 +4,9 @@ import { hasExplicitLocalY, pickElement3DMetadata } from '../../lib/model/elemen
 import { historyStore, modelStore, resultsStore, uiStore } from '../../lib/store';
 import { resolveDeleteTargets } from '../../lib/store/delete-selection';
 import { loadFile, saveProject, saveSession } from '../../lib/store/file';
-import type { ClipboardData } from '../../lib/store/ui.svelte';
+import type { ClipboardData } from '../../lib/store/ui';
 import { TOOL_KEYS } from '../../lib/tool-keys';
-import { t } from '../../lib/i18n/store.svelte';
+import { t } from '../../lib/i18n/store';
 
 const TOOL_TAB_INDEX: Record<string, number> = { node: 0, element: 1, support: 2, load: 3 };
 

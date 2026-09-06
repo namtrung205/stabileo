@@ -97,8 +97,8 @@ describe('influence lines ask for quantities the engine accepts', () => {
   });
 
   it("the store's default is a quantity a button can show as selected", () => {
-    const ui = read('lib/store/ui.svelte.ts');
-    const dflt = ui.match(/ilQuantity = \$state<ILQuantity>\('(\w+)'\)/)?.[1];
+    const ui = read('lib/store/ui.ts');
+    const dflt = ui.match(/ilQuantity = stateValue<ILQuantity>\('(\w+)'\)/)?.[1];
     expect(dflt).toBe('Rz');
     expect(read('lib/influence-line-quantities.ts')).toContain(`'${dflt}'`);
   });

@@ -8,7 +8,7 @@
  */
 
 import type { SolverLoad3D, AnalysisResults3D } from './types-3d';
-import type { Node, Material, SurfaceLoad3D, ThermalLoadQuad3D } from '../store/model.svelte';
+import type { Node, Material, SurfaceLoad3D, ThermalLoadQuad3D } from '../store/model';
 // Shell stress recovery now handled by WASM solver — TS fallback removed
 
 // ─── Types ───────────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { resultsStore, uiStore } from '../../lib/store';
 import { colourScaleSource } from '../../lib/store/result-view';
 import { COLOUR_RAMP_STOPS, OVER_SCALE_RGB } from '../../lib/three/colour-ramp';

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useSyncExternalStore, type MouseEvent } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { modelStore } from '../../lib/store';
-import { tabManager } from '../../lib/store/tabs.svelte';
+import { tabManager } from '../../lib/store/tabs';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './TabBar.css';
 

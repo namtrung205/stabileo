@@ -1,0 +1,114 @@
+.react-basic-header-identity {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+}
+
+.react-basic-header-identity .logo-home {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.react-basic-header-identity .logo-icon {
+  color: var(--st-accent);
+  font-size: 1.15rem;
+}
+
+.react-basic-header-identity .logo-text {
+  font-family: var(--st-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.react-basic-header-identity .logo-home:hover .logo-text { color: var(--st-text); }
+.react-basic-header-identity .logo-home:hover .logo-icon { color: var(--st-accent-hover); }
+
+.react-basic-header-identity .mode-toggle {
+  display: flex;
+  gap: .1rem;
+  margin-left: .25rem;
+}
+
+.react-basic-header-identity .mode-toggle button {
+  padding: .3rem .6rem .25rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  color: var(--st-text-2);
+  font-family: var(--st-sans);
+  font-size: .82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color .12s, border-color .12s;
+}
+
+.react-basic-header-identity .mode-toggle button:hover { color: var(--st-text); }
+.react-basic-header-identity .mode-toggle button.active { color: var(--st-text); border-bottom-color: var(--st-accent); }
+
+.react-basic-header-identity .demo-badge {
+  margin-left: .3rem;
+  padding: .05rem .25rem;
+  border: 1px solid var(--st-hair);
+  border-radius: var(--st-radius);
+  color: var(--st-text-3);
+  font-family: var(--st-mono);
+  font-size: .55rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.react-basic-header-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+}
+
+.react-basic-header-actions .btn-help,
+.react-basic-header-actions .lang-select,
+.react-basic-header-actions .btn-settings {
+  height: 32px;
+  border: 1px solid var(--st-hair);
+  border-radius: var(--st-radius);
+  background: none;
+  color: var(--st-text-2);
+  font-family: var(--st-sans);
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.react-basic-header-actions .btn-help { width: 26px; padding: .3rem 0; text-align: center; }
+.react-basic-header-actions .lang-select { padding: .2rem .3rem; }
+.react-basic-header-actions .btn-settings { display: grid; width: 32px; padding: 0; place-items: center; }
+.react-basic-header-actions .btn-help:hover,
+.react-basic-header-actions .lang-select:hover,
+.react-basic-header-actions .btn-settings:hover { border-color: var(--st-hair-strong); background: var(--st-surface-3); color: var(--st-text); }
+.react-basic-header-actions .btn-settings.on { border-color: var(--st-accent); color: var(--st-accent); }
+.react-basic-header-actions .lang-select option { background: var(--st-surface); color: var(--st-text); }
+
+.react-basic-header-identity .mode-select-mobile {
+  padding: 5px 24px 5px 8px;
+  border: 1px solid var(--st-hair-strong);
+  border-radius: 6px;
+  background: var(--st-surface-2);
+  color: var(--st-text);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .react-basic-header-identity .logo-text { font-size: .9rem; }
+  .react-basic-header-identity .logo-icon { font-size: 1.1rem; }
+  .react-basic-header-actions .btn-help { display: none; }
+}
+

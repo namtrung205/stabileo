@@ -17,7 +17,7 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { createHash } from 'node:crypto';
-import { modelStore } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
 import { buildFootingCadHandoffV2 } from '../../store/rc-cad-export';
 import { validateRcCadHandoffV2 } from '../rc-cad-handoff-v2-validate';
 import { serializeRcCadHandoffV2, rcCadHandoffV2Filename } from '../rc-cad-handoff-v2';

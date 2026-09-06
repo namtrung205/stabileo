@@ -13,7 +13,7 @@ import { createLabelCollector, type LabelCollector } from '../lib/canvas/label-l
 import { computeAxleWorldPositions } from '../lib/engine/moving-loads';
 import { drawInfluenceLine } from '../lib/canvas/draw-influence';
 import { drawModeShape, drawPlasticHinges } from '../lib/canvas/draw-modes';
-import { computeElementStress } from '../lib/store/results.svelte';
+import { computeElementStress } from '../lib/store/results';
 import { colourScaleSource } from '../lib/store/result-view';
 import { colourRampCss, colourMapUnit } from '../lib/three/colour-ramp';
 import {

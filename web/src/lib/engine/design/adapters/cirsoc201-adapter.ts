@@ -19,7 +19,7 @@
 
 import { verifyProvidedReinforcement, requiredLd, requiredLdh } from '../../station-design-forces';
 import type { ProvidedRebarResult } from '../../station-design-forces';
-import type { ProvidedReinforcement } from '../../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../../store/model';
 import { peakMy, peakMz, peakVy, peakVz, peakAxial } from '../design-axes';
 import type { MemberContext } from '../member-context';
 import type { CandidateGenerator } from '../candidate-generator';

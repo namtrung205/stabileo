@@ -8,8 +8,8 @@
  */
 
 import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { historyStore } from '../history.svelte';
+import { modelStore } from '../model';
+import { historyStore } from '../history';
 import { applyGeneratedModel, matchesPreview } from '../generator-apply';
 import { generateTruss, DEFAULT_TRUSS_PARAMS } from '../../engine/generators/truss-topology';
 import { generateShed, DEFAULT_SHED_PARAMS } from '../../engine/generators/shed';
@@ -33,7 +33,7 @@ beforeEach(() => { modelStore.clear(); });
 
 describe('applyGeneratedModel — undo', () => {
   beforeAll(async () => {
-    // history.svelte.ts wires modelStore._setHistoryPush from a queueMicrotask.
+    // history.ts wires modelStore._setHistoryPush from a queueMicrotask.
     await new Promise((r) => setTimeout(r, 0));
   });
 
@@ -177,7 +177,7 @@ describe('applyGeneratedModel — a whole shed', () => {
 
 describe('the generated model reads as metallic', () => {
   it('is picked up by the steel inventory, with nothing designed', async () => {
-    const { steelStore } = await import('../steel.svelte');
+    const { steelStore } = await import('../steel');
     const g = emitModel(generateTruss({ panelsPerHalf: 3 }), { name: 'Cercha', profiles: PROFILES });
     applyGeneratedModel(g, { source: 'generator-truss', atIso: AT, params: {} });
 

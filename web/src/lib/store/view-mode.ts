@@ -27,11 +27,11 @@
  * and hoping they stay in step.
  */
 
-import { uiStore, EDIT_TOOLS } from './ui.svelte';
-import { resultsStore } from './results.svelte';
-import type { DiagramType } from './results.svelte';
+import { uiStore, EDIT_TOOLS } from './ui';
+import { resultsStore } from './results';
+import type { DiagramType } from './results';
 
-// The edit-tool list itself lives in ui.svelte.ts — this module imports that
+// The edit-tool list itself lives in ui.ts — this module imports that
 // store, so the list cannot be defined here without closing an import cycle.
 export { EDIT_TOOLS };
 

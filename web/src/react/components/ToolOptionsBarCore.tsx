@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { IL_QUANTITY_GROUPS } from '../../lib/influence-line-quantities';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';

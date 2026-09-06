@@ -6,7 +6,7 @@
  * Uses Blob URL + browser print for PDF output (same pattern as pro-report.ts).
  */
 
-import type { Node, Material, Section, Element, Support } from '../store/model.svelte';
+import type { Node, Material, Section, Element, Support } from '../store/model';
 import type { AnalysisResults } from './types';
 import type { AnalysisResults3D } from './types-3d';
 import { releaseLabel } from '../export/excel';

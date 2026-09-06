@@ -24,7 +24,7 @@
  * live in the right frame.
  */
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import {
   analyzeSectionBending,
   analyzeSectionShear,

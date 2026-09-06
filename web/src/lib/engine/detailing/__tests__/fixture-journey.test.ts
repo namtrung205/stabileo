@@ -31,10 +31,10 @@ import {
 } from '../document-model';
 import { renderDrawings, renderReportHtml, renderSchedule } from '../document-render';
 import { rebarHash } from '../../design/rebar-hash';
-import { dictFor } from '../../../i18n/store.svelte';
+import { dictFor } from '../../../i18n/store';
 import type { MemberDesignOutcome } from '../../design/outcome';
 import type { MemberContext } from '../../design/member-context';
-import type { ProvidedReinforcement } from '../../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../../store/model';
 
 const RENDER = { locale: 'es', projectName: 'rc-design-qa-8' } as const;
 

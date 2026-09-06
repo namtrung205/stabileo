@@ -2,7 +2,7 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
 import { mapDxfToModel, parseMaterialText, parseSectionText } from '../../lib/dxf/mapper';
 import { parseDxf } from '../../lib/dxf/parser';
 import type { DxfMappingResult, DxfParseResult, DxfUnit } from '../../lib/dxf/types';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { historyStore, modelStore, resultsStore, uiStore } from '../../lib/store';
 import './DxfImportDialog.css';
 

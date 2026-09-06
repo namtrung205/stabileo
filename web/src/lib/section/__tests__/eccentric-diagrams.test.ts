@@ -25,7 +25,7 @@ import { canonicalStressState } from '../stress-state';
 import { resolveEccentric, snapShearCentre } from '../eccentric';
 import { resolveSectionState } from '../state';
 import { analyzeSectionStressFromForces } from '../../engine/section-stress-3d';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 function sec(over: Partial<Section>): Section {
   const s = { id: 1, name: '', a: 0.08, iy: 1.0667e-3, iz: 2.667e-4, ...over } as Section;

@@ -20,7 +20,7 @@
  */
 
 import type { AnalysisResults3D, BeamStationInput3D, GroupedBeamStationResult3D, MemberStationGroup3D } from './types-3d';
-import type { LoadCombination } from '../store/model.svelte';
+import type { LoadCombination } from '../store/model';
 import {
   extractElementStations,
   extractGoverningDemands,

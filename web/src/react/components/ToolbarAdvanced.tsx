@@ -13,7 +13,7 @@ import {
   solvePlastic,
 } from '../../lib/engine/wasm-solver';
 import { getPredefinedTrains, solveMovingLoadsAsync } from '../../lib/engine/moving-loads';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { dsmStepsStore, modelStore, resultsStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './ToolbarAdvanced.css';

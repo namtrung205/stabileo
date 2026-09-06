@@ -3,9 +3,9 @@ import { describe, it, expect, beforeEach } from 'vitest';
 // that clears stale results. Without it the analysis-neutrality assertions below would be
 // vacuous — nothing would be listening to clear anything.
 import '../index';
-import { modelStore } from '../model.svelte';
-import { resultsStore } from '../results.svelte';
-import { historyStore } from '../history.svelte';
+import { modelStore } from '../model';
+import { resultsStore } from '../results';
+import { historyStore } from '../history';
 import { compressSnapshot, decompressSnapshot } from '../../utils/url-sharing';
 import {
   DEFAULT_BOTTOM_MAT_DIAMETER_MM, SUPPORTED_MAT_DIAMETERS_MM,

@@ -20,7 +20,7 @@
  */
 
 import { REBAR_DB } from '../codes/argentina/cirsoc201';
-import type { ProvidedReinforcement, RebarLayer } from '../../store/model.svelte';
+import type { ProvidedReinforcement, RebarLayer } from '../../store/model';
 import type { CandidateCost } from './outcome';
 import { resolveLayers, layersTotalArea, resolveColumnReinf } from '../station-design-forces';
 

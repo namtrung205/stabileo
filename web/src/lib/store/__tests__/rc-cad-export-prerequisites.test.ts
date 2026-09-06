@@ -7,9 +7,9 @@
  * can act on rather than disabling a button without explanation.
  */
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { detailingStore } from '../detailing.svelte';
-import { verificationStore } from '../verification.svelte';
+import { modelStore } from '../model';
+import { detailingStore } from '../detailing';
+import { verificationStore } from '../verification';
 import { buildFootingCadHandoffV2, assemblyForFooting } from '../rc-cad-export';
 import { runProductionChain, keyTranslate } from '../../export/__tests__/rc-cad-chain';
 

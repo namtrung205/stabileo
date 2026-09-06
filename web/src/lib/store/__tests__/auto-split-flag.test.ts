@@ -15,8 +15,8 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { uiStore } from '../ui.svelte';
+import { modelStore } from '../model';
+import { uiStore } from '../ui';
 
 describe('auto-split-on-node-place — flag + underlying split contract', () => {
   beforeEach(() => {

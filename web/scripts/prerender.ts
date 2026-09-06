@@ -66,9 +66,9 @@ type Locale = (typeof LOCALES)[number];
  * application no longer offers, or missing one it just gained.
  */
 async function assertLocalesMatchTheApp() {
-  const source = await readFile(join(ROOT, 'src/lib/i18n/store.svelte.ts'), 'utf8');
+  const source = await readFile(join(ROOT, 'src/lib/i18n/store.ts'), 'utf8');
   const declared = source.match(/export const PUBLIC_LOCALES\s*=\s*\[([^\]]*)\]/);
-  if (!declared) throw new Error('prerender: could not find PUBLIC_LOCALES in store.svelte.ts');
+  if (!declared) throw new Error('prerender: could not find PUBLIC_LOCALES in store.ts');
   const found = [...declared[1].matchAll(/'([a-z-]+)'/g)].map((m) => m[1]);
   if (found.join(',') !== LOCALES.join(',')) {
     throw new Error(

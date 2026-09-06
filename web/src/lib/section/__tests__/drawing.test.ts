@@ -18,7 +18,7 @@ import {
 import { resolveSectionState } from '../state';
 import { analyzeSectionBending, hasCanonicalGeometryExport } from '../../engine/wasm-solver';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 // These tests exercise the canonical-geometry WASM export. A build from a
 // branch that predates the section engine does not have it, so skip rather
@@ -181,7 +181,7 @@ describeCanonical('the drawing does not depend on the display name', () => {
 
 describeCanonical('canonical geometry maps into the drawing frame', () => {
   /**
-   * Mirror of `canonicalPath` in CrossSectionDrawing.svelte.
+   * Mirror of `canonicalPath` in the React CrossSectionDrawing.
    *
    * Reported defect: the section outline was invisible while the stress plot
    * rendered fine. The canonical polygons are centroid-relative METRES with z

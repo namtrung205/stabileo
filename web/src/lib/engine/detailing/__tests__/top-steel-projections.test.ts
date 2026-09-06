@@ -21,7 +21,7 @@
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { workspaceScene } from './helpers/workspace-scene';
-import { verificationStore } from '../../../store/verification.svelte';
+import { verificationStore } from '../../../store/verification';
 import { renderReportHtml, renderDrawings, renderSchedule } from '../document-render';
 import { reportElementStatus, type DesignOutcomeSummary } from '../element-status';
 import type { SceneModel } from '../scene-model';

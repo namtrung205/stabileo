@@ -28,12 +28,12 @@
 
 import 'fake-indexeddb/auto';
 import { describe, it, expect, beforeEach, afterEach, beforeAll, vi } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { resultsStore } from '../results.svelte';
-import { uiStore } from '../ui.svelte';
-import { detailingStore } from '../detailing.svelte';
-import { designRunStore } from '../design-run.svelte';
-import { verificationStore } from '../verification.svelte';
+import { modelStore } from '../model';
+import { resultsStore } from '../results';
+import { uiStore } from '../ui';
+import { detailingStore } from '../detailing';
+import { designRunStore } from '../design-run';
+import { verificationStore } from '../verification';
 import {
   acceptAutosavePayload, autosaveFingerprint, buildProjectFile,
   clearAutosave, loadAutosave, resetAutosaveNotices, saveAutosave,

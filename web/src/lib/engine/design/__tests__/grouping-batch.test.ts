@@ -17,7 +17,7 @@ import {
 } from '../rebar-batch';
 import { cirsoc201Adapter } from '../adapters/cirsoc201-adapter';
 import { modelFromFixture, solveFixture, directionOf } from './helpers';
-import type { ProvidedReinforcement } from '../../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../../store/model';
 
 const frameModel = modelFromFixture(frame);
 const solvedQa = solveFixture(qa8);

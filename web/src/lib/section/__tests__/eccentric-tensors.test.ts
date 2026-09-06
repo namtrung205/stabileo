@@ -21,7 +21,7 @@ import { resolveEccentric, kernLimits } from '../eccentric';
 import { stressTensorState, tensorRows } from '../tensors';
 import { canonicalStressState } from '../stress-state';
 import { resolveSectionState } from '../state';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 beforeAll(async () => { await initSolver(); }, 60_000);
 

@@ -30,10 +30,10 @@ import { describe, it, expect, beforeEach } from 'vitest';
 // including `_setOnFoundationChange`. Importing the stores individually would leave that
 // wiring inactive and the supersession assertions below would pass against nothing.
 import '../index';
-import { modelStore } from '../model.svelte';
-import { detailingStore } from '../detailing.svelte';
-import { resultsStore } from '../results.svelte';
-import { verificationStore } from '../verification.svelte';
+import { modelStore } from '../model';
+import { detailingStore } from '../detailing';
+import { resultsStore } from '../results';
+import { verificationStore } from '../verification';
 import {
   renderDrawings, renderReportHtml, renderSchedule,
 } from '../../engine/detailing/document-render';

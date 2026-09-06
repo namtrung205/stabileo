@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { CentralCore, ResolvedSection } from '../../../lib/engine/section-stress';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import { fmt } from '../../../components/stress/fmt';
 import './CentralCoreDetails.css';
 

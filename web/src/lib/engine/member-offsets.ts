@@ -13,7 +13,7 @@
 
 import { computeLocalAxes3D } from './local-axes-3d';
 import type { SolverInput3D, SolverNode3D, AnalysisResults3D } from './types-3d';
-import type { Element } from '../store/model.svelte';
+import type { Element } from '../store/model';
 import type { MemberOffset, MemberOffsetVec } from '../model/element-3d-metadata';
 
 const EPS = 1e-9;

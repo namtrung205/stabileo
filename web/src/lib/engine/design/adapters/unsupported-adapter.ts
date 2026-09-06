@@ -16,7 +16,7 @@
  */
 
 import type { ProvidedRebarResult } from '../../station-design-forces';
-import type { ProvidedReinforcement } from '../../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../../store/model';
 import type { MemberContext } from '../member-context';
 import { DEFAULT_OBJECTIVE, type ObjectiveSpec } from '../objective';
 import { UTILIZATION_CONVENTION, type LimitingConstraint, type SectionRecommendation } from '../outcome';

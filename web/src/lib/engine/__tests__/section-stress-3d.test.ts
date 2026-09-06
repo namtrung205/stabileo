@@ -21,7 +21,7 @@ import {
 import { effectiveBendingInertia } from '../solver-service';
 import { resolveSectionGeometryLegacy } from '../section-stress';
 import type { ElementForces3D } from '../types-3d';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 // ─────────────────────────────────────────────────────────────────────
 // PR [12] convention (aligned with PR [10] solver + PR [11] render):

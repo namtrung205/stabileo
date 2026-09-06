@@ -1,0 +1,138 @@
+.react-tour-overlay.tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  pointer-events: none;
+}
+.react-tour-overlay .tour-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.react-tour-overlay .tour-svg rect {
+  transition: x .35s ease, y .35s ease, width .35s ease, height .35s ease;
+}
+.react-tour-overlay .tour-blocker {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: auto;
+}
+.react-tour-overlay .tour-card {
+  position: absolute;
+  background: var(--st-surface);
+  border: 1px solid var(--st-hair-strong);
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(78, 205, 196, .1), 0 0 80px rgba(78, 205, 196, .04);
+  overflow: hidden;
+  transition: left .35s ease, top .35s ease;
+  z-index: 1;
+  pointer-events: auto;
+  animation: react-tour-card-in .3s ease;
+}
+@keyframes react-tour-card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.react-tour-overlay .tour-progress { height: 3px; background: var(--st-surface-2); }
+.react-tour-overlay .tour-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ecdc4, #44b8b0);
+  transition: width .35s ease;
+  border-radius: 0 2px 2px 0;
+}
+.react-tour-overlay .tour-body { padding: 1.25rem 1.5rem .75rem; }
+.react-tour-overlay .tour-counter {
+  display: inline-block;
+  font-size: .68rem;
+  color: #556;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+  font-weight: 600;
+}
+.react-tour-overlay .tour-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--st-value);
+  margin: 0 0 .6rem;
+  line-height: 1.3;
+}
+.react-tour-overlay .tour-desc { font-size: .84rem; color: #bbb; line-height: 1.6; }
+.react-tour-overlay .tour-desc strong { color: var(--st-text); }
+.react-tour-overlay .tour-desc em { color: var(--st-value); font-style: normal; font-weight: 600; }
+.react-tour-overlay .tour-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: .4rem;
+  padding: .6rem 1rem 1rem;
+  border-top: 1px solid var(--st-hair);
+}
+.react-tour-overlay .tour-skip {
+  background: none;
+  border: none;
+  color: #556;
+  font-size: .75rem;
+  cursor: pointer;
+  padding: .3rem 0;
+  transition: color .15s;
+}
+.react-tour-overlay .tour-skip:hover { color: var(--st-text-2); }
+.react-tour-overlay .tour-nav { display: flex; gap: .5rem; margin-left: auto; }
+.react-tour-overlay .tour-prev {
+  background: var(--st-surface-2);
+  border: 1px solid var(--st-hair-strong);
+  color: var(--st-text-2);
+  padding: .4rem .9rem;
+  border-radius: 6px;
+  font-size: .8rem;
+  cursor: pointer;
+  transition: all .15s;
+}
+.react-tour-overlay .tour-prev:hover { background: var(--st-surface-3); color: var(--st-text); }
+.react-tour-overlay .tour-next {
+  background: var(--st-accent);
+  border: 1px solid transparent;
+  color: white;
+  padding: .4rem 1.1rem;
+  border-radius: 6px;
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.react-tour-overlay .tour-next:hover:not(:disabled) { background: var(--st-danger); }
+.react-tour-overlay .tour-next:disabled { opacity: .45; cursor: not-allowed; }
+.react-tour-overlay .tour-finish,
+.react-tour-overlay .tour-action {
+  background: #4ecdc4;
+  border: 1px solid transparent;
+  color: #0a1628;
+  padding: .4rem 1.1rem;
+  border-radius: 6px;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+}
+.react-tour-overlay .tour-finish:hover,
+.react-tour-overlay .tour-action:hover { background: #6ee0d8; }
+@media (max-width: 767px) {
+  .react-tour-overlay .tour-card {
+    left: 8px !important;
+    right: 8px;
+    bottom: 8px;
+    top: auto !important;
+    width: calc(100vw - 16px) !important;
+    max-height: 55vh;
+    overflow-y: auto;
+  }
+  .react-tour-overlay .tour-body { padding: .9rem 1rem .5rem; }
+  .react-tour-overlay .tour-footer { padding: .5rem 1rem .75rem; }
+  .react-tour-overlay .tour-title { font-size: 1rem; }
+  .react-tour-overlay .tour-desc { font-size: .8rem; }
+}

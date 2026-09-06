@@ -17,7 +17,7 @@ import {
 } from '../panel';
 import { resolveSectionState } from '../state';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 function sec(over: Partial<Section> & { id?: number }): Section {
   return { id: 1, name: '', a: 0.01, iz: 1e-5, ...over } as Section;

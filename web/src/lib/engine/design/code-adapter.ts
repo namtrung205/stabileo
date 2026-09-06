@@ -14,7 +14,7 @@
  * `MemberContext`.
  */
 
-import type { ProvidedReinforcement } from '../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../store/model';
 import type { ProvidedRebarResult } from '../station-design-forces';
 import type { MemberContext } from './member-context';
 import type { CandidateGenerator } from './candidate-generator';

@@ -13,7 +13,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { snapWithMidpoint } from '../spatial-queries';
-import type { Node, Element } from '../../store/model.svelte';
+import type { Node, Element } from '../../store/model';
 
 const elements = new Map<number, Element>();
 

@@ -19,7 +19,7 @@ import { computeLocalAxes3D } from '../engine/local-axes-3d';
 import { createLocalAxesTriad } from '../three/create-local-axes';
 import { createMemberOffsetViz } from '../three/create-offset-viz';
 import { hasMemberOffset, resolveOffsetWorldVectors } from '../engine/member-offsets';
-import { jointHasRelease } from '../store/model.svelte';
+import { jointHasRelease } from '../store/model';
 import { hasShellOffset, resolveShellOffsetGlobal } from '../engine/shell-offsets';
 import type { SolverNode3D } from '../engine/types-3d';
 import {

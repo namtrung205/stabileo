@@ -22,7 +22,7 @@
  * record and the caller owns the timestamp — the same rule the detailing modules follow.
  */
 
-import { modelStore } from './model.svelte';
+import { modelStore } from './model';
 import { loadFixture } from '../templates/load-fixture';
 import type { GeneratedModel } from '../engine/generators/emit';
 import type { ModelProvenance, ProvenanceSource } from '../model/provenance';

@@ -24,7 +24,7 @@ import { ARRANGEMENTS, type BuiltUpArrangement } from '../../engine/generators/b
 import { resolveProfile, availableArrangements } from '../../engine/generators/profile-resolve';
 import { resolveCanonicalSection } from '../../section/canonical';
 import { solverProperties } from '../../section/state';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 /** One section, emitted the way the generator emits it. */
 function emitted(profileName: string, arrangement: BuiltUpArrangement, gapMm = 8): Section {

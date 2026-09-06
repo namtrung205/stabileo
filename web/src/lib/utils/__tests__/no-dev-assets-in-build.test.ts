@@ -126,8 +126,8 @@ describe('the build carries nothing that is local-only', () => {
     expect(code).not.toContain('location.hostname');
   });
 
-  it('main.ts imports the swap before the CSS and component graph', () => {
-    const main = readFileSync(resolve(WEB_ROOT, 'src/main.ts'), 'utf8');
+  it('main.tsx imports the swap before the CSS and component graph', () => {
+    const main = readFileSync(resolve(WEB_ROOT, 'src/main.tsx'), 'utf8');
     const imports = [...main.matchAll(/^import .*$/gm)].map((m) => m[0]);
     expect(imports[0], 'the dev favicon swap must be the first import').toContain('./dev-favicon');
   });

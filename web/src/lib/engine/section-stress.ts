@@ -3,7 +3,7 @@
 // In 2D analysis: only σ_x (from N+M via Navier) and τ_xy (from V via Jourawski).
 // No torsion (T=0) and no out-of-plane shear (V_z=0).
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import { ALL_PROFILES, type SectionShape } from '../data/steel-profiles';
 import type { ElementForces } from './types';
 import { computeSectionStress2D, isWasmReady } from './wasm-solver';

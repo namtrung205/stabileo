@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
+import { modelStore } from '../model';
 import { compressSnapshot, decompressSnapshot } from '../../utils/url-sharing';
-import { historyStore } from '../history.svelte';
+import { historyStore } from '../history';
 
 /**
  * A footing is a modelled entity, so it has to behave like one: survive every persistence

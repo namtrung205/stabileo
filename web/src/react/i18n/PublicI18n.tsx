@@ -5,7 +5,7 @@ import {
   tPublic,
   tpPublic,
   type PublicLocale,
-} from '../../lib/i18n/store.svelte';
+} from '../../lib/i18n/store';
 import { parsePublicPath } from '../../lib/i18n/public-routes';
 
 type PublicI18nValue = {

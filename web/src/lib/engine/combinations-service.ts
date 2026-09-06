@@ -1,7 +1,7 @@
 // Combination & envelope — now handled by WASM (wasm-solver.ts).
-// This file only keeps the inferLoadCaseType utility used by model.svelte.ts.
+// This file only keeps the inferLoadCaseType utility used by model.ts.
 
-import type { LoadCaseType } from '../store/model.svelte';
+import type { LoadCaseType } from '../store/model';
 
 /** Infer load case type from name for backward compat with old models */
 export function inferLoadCaseType(name: string): LoadCaseType {

@@ -18,7 +18,7 @@ import { compareCandidates, compareFailures, computeCandidateCost, candidateStee
 import { recommendSection, checkIterationGuard, MAX_SECTION_ITERATIONS, CAPS } from '../section-advice';
 import { syntheticBeamContext } from './helpers';
 import type { ElementDesignDemands } from '../../station-design-forces';
-import type { ProvidedReinforcement } from '../../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../../store/model';
 
 function demands(entries: Array<[string, number]>): ElementDesignDemands {
   return {

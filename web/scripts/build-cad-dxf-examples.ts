@@ -31,7 +31,7 @@ import {
   pruneBeamsDisconnectedFromColumns, pruneFloating,
 } from '../src/lib/cad/infer';
 import type { ArchPlan, ArchSlab, CadDocument, CadPt, LayerRole, RcDraftAssumptions } from '../src/lib/cad/types';
-import type { ModelSnapshot } from '../src/lib/store/history.svelte';
+import type { ModelSnapshot } from '../src/lib/store/history';
 import { OCCUPANCY_TABLE, DEAD_LOAD_DEFAULTS } from '../src/lib/engine/auto-loads';
 
 const FIXTURE_DIR = 'src/lib/cad/__tests__/fixtures';

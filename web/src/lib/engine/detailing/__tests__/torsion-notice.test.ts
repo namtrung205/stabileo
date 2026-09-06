@@ -25,7 +25,7 @@ import {
   TORSION_NOTICE_FLOOR, torsionUnevaluatedMembers, type TorsionNoticeInput,
 } from '../torsion-notice';
 import { workspaceScene } from './helpers/workspace-scene';
-import { verificationStore } from '../../../store/verification.svelte';
+import { verificationStore } from '../../../store/verification';
 import { renderReportHtml, renderDrawings, renderSchedule } from '../document-render';
 import type { SceneModel } from '../scene-model';
 import type { DocumentModel } from '../document-model';

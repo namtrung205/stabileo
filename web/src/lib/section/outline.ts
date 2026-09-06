@@ -20,7 +20,7 @@
  * approximation.
  */
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import type { SteelProfile } from '../data/steel-profiles';
 import { crossSectionPath } from '../utils/section-drawing';
 import { familyToShape } from '../data/steel-profiles';

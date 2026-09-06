@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import LZString from 'lz-string';
 import { deflateSync, inflateSync } from 'fflate';
-import type { ModelSnapshot } from '../../store/history.svelte';
+import type { ModelSnapshot } from '../../store/history';
 
 // ── Inline the pure functions from url-sharing.ts ──
 // (We can't import the full module because it depends on Svelte stores,

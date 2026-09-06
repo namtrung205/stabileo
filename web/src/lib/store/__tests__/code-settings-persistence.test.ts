@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
+import { modelStore } from '../model';
 import {
   DAGG_ASSUMED_MM, defaultCodeSettings, migrateCodeSettings,
 } from '../../codes/project-code-settings';

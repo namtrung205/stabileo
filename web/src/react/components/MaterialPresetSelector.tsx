@@ -3,7 +3,7 @@ import { codeLore } from '../../lib/data/code-lore';
 import { MATERIAL_CATEGORIES, bandSummary, categoryFamily, searchPresets, type MaterialPreset } from '../../lib/data/material-presets';
 import { concreteCodes, timberCodes } from '../../lib/data/non-metal-grades';
 import { codesForFamily, codesForMode, defaultCodeFor } from '../../lib/data/structural-grades';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './MaterialPresetSelector.css';

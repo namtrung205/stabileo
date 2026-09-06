@@ -1,7 +1,7 @@
 import { useEffect, useState, useSyncExternalStore, type InputHTMLAttributes, type Key } from 'react';
 import { get2DDisplayNodalLoadMoment, get2DDisplayNodalLoadVertical } from '../../lib/geometry/coordinate-system';
 import { memberLoadPerpComponent } from '../../lib/engine/model-diagnostics';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
 import type {
   DistributedLoad,
@@ -10,7 +10,7 @@ import type {
   NodalLoad3D,
   PointLoadOnElement,
   Support,
-} from '../../lib/store/model.svelte';
+} from '../../lib/store/model';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './SelectedEntityPanel.css';
 

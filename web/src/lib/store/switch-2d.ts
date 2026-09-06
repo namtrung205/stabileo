@@ -30,9 +30,9 @@
  * and the loss of a 3D model they spent an afternoon on.
  */
 
-import { modelStore } from './model.svelte';
-import { uiStore } from './ui.svelte';
-import { resultsStore } from './results.svelte';
+import { modelStore } from './model';
+import { uiStore } from './ui';
+import { resultsStore } from './results';
 import {
   buildSimplified2DModel, countCollapsedElements, type DrawPlane,
 } from '../geometry/plane-projection';
@@ -281,7 +281,7 @@ export function restore3D(): void {
  * original.
  *
  * The ui flags are written through the store's public setters, here rather
- * than in ui.svelte.ts, so the invariant "no backup ⇒ not in simplified
+ * than in ui.ts, so the invariant "no backup ⇒ not in simplified
  * mode" has exactly one owner.
  */
 export function resetSwitchBackup(): void {

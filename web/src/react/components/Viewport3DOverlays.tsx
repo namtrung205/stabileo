@@ -1,5 +1,5 @@
 import { useState, useSyncExternalStore } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { resultsStore, uiStore, verificationStore } from '../../lib/store';
 import { shellComponentMeta, shellComponentRange, shellComponentStats } from '../../lib/engine/shell-stress';
 import { divergingColor } from '../../lib/three/stress-heatmap';

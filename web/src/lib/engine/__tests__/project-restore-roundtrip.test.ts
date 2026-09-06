@@ -38,11 +38,11 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
 import { serializeProject } from '../../store/file';
 import { buildSolverInput3D } from '../solver-service';
 import { input3DToWireObject, findUncloneablePath, isSolverReady, solve3D } from '../wasm-solver';
-import type { Load, LoadCase } from '../../store/model.svelte';
+import type { Load, LoadCase } from '../../store/model';
 
 const EXAMPLE = 'pro-edificio-7p';
 

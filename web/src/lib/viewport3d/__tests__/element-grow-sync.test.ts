@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import * as THREE from 'three';
-import { modelStore } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
 import { NodesInstanced } from '../../three/nodes-instanced';
 import { ElementsBatched } from '../../three/elements-batched';
 import { ElementsPicking } from '../../three/elements-picking';

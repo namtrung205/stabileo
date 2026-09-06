@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type PointerEvent as ReactPointerEvent } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
+import { basicPanelStore, closeBasicPanel } from '../../lib/store/basic-panel';
 import { dsmStepsStore, resultsStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
-import { DataTable, type DataTab } from './DataTable';
+import { DataTable } from './DataTable';
 import { DSMStepWizard } from './DSMStepWizard';
 import { KinematicPanel } from './KinematicPanel';
 import { WhatIfPanel } from './WhatIfPanel';
@@ -20,21 +21,19 @@ const storedWidth = () => { try { const value = Number(localStorage.getItem(KEY)
 export function BasicPanel() {
   useStoreRevision(uiStore); useStoreRevision(resultsStore); useStoreRevision(dsmStepsStore);
   useSyncExternalStore(localeExternalStore.subscribe, localeExternalStore.getSnapshot, localeExternalStore.getSnapshot);
-  const [panel, setPanel] = useState<string | null>(null);
-  const [dataTab, setDataTab] = useState<DataTab>('nodes');
+  const { activePanel: panel, activeDataTab: dataTab } = useSyncExternalStore(
+    basicPanelStore.subscribe,
+    basicPanelStore.getSnapshot,
+    basicPanelStore.getSnapshot,
+  );
   const [width, setWidth] = useState(storedWidth);
   const [dragging, setDragging] = useState(false);
   const outputRef = useRef<HTMLDivElement>(null); const lastOpen = useRef(0);
-  useEffect(() => {
-    const receive = (event: Event) => { const detail = (event as CustomEvent<{activePanel?: string | null; activeDataTab?: string}>).detail; setPanel(detail?.activePanel ?? null); if (detail?.activeDataTab && ['nodes','elements','supports','loads','materials','sections'].includes(detail.activeDataTab)) setDataTab(detail.activeDataTab as DataTab); };
-    window.addEventListener('stabileo-basic-panel-state', receive); window.dispatchEvent(new Event('stabileo-request-basic-panel-state'));
-    return () => window.removeEventListener('stabileo-basic-panel-state', receive);
-  }, []);
   useEffect(() => { document.documentElement.style.setProperty('--st-right-panel-w', `${width}px`); return () => { document.documentElement.style.removeProperty('--st-right-panel-w'); }; }, [width]);
   const openCount = Number(uiStore.showKinematicPanel) + Number(uiStore.showWhatIf) + Number(Boolean(resultsStore.stressQuery));
   useEffect(() => { if (openCount > lastOpen.current) outputRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' }); lastOpen.current = openCount; }, [openCount]);
   const startResize = (event: ReactPointerEvent) => { const startX = event.clientX, startWidth = width; setDragging(true); const move = (e: PointerEvent) => setWidth(Math.min(MAX, Math.max(MIN, startWidth - (e.clientX - startX)))); const up = () => { setDragging(false); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); try { localStorage.setItem(KEY, String(Math.round(Number.parseFloat(document.documentElement.style.getPropertyValue('--st-right-panel-w'))))); } catch {} }; window.addEventListener('pointermove', move); window.addEventListener('pointerup', up); event.preventDefault(); };
-  const close = () => window.dispatchEvent(new CustomEvent('stabileo-open-basic-panel', { detail: { panel: null, opts: { toggle: false } } }));
+  const close = closeBasicPanel;
   if (!panel) return null;
   let content = null;
   if (panel === 'selection') content = <SelectionPanel />;

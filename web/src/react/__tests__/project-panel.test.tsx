@@ -10,7 +10,7 @@ describe('React Basic project panel', () => {
     expect(html).toContain('data-testid="project-open-file"');
     expect(html).toContain('data-testid="ex-group-2d"');
     expect(html).toContain('data-testid="ex-group-3d"');
-    expect(html).toContain('class="react-demo-menu-slot"');
+    expect(html).toContain('data-testid="demo-menu-toggle"');
     for (const format of ['Excel', 'PDF', 'DXF', 'SVG', 'PNG', 'CSV']) {
       expect(html).toContain(`>${format}</button>`);
     }

@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { commercialGradesFor, gradeById, isUnusualPairing } from '../../lib/data/structural-grades';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import './PairingNote.css';
 
 export function PairingNote({ family, gradeId }: { family?: string; gradeId?: string }) {

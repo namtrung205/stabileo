@@ -23,7 +23,7 @@ import { ALL_PROFILES } from '../../data/steel-profiles';
 import { resolveSectionState } from '../state';
 import { canonicalStressState } from '../stress-state';
 import { drawingGeometry } from '../drawing';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 beforeAll(async () => { await initSolver(); }, 60_000);
 

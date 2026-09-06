@@ -13,7 +13,7 @@
  * hard way.
  */
 
-import type { TourStep } from '../../store/tour.svelte';
+import type { TourStep } from '../../store/tour';
 import { t } from '../../i18n';
 import { ANCHORS, loadExample, setDimension, openPanel } from '../demo-helpers';
 import { uiStore } from '../../store';

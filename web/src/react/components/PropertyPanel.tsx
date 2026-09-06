@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { localeExternalStore } from '../../lib/i18n/store.svelte';
+import { localeExternalStore } from '../../lib/i18n/store';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { ContextHelp } from './ContextHelp';

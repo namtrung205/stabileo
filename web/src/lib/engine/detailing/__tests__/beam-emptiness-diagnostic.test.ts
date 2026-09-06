@@ -41,8 +41,8 @@
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { workspaceScene } from './helpers/workspace-scene';
-import { modelStore } from '../../../store/model.svelte';
-import { verificationStore } from '../../../store/verification.svelte';
+import { modelStore } from '../../../store/model';
+import { verificationStore } from '../../../store/verification';
 import { renderDrawings } from '../document-render';
 import { peakMy, peakMz, peakVy, peakVz, peakAxial, peakTorsion } from '../../design/design-axes';
 import type { SceneModel } from '../scene-model';

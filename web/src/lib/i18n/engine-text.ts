@@ -11,7 +11,7 @@
  * engine knowing either convention exists.
  */
 import { isMessage, type EngineMessage } from '../codes/message';
-import { i18n, tAt } from './store.svelte';
+import { i18n, tAt } from './store';
 
 /**
  * Locale-aware number formatting for message parameters.

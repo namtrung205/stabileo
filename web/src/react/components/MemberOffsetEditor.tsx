@@ -1,6 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { shouldEmbedFlat2DModelIn3D } from '../../lib/engine/solver-service';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import type { MemberOffset } from '../../lib/model/element-3d-metadata';
 import { modelStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';

@@ -1,6 +1,6 @@
 import { useState, useSyncExternalStore } from 'react';
 import { isUnusualPairing } from '../../lib/data/structural-grades';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { historyStore, modelStore, resultsStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { PairingNote } from './PairingNote';

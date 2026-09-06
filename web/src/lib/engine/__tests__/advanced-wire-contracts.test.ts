@@ -27,8 +27,8 @@
  * deserialiser IS the thing under test.
  */
 import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
-import { uiStore } from '../../store/ui.svelte';
+import { modelStore } from '../../store/model';
+import { uiStore } from '../../store/ui';
 import { buildSolverInput3D } from '../solver-service';
 import * as wasmSolver from '../wasm-solver';
 import {

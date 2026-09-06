@@ -3,7 +3,7 @@
  *
  * Tests the decomposition of loads with angle/isGlobal parameters
  * into local perpendicular + axial components, following the pattern
- * used in buildSolverInput() of model.svelte.ts.
+ * used in buildSolverInput() of model.ts.
  *
  * The decomposition converts:
  * - PointLoadOnElement with angle/isGlobal → SolverPointLoadOnElement (perp) + SolverNodalLoads (axial)
@@ -49,7 +49,7 @@ function getReaction(results: AnalysisResults, nodeId: number) {
 
 /**
  * Simulate the decomposition that buildSolverInput performs for a PointLoadOnElement.
- * This mirrors the exact code from model.svelte.ts for testing purposes.
+ * This mirrors the exact code from model.ts for testing purposes.
  */
 function decomposePointLoad(
   p: number, a: number, angle: number, isGlobal: boolean,

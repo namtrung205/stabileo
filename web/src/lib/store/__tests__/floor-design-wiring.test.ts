@@ -12,9 +12,9 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { detailingStore } from '../detailing.svelte';
-import { resultsStore } from '../results.svelte';
+import { modelStore } from '../model';
+import { detailingStore } from '../detailing';
+import { resultsStore } from '../results';
 import type { ElementForces3D, QuadStress } from '../../engine/types-3d';
 
 /**

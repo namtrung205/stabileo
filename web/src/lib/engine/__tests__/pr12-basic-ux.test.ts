@@ -112,7 +112,7 @@ describe('Task 2 — Select→Stresses removed, Advanced→Section Analysis kept
   });
 
   it("SelectMode type still includes 'stress' (used by the Advanced path)", () => {
-    const ui = read('../../store/ui.svelte.ts');
+    const ui = read('../../store/ui.ts');
     expect(ui).toMatch(/SelectMode\s*=[^;]*'stress'/);
   });
 });
@@ -145,11 +145,11 @@ describe('closing section analysis returns the pointer to selection', () => {
   it('closing the whole right panel disarms it too', () => {
     // The panel is where a stress click is answered. Dismissing it while the
     // question mode stays armed is the state the user actually hit.
-    const app = read('../../../App.svelte');
+    const store = read('../../store/basic-panel.ts');
     const panel = read('../../../react/components/BasicPanel.tsx');
-    expect(app).toContain('function closeBasicPanel()');
-    expect(app).toMatch(/closeBasicPanel[\s\S]{0,400}selectMode = 'elements'/);
-    expect(panel).toContain("panel: null, opts: { toggle: false }");
-    expect(app).toContain("if (detail.panel === null) closeBasicPanel()");
+    expect(store).toContain('export function closeBasicPanel()');
+    expect(store).toMatch(/closeBasicPanel[\s\S]{0,400}selectMode = 'elements'/);
+    expect(panel).toContain('const close = closeBasicPanel');
+    expect(store).toContain('if (request.panel === null) closeBasicPanel()');
   });
 });

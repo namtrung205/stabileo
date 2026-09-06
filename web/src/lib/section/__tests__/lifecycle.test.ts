@@ -16,7 +16,7 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
 import { supportsDetailedAnalysis } from '../drawing';
 import { canonicalPanelResult } from '../panel';
 import { ALL_PROFILES } from '../../data/steel-profiles';

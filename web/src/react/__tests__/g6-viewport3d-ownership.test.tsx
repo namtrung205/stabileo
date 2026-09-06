@@ -5,13 +5,12 @@ import { describe, expect, it } from 'vitest';
 const read = (path: string) => readFileSync(join(process.cwd(), path), 'utf8');
 
 describe('G6.1 React 3D viewport shell ownership', () => {
-  it('mounts the 3D route through the React editor portal', () => {
-    const app = read('src/App.svelte');
-    const portals = read('src/react/components/EditorChromePortals.tsx');
-    expect(app).not.toContain("import Viewport3D from './components/Viewport3D.svelte'");
-    expect(app).not.toContain('<Viewport3D />');
-    expect(app).toContain('react-viewport-3d-slot');
-    expect(portals).toContain('createPortal(<Viewport3D />');
+  it('mounts the 3D route directly in the native React workspace', () => {
+    const workspace = read('src/react/components/BasicWorkspace.tsx');
+    expect(workspace).toContain('<Viewport3D />');
+    expect(workspace).not.toContain('createPortal');
+    expect(existsSync(join(process.cwd(), 'src/App.svelte'))).toBe(false);
+    expect(existsSync(join(process.cwd(), 'src/react/components/EditorChromePortals.tsx'))).toBe(false);
   });
 
   it('gives React ownership of wrapper, camera controls and native pointer listeners', () => {

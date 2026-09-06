@@ -26,7 +26,7 @@
 import { allShippedLocales } from '../locales/all';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 
-type Store = typeof import('../store.svelte');
+type Store = typeof import('../store');
 
 /** A localStorage that behaves like one, per test. */
 function memoryStorage(seed: Record<string, string> = {}) {
@@ -54,7 +54,7 @@ async function boot(languages: string[], seed: Record<string, string> = {}) {
   vi.stubGlobal('localStorage', storage);
   vi.stubGlobal('navigator', { languages, language: languages[0] });
   vi.resetModules();
-  const store: Store = await import('../store.svelte');
+  const store: Store = await import('../store');
   return { store, storage };
 }
 

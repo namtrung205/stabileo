@@ -24,7 +24,7 @@ import {
   pruneBeamsDisconnectedFromColumns, pruneFloating,
 } from './infer';
 import { pointInPolygon } from './geometry';
-import type { ModelSnapshot } from '../store/history.svelte';
+import type { ModelSnapshot } from '../store/history';
 
 export interface InferenceOptions {
   /** Drop beam-layer fragments not connected to any column (leaders/annotation). */

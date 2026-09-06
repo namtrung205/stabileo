@@ -1,0 +1,81 @@
+.react-basic-mobile-shell .drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: rgba(0, 0, 0, .5);
+  z-index: 200;
+}
+.react-basic-mobile-shell .drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: min(85vw, 320px);
+  background: var(--st-surface);
+  z-index: 201;
+  overflow-y: auto;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, .4);
+  animation: react-basic-drawer-in .25s ease;
+}
+.react-basic-mobile-shell .drawer-left { left: 0; }
+body.tour-active .react-basic-mobile-shell .drawer { padding-bottom: 55vh; }
+.react-basic-mobile-shell .drawer-right { right: 0; display: flex; flex-direction: column; animation-name: react-basic-drawer-in-right; }
+@keyframes react-basic-drawer-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes react-basic-drawer-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.react-basic-mobile-shell .drawer-right .panel { max-height: none; overflow-y: visible; }
+.react-basic-mobile-shell .data-table-sidebar { flex: 1; overflow: hidden; min-height: 0; }
+.react-basic-mobile-shell .datatable-toggle {
+  width: 100%;
+  padding: .35rem .5rem;
+  background: var(--st-bg);
+  border: none;
+  border-bottom: 1px solid var(--st-hair);
+  color: var(--st-text-2);
+  cursor: pointer;
+  font-size: .7rem;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.react-basic-mobile-shell .datatable-toggle:hover { background: var(--st-bg); color: var(--st-text); }
+.react-basic-mobile-shell .mobile-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--st-surface);
+  border-top: 1px solid var(--st-hair);
+  padding: 8px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  gap: 8px;
+}
+.react-basic-mobile-shell .mobile-bar-btn {
+  background: var(--st-surface-2);
+  border: 1px solid var(--st-hair-strong);
+  color: var(--st-text);
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+}
+.react-basic-mobile-shell .mobile-bar-btn:active { background: var(--st-surface-3); color: white; }

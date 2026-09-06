@@ -1,5 +1,5 @@
 // Tour step definitions for the /demo guided walkthrough
-import type { TourStep, TourActionButton } from '../store/tour.svelte';
+import type { TourStep, TourActionButton } from '../store/tour';
 import { uiStore, modelStore, resultsStore } from '../store';
 import { t } from '../i18n';
 

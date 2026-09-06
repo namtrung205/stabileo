@@ -19,7 +19,7 @@ import {
 } from '../canonical';
 import { analyzeSectionBending, hasCanonicalGeometryExport, sectionGeometryDigest } from '../../engine/wasm-solver';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 // These tests exercise the canonical-geometry WASM export. A build from a
 // branch that predates the section engine does not have it, so skip rather

@@ -10,7 +10,7 @@
 import { describe, it, expect } from 'vitest';
 import { computeLocalAxes3D } from '../local-axes-3d';
 import { validateAndSolve3D } from '../solver-service';
-import { modelStore } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
 import type { SolverNode3D } from '../types-3d';
 
 // Rectangular section: depth h=0.5 (strong), width b=0.2 (weak).

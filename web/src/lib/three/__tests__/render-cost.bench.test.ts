@@ -9,7 +9,7 @@ import { createElementGroup } from '../create-element-mesh';
 import { createQuadMesh } from '../create-shell-mesh';
 import { createSupportGizmo } from '../create-support-gizmo';
 import { createLoadArrowsBatched } from '../load-arrows-batched';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 // createTextSpriteCached draws to a 2D canvas — stubbed headless.
 const canvasStub = {

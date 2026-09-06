@@ -85,7 +85,7 @@ describe('the unoffered dictionaries stay out of the application', () => {
      * dictionaries in, which is a true answer to a question nobody asked. An
      * assertion that cannot see half the imports is not guarding them.
      */
-    const src = readFileSync(join(SRC, 'lib/i18n/store.svelte.ts'), 'utf8');
+    const src = readFileSync(join(SRC, 'lib/i18n/store.ts'), 'utf8');
     const imported = [...src.matchAll(/from '\.\/locales\/([\w/]+)'/g)].map((m) => m[1]).sort();
     expect(imported).toEqual(['en', 'es', 'pt', 'steel/en', 'steel/es', 'steel/pt']);
   });

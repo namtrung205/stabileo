@@ -1,0 +1,363 @@
+.react-section-changer .profile-layout {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 10px 0;
+}
+.react-section-changer .profile-aside { display: flex; flex-direction: column; gap: 8px; }
+.react-section-changer .profile-aside .profile-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border-radius: var(--st-radius, 3px);
+  background: var(--st-surface-3);
+  border: 1px solid var(--st-border);
+}
+.react-section-changer .profile-aside .meta-family {
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--st-border);
+}
+.react-section-changer .profile-aside .meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-size: .7rem;
+  line-height: 1.5;
+}
+.react-section-changer .profile-aside .meta-k { color: var(--st-text-3); min-width: 0; }
+.react-section-changer .profile-aside .meta-v { text-align: right; }
+.react-section-changer .profile-preview {
+  aspect-ratio: 1;
+  border-radius: var(--st-radius, 3px);
+  background: var(--st-surface-3);
+  border: 1px solid var(--st-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+.react-section-changer .profile-preview .preview-svg { width: 100%; height: 100%; }
+.react-section-changer .meta-family {
+  font-family: var(--st-display, inherit);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--st-text);
+}
+.react-section-changer .profile-families {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.react-section-changer .series-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  background: none;
+  border: none;
+  border-radius: var(--st-radius, 3px);
+  color: var(--st-text-2);
+  font-family: var(--st-sans, inherit);
+  font-size: .78rem;
+  text-align: left;
+  cursor: pointer;
+}
+.react-section-changer .series-head:hover { background: var(--st-surface-2); color: var(--st-text); }
+.react-section-changer .series-block.open .series-head { color: var(--st-text); }
+.react-section-changer .series-chevron { font-size: .62rem; width: 10px; color: var(--st-text-3); }
+.react-section-changer .series-count {
+  margin-left: auto;
+  font-size: .68rem;
+  color: var(--st-text-3);
+  font-family: var(--st-mono, monospace);
+}
+.react-section-changer .series-families {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 2px 8px 6px 24px;
+}
+.react-section-changer .series-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 3px 0;
+}
+.react-section-changer .sc-route-note {
+  margin: 0 0 8px;
+  padding: 6px 9px;
+  border-radius: var(--st-radius, 3px);
+  background: var(--st-surface-2);
+  border-left: 2px solid var(--st-value);
+  font-size: .72rem;
+  line-height: 1.5;
+  color: var(--st-text-2);
+}
+.react-section-changer.sc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+.react-section-changer .sc-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(0, 0, 0, .6);
+  cursor: default;
+}
+.react-section-changer .sc-modal {
+  position: relative;
+  background: var(--st-surface);
+  border: 1px solid var(--st-hair);
+  border-radius: 8px;
+  width: 700px;
+  max-width: 95vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+}
+.react-section-changer .sc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .85rem 1.25rem .5rem;
+  border-bottom: 1px solid var(--st-hair-strong);
+}
+.react-section-changer .sc-header h2 { font-size: 1.05rem; color: var(--st-value); margin: 0; }
+.react-section-changer .sc-close {
+  background: none;
+  border: none;
+  color: var(--st-text-3);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: .25rem;
+}
+.react-section-changer .sc-close:hover { color: var(--st-text); }
+.react-section-changer .sc-main-tabs { display: flex; border-bottom: 2px solid var(--st-hair); }
+.react-section-changer .sc-main-tabs button {
+  flex: 1;
+  padding: .55rem .75rem;
+  border: none;
+  background: transparent;
+  color: var(--st-text-3);
+  font-size: .82rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .15s;
+}
+.react-section-changer .sc-main-tabs button:hover { color: var(--st-text); background: var(--st-surface-3); }
+.react-section-changer .sc-main-tabs button.active { color: var(--st-value); border-bottom-color: var(--st-interactive); }
+.react-section-changer .sc-body { flex: 1; overflow-y: auto; min-height: 0; }
+.react-section-changer .sc-profile-body { display: flex; flex-direction: column; }
+.react-section-changer .sc-shape-body {
+  padding: .5rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+.react-section-changer .profile-tabs {
+  display: flex;
+  gap: .2rem;
+  padding: .6rem 1.25rem .3rem;
+  flex-wrap: wrap;
+}
+.react-section-changer .tab-btn {
+  padding: .3rem .7rem;
+  border: 1px solid var(--st-hair-strong);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--st-text-2);
+  font-size: .8rem;
+  cursor: pointer;
+  transition: all .15s;
+}
+.react-section-changer .tab-btn:hover { background: var(--st-surface-2); color: var(--st-text); }
+.react-section-changer .tab-btn.active { background: var(--st-accent); border-color: var(--st-accent); color: white; }
+.react-section-changer .code-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--st-border);
+}
+.react-section-changer .code-label { font-size: .68rem; color: var(--st-text-3); text-transform: uppercase; letter-spacing: .04em; }
+.react-section-changer .code-btn {
+  padding: 3px 9px;
+  border-radius: var(--st-radius, 3px);
+  background: transparent;
+  border: 1px solid var(--st-border);
+  color: var(--st-text-3);
+  font-family: var(--st-sans, inherit);
+  font-size: .72rem;
+  cursor: pointer;
+}
+.react-section-changer .code-btn:hover { color: var(--st-text); border-color: var(--st-text-3); }
+.react-section-changer .code-btn.active {
+  background: var(--st-accent);
+  border-color: var(--st-accent);
+  color: var(--st-text-on-accent);
+}
+.react-section-changer .series-label {
+  font-size: .62rem;
+  color: var(--st-text-3);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin: 0 2px 0 8px;
+  align-self: center;
+}
+.react-section-changer .series-label:first-child { margin-left: 0; }
+.react-section-changer .tab-btn.approx { border-bottom: 2px dotted var(--st-amber-text); }
+.react-section-changer .profile-head { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+.react-section-changer .profile-meta { flex: 1; min-width: 0; font-size: .7rem; }
+.react-section-changer .meta-row { display: flex; gap: 6px; }
+.react-section-changer .meta-k { color: var(--st-text-3); min-width: 74px; }
+.react-section-changer .meta-v { color: var(--st-text-2); font-family: monospace; }
+.react-section-changer .meta-v.warn { color: var(--st-amber-text); }
+.react-section-changer .meta-missing { margin-top: 6px; color: var(--st-amber); font-size: .65rem; line-height: 1.35; }
+.react-section-changer .row-thumb { width: 18px; height: 18px; vertical-align: -4px; margin-right: 6px; }
+.react-section-changer .profile-search { padding: 0 1.25rem .5rem; }
+.react-section-changer .profile-search input {
+  width: 100%;
+  background: var(--st-surface-2);
+  border: 1px solid var(--st-hair-strong);
+  border-radius: 4px;
+  color: var(--st-text);
+  padding: .4rem .6rem;
+  font-size: .85rem;
+}
+.react-section-changer .profile-search input::placeholder { color: var(--st-text-3); }
+.react-section-changer .profile-search input:focus { outline: none; border-color: var(--st-interactive); }
+.react-section-changer .profile-table-wrap { flex: 1; overflow-y: auto; padding: 0 1.25rem 1rem; }
+.react-section-changer .profile-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.react-section-changer .profile-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--st-surface);
+  color: var(--st-text-3);
+  font-weight: 500;
+  text-align: right;
+  padding: .35rem .5rem;
+  border-bottom: 1px solid var(--st-hair);
+  font-size: .75rem;
+}
+.react-section-changer .profile-table thead th:first-child { text-align: left; }
+.react-section-changer .profile-row { cursor: pointer; transition: background .1s; }
+.react-section-changer .profile-row:hover,
+.react-section-changer .profile-row:focus { background: var(--st-surface-2); outline: none; }
+.react-section-changer .profile-row td {
+  padding: .35rem .5rem;
+  text-align: right;
+  color: var(--st-text);
+  border-bottom: 1px solid var(--st-hair);
+}
+.react-section-changer .name-cell { text-align: left !important; font-weight: 500; color: var(--st-text) !important; }
+.react-section-changer .no-results { text-align: center !important; color: var(--st-text-3) !important; padding: 2rem 0 !important; }
+.react-section-changer .category-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: .3rem;
+}
+.react-section-changer .category-tabs button {
+  flex: 1;
+  padding: .35rem .75rem;
+  border: 1px solid var(--st-hair-strong);
+  background: transparent;
+  color: var(--st-text-3);
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+}
+.react-section-changer .category-tabs button:first-child { border-radius: 6px 0 0 6px; border-right: none; }
+.react-section-changer .category-tabs button:last-child { border-radius: 0 6px 6px 0; }
+.react-section-changer .category-tabs button.active { background: var(--st-surface-2); color: var(--st-value); border-color: var(--st-interactive); }
+.react-section-changer .category-tabs button:not(.active):hover { background: var(--st-surface-3); color: var(--st-text); }
+.react-section-changer .shape-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--st-hair);
+  padding: 0;
+}
+.react-section-changer .shape-desc { font-size: .75rem; color: var(--st-text-3); margin: .5rem 0; font-style: italic; }
+.react-section-changer .preview-container { display: flex; justify-content: center; margin: .4rem 0; }
+.react-section-changer .section-preview {
+  width: 120px;
+  height: 120px;
+  background: var(--st-surface-3);
+  border-radius: 6px;
+  border: 1px solid var(--st-border);
+}
+.react-section-changer .param-grid { display: flex; flex-direction: column; gap: .5rem; }
+.react-section-changer .param-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .8rem;
+  color: var(--st-text);
+}
+.react-section-changer .param-input { display: flex; align-items: center; gap: .3rem; }
+.react-section-changer .param-input input {
+  width: 80px;
+  padding: .3rem .4rem;
+  background: var(--st-surface-2);
+  border: 1px solid var(--st-hair-strong);
+  border-radius: 4px;
+  color: var(--st-text);
+  font-size: .8rem;
+  text-align: right;
+}
+.react-section-changer .param-unit { font-size: .7rem; color: var(--st-text-3); min-width: 1.5rem; }
+.react-section-changer .results-box {
+  margin-top: .75rem;
+  padding: .6rem;
+  background: var(--st-surface-2);
+  border: 1px solid var(--st-hair-strong);
+  border-radius: 6px;
+}
+.react-section-changer .results-box.error { border-color: var(--st-accent); color: var(--st-accent); text-align: center; font-size: .8rem; }
+.react-section-changer .result-row { display: flex; justify-content: space-between; font-size: .8rem; color: var(--st-text-2); padding: .15rem 0; }
+.react-section-changer .result-val { color: var(--st-value); font-family: monospace; }
+.react-section-changer .confirm-btn {
+  width: 100%;
+  margin-top: .75rem;
+  padding: .5rem;
+  background: var(--st-accent);
+  border: 1px solid var(--st-accent);
+  border-radius: 6px;
+  color: var(--st-value);
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 600;
+  transition: all .15s;
+}
+.react-section-changer .confirm-btn:hover { background: var(--st-accent); color: white; }
+.react-section-changer .amorph-warning {
+  margin-top: .5rem;
+  padding: .4rem .6rem;
+  background: rgba(233, 69, 96, .1);
+  border: 1px solid rgba(233, 69, 96, .3);
+  border-radius: 4px;
+  color: var(--st-amber-text);
+  font-size: .75rem;
+}

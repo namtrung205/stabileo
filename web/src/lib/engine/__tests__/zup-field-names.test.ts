@@ -100,7 +100,6 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
     const nodeDetails = readFileSync(new URL('../../../react/components/NodeDetails.tsx', import.meta.url), 'utf8');
     const loadsTable = readFileSync(new URL('../../../react/components/LoadsTable.tsx', import.meta.url), 'utf8');
     const whatIfPanel = readFileSync(new URL('../../../react/components/WhatIfPanel.tsx', import.meta.url), 'utf8');
-    const proPanel = readFileSync(new URL('../../../components/pro/ProPanel.svelte', import.meta.url), 'utf8');
     const drawLoads = readFileSync(new URL('../../canvas/draw-loads.ts', import.meta.url), 'utf8');
     const sceneSync = readFileSync(new URL('../../viewport3d/scene-sync.ts', import.meta.url), 'utf8');
 
@@ -109,7 +108,6 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
       ['NodeDetails.tsx', nodeDetails],
       ['LoadsTable.tsx', loadsTable],
       ['WhatIfPanel.tsx', whatIfPanel],
-      ['ProPanel.svelte', proPanel],
       ['scene-sync.ts', sceneSync],
     ] as const) {
       expect(text, `${label} should use shared 2D nodal-load vertical helper`).toContain('get2DDisplayNodalLoadVertical');
@@ -139,7 +137,7 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
 
   it('shared displacement helpers should prefer Z-up fields with Y-up fallback', () => {
     const coordSystem = readFileSync(new URL('../../geometry/coordinate-system.ts', import.meta.url), 'utf8');
-    const resultsStore = readFileSync(new URL('../../store/results.svelte.ts', import.meta.url), 'utf8');
+    const resultsStore = readFileSync(new URL('../../store/results.ts', import.meta.url), 'utf8');
 
     // Z-up fallback helpers
     expect(coordSystem, 'get2DDisplayDisplacementVertical should prefer uz').toContain('disp.uz ?? disp.uy');
@@ -149,12 +147,12 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
   });
 
   it('3D nodal load updates should keep fy/fz and my/mz on their own axes', () => {
-    const modelStore = readFileSync(new URL('../../store/model.svelte.ts', import.meta.url), 'utf8');
+    const modelStore = readFileSync(new URL('../../store/model.ts', import.meta.url), 'utf8');
     const nodal3dBranch = modelStore.match(
       /else if \(load\.type === 'nodal3d'\) \{[\s\S]*?\n      \} else if \(load\.type === 'distributed3d'\)/,
     )?.[0];
 
-    expect(nodal3dBranch, 'model.svelte.ts should have a dedicated nodal3d update branch').toBeTruthy();
+    expect(nodal3dBranch, 'model.ts should have a dedicated nodal3d update branch').toBeTruthy();
 
     expect(nodal3dBranch, 'nodal3d updates should write fy to d.fy').toContain("if (data.fy !== undefined) d.fy = data.fy as number;");
     expect(nodal3dBranch, 'nodal3d updates should write fz to d.fz').toContain("if (data.fz !== undefined) d.fz = data.fz as number;");
@@ -173,23 +171,21 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
     expect(aiClient, 'ai/client.ts should not use stale d.uy fallback').not.toContain('d.uz ?? d.uy');
   });
 
-  it('PRO UI seams should treat pro mode as a 3D result/modeling path', () => {
-    const aiDrawer = readFileSync(new URL('../../../components/AiDrawer.svelte', import.meta.url), 'utf8');
+  it('Basic UI seams should preserve the 3D result/modeling path', () => {
+    const aiDrawer = readFileSync(new URL('../../../react/components/AiDrawer.tsx', import.meta.url), 'utf8');
     const mobileResults = readFileSync(new URL('../../../react/components/MobileResultsPanel.tsx', import.meta.url), 'utf8');
     const sectionStress = readFileSync(new URL('../../../react/components/stress/sectionStressPanelModel.ts', import.meta.url), 'utf8');
-    const aiReview = readFileSync(new URL('../../../components/toolbar/ToolbarAiReview.svelte', import.meta.url), 'utf8');
     // Copy/paste moved out of Toolbar with the rest of the keyboard layer:
     // Toolbar is mounted on mobile only, so every shortcut it owned did nothing
     // on desktop. These guarantees follow the code to its new home.
     const toolbar = readFileSync(new URL('../../../react/components/KeyboardShortcuts.tsx', import.meta.url), 'utf8');
     const oldToolbar = readFileSync(new URL('../../../react/components/MobileToolbar.tsx', import.meta.url), 'utf8');
 
-    expect(aiDrawer, 'AiDrawer.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
-    expect(aiDrawer, 'AiDrawer.svelte should send canonical 3D mode to the AI backend').toContain("const aiAnalysisMode = $derived(is3DMode ? '3d' : '2d');");
-    expect(mobileResults, 'MobileResultsPanel.tsx should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
-    expect(sectionStress, 'the React section stress model should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
-    expect(aiReview, 'ToolbarAiReview.svelte should treat pro as 3D').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
-    expect(toolbar, 'KeyboardShortcuts.tsx should treat pro as 3D when pasting copied geometry').toContain("uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro'");
+    expect(aiDrawer, 'AiDrawer.tsx should handle 3D mode').toContain("uiStore.analysisMode === '3d'");
+    expect(aiDrawer, 'AiDrawer.tsx should send canonical 3D mode to the AI backend').toContain("const aiAnalysisMode = is3DMode ? '3d' : '2d';");
+    expect(mobileResults, 'MobileResultsPanel.tsx should handle 3D mode').toContain("uiStore.analysisMode === '3d'");
+    expect(sectionStress, 'the React section stress model should handle 3D mode').toContain("uiStore.analysisMode === '3d'");
+    expect(toolbar, 'KeyboardShortcuts.tsx should handle 3D mode when pasting copied geometry').toContain("uiStore.analysisMode === '3d'");
     expect(toolbar, 'KeyboardShortcuts.tsx should copy 3D element metadata into the clipboard through the shared helper').toContain('...pickElement3DMetadata(element)');
     expect(toolbar, 'KeyboardShortcuts.tsx should require a complete explicit local axis before restoring it on paste').toContain('if (hasExplicitLocalY(element))');
     expect(toolbar, 'KeyboardShortcuts.tsx should restore localY metadata when pasting').toContain('modelStore.updateElementLocalY(newId, element.localYx, element.localYy, element.localYz)');
@@ -199,47 +195,38 @@ describe('Bug 1: 2D Displacement uses uz/ry (not uy/rz)', () => {
   });
 
   it('3D viewport presentation should be explicit rather than a boolean projection hint', () => {
-    const uiStore = readFileSync(new URL('../../store/ui.svelte.ts', import.meta.url), 'utf8');
+    const uiStore = readFileSync(new URL('../../store/ui.ts', import.meta.url), 'utf8');
     const coordinateSystem = readFileSync(new URL('../../geometry/coordinate-system.ts', import.meta.url), 'utf8');
     const fileStore = readFileSync(new URL('../../store/file.ts', import.meta.url), 'utf8');
-    const tabsStore = readFileSync(new URL('../../store/tabs.svelte.ts', import.meta.url), 'utf8');
-    const app = readFileSync(new URL('../../../App.svelte', import.meta.url), 'utf8');
+    const tabsStore = readFileSync(new URL('../../store/tabs.ts', import.meta.url), 'utf8');
+    const lifecycle = readFileSync(new URL('../../../react/editor/useBasicEditorLifecycle.ts', import.meta.url), 'utf8');
 
-    expect(uiStore, 'ui.svelte.ts should use an explicit viewportPresentation3D state').toContain("let viewportPresentation3D = $state<ViewportPresentation3D>('native3d');");
-    expect(uiStore, 'ui.svelte.ts should expose explicit helpers for native vs upright 2D-in-3D presentation').toContain("useUpright2DIn3DPresentation()");
+    expect(uiStore, 'ui.ts should use an explicit viewportPresentation3D state').toContain("let viewportPresentation3D = stateValue<ViewportPresentation3D>('native3d');");
+    expect(uiStore, 'ui.ts should expose explicit helpers for native vs upright 2D-in-3D presentation').toContain("useUpright2DIn3DPresentation()");
     expect(coordinateSystem, 'coordinate-system.ts should key projection off viewportPresentation3D').toContain("params.viewportPresentation3D !== 'upright2dIn3d'");
     expect(coordinateSystem, 'coordinate-system.ts should not use the old boolean hint anymore').not.toContain('preferProjectFlat2DIn3D');
     expect(fileStore, 'file.ts should persist viewportPresentation3D in project/autosave files').toContain('viewportPresentation3D?: ViewportPresentation3D;');
     expect(fileStore, 'file.ts should serialize viewportPresentation3D').toContain('viewportPresentation3D: uiStore.viewportPresentation3D,');
     expect(fileStore, 'file.ts should restore viewportPresentation3D after analysisMode').toContain('if (data.viewportPresentation3D) uiStore.viewportPresentation3D = data.viewportPresentation3D;');
-    expect(tabsStore, 'tabs.svelte.ts should persist viewportPresentation3D per tab').toContain('viewportPresentation3D: uiStore.viewportPresentation3D,');
-    expect(tabsStore, 'tabs.svelte.ts should restore viewportPresentation3D after analysisMode').toContain("uiStore.viewportPresentation3D = state.viewportPresentation3D ?? 'native3d';");
-    expect(app, 'App.svelte should restore viewportPresentation3D from autosave').toContain('if (autosaveData.viewportPresentation3D) uiStore.viewportPresentation3D = autosaveData.viewportPresentation3D;');
+    expect(tabsStore, 'tabs.ts should persist viewportPresentation3D per tab').toContain('viewportPresentation3D: uiStore.viewportPresentation3D,');
+    expect(tabsStore, 'tabs.ts should restore viewportPresentation3D after analysisMode').toContain("uiStore.viewportPresentation3D = state.viewportPresentation3D ?? 'native3d';");
+    expect(lifecycle, 'the Basic lifecycle should restore viewportPresentation3D from autosave').toContain('if (offer.data.viewportPresentation3D) uiStore.viewportPresentation3D = offer.data.viewportPresentation3D;');
   });
 
-  it('3D section-stress and verification seams should preserve standard My/Mz identity', () => {
+  it('3D section-stress and solver verification should preserve standard My/Mz identity', () => {
     const sectionStress3D = readFileSync(new URL('../section-stress-3d.ts', import.meta.url), 'utf8');
-    const verificationTab = readFileSync(new URL('../../../components/pro/ProVerificationTab.svelte', import.meta.url), 'utf8');
     const autoVerify = readFileSync(new URL('../auto-verify.ts', import.meta.url), 'utf8');
-    const proPanel = readFileSync(new URL('../../../components/pro/ProPanel.svelte', import.meta.url), 'utf8');
 
     expect(sectionStress3D, 'section-stress-3d.ts should document the PR [12] 3D Navier formula').toContain('My·y/Iy + Mz·z/Iz');
     expect(sectionStress3D, 'section-stress-3d.ts should subtract My on the y/Iy term (depth, strong)').toContain('sigma -= My * y / Iy');
     expect(sectionStress3D, 'section-stress-3d.ts should add Mz on the z/Iz term (width, weak)').toContain('sigma += Mz * z / Iz');
     expect(sectionStress3D, 'section-stress-3d.ts must not keep the pre-PR[12] pairing').not.toContain('sigma += Mz * y / Iz');
 
-    expect(verificationTab, 'ProVerificationTab.svelte should keep Mu on the strong-axis mz envelope').toContain('MuMax = _mzMax');
-    expect(verificationTab, 'ProVerificationTab.svelte should keep Muy on the weak-axis my envelope').toContain('MuyMax = _myMax');
-    expect(verificationTab, 'ProVerificationTab.svelte should keep steel Muz on mz').toContain('MuzMax = _mzM');
-    expect(verificationTab, 'ProVerificationTab.svelte should not sort My/Mz by magnitude').not.toContain('MuMax = Math.max(_mzMax, _myMax)');
-    expect(verificationTab, 'ProVerificationTab.svelte should not sort steel My/Mz by magnitude').not.toContain('MuzMax = Math.max(_mzM, _myM)');
-
     // Columns keep Mz=Mu, My=Muy (identity intact); beams are axis-aware but
     // moments are never magnitude-sorted into a single Mu (see auto-verify.ts).
     expect(autoVerify, 'auto-verify.ts should keep column Mu = Mz').toContain('MuMax = MzMax;');
     expect(autoVerify, 'auto-verify.ts should preserve My as Muy').toContain('const MuyMax = MyMax;');
     expect(autoVerify, 'auto-verify.ts must not magnitude-sort moments').not.toContain('Math.max(MzMax, MyMax)');
-    expect(proPanel, 'ProPanel.svelte combo summary should report strong-axis Mu').toContain('Mu: Math.max(Math.abs(ef.mzStart), Math.abs(ef.mzEnd))');
   });
 });
 

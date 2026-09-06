@@ -17,7 +17,7 @@ vi.mock('../wasm-solver', async (importOriginal) => {
 });
 
 import { analyzeSectionStressFromForces } from '../section-stress-3d';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const fixturePath = resolve(here, '../../../../../engine/tests/fixtures/section-stress-parity.json');

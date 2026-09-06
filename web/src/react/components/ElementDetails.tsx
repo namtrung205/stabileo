@@ -1,11 +1,11 @@
-import { t } from '../../lib/i18n/store.svelte';
+import { t } from '../../lib/i18n/store';
 import { commercialDefaultFor, findMaterialWithGrade, materialFromGrade } from '../../lib/data/commercial-default';
 import type { MaterialPreset } from '../../lib/data/material-presets';
 import type { SectionProperties } from '../../lib/data/section-shapes';
 import type { GradeRegion } from '../../lib/data/structural-grades';
 import { profileToSectionFull, type SteelProfile } from '../../lib/data/steel-profiles';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
-import { computeElementStress } from '../../lib/store/results.svelte';
+import { computeElementStress } from '../../lib/store/results';
 import { toDisplay, unitLabel, type Quantity } from '../../lib/utils/units';
 import { PairingNote } from './PairingNote';
 

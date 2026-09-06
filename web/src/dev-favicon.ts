@@ -27,7 +27,7 @@
  * build" rule this module exists to serve. Inlined, there is no artifact to leak:
  * the data URI lives inside the branch that DEV eliminates.
  *
- * Imported FIRST by main.ts, before the CSS and App imports. ES module imports are
+ * Imported FIRST by main.tsx, before the CSS and App imports. ES module imports are
  * hoisted and run in order, so this executes before the dev server has to resolve
  * hundreds of unbundled modules — otherwise the tab paints the production icon and
  * visibly flips to yellow seconds later.

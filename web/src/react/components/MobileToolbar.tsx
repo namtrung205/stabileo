@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { historyStore, modelStore, uiStore } from '../../lib/store';
 import { hasBackup, needsPlaneChoice, restore3D, switchPlain } from '../../lib/store/switch-2d';
 import { useStoreRevision } from '../store/useStoreRevision';

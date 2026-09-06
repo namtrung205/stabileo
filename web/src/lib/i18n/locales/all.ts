@@ -3,7 +3,7 @@
  *
  * ── Why this file exists, and why nothing in `src/` may import it ──
  *
- * `store.svelte.ts` used to import all fourteen locales so that re-enabling
+ * `store.ts` used to import all fourteen locales so that re-enabling
  * one would be a single edit. The cost of that convenience was not visible
  * until the landing and the blog were measured: the eleven locales the app
  * refuses to switch to were **2.0 MB of the 14.6 MB bundle** — the single
@@ -22,7 +22,7 @@
  * file. What changed is that a browser no longer does.
  *
  * Re-enabling a locale is still a single edit, just in the other direction:
- * add it to `dicts` in store.svelte.ts and to OFFERED_LOCALES.
+ * add it to `dicts` in store.ts and to OFFERED_LOCALES.
  *
  * IMPORTANT: importing this from application code silently puts all fourteen
  * back into the bundle. `no-all-locales-in-app.test.ts` fails if anything
@@ -50,7 +50,7 @@ import steelPt from './steel/pt';
 /**
  * Every dictionary that exists, offered or not. Gates only.
  *
- * The steel spread mirrors `dicts` in store.svelte.ts, and it has to.
+ * The steel spread mirrors `dicts` in store.ts, and it has to.
  *
  * The point of this module is that a gate reading it sees what the application
  * ships. #135 folded `locales/steel/*` into es/en/pt without touching `es.ts`

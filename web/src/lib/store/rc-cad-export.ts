@@ -24,10 +24,10 @@
  * right to reject it and the user would have no way to know why.
  */
 
-import { modelStore } from './model.svelte';
-import { detailingStore } from './detailing.svelte';
-import { verificationStore } from './verification.svelte';
-import { regulationsStore } from './regulations.svelte';
+import { modelStore } from './model';
+import { detailingStore } from './detailing';
+import { verificationStore } from './verification';
+import { regulationsStore } from './regulations';
 import { downloadText } from './file';
 import { isDemandStale, type DetailingAssembly } from '../engine/detailing/assembly';
 import type { Footing } from '../model/footing';

@@ -65,6 +65,7 @@ function worktreePort(): number {
 
 const PORT = Number(process.env.E2E_PORT ?? worktreePort());
 const BASE_URL = `http://${HOST}:${PORT}`;
+const E2E_ENV_PREFIX = process.platform === 'win32' ? 'set VITE_E2E=1&&' : 'VITE_E2E=1';
 
 export default defineConfig({
   testDir: './e2e',
@@ -117,7 +118,7 @@ export default defineConfig({
     // VITE_E2E=1 is what compiles the read-only test hooks into the bundle. A normal
     // `npm run build` omits them entirely, so a production artifact can never expose
     // `window.__stabileo` — proved by src/lib/utils/__tests__/e2e-hook-gating.test.ts.
-    command: `VITE_E2E=1 npm run build && npx vite preview --port ${PORT} --host ${HOST} --strictPort`,
+    command: `${E2E_ENV_PREFIX} npm run build && npx vite preview --port ${PORT} --host ${HOST} --strictPort`,
     url: BASE_URL,
     /*
      * An explicit E2E_PORT means "give me my own server", so reuse is off for

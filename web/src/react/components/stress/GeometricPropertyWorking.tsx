@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import type { ReactNode } from 'react';
 import type { ResolvedSection } from '../../../lib/engine/section-stress';
 import { centroidWorking, shearCentreWorking } from '../../../lib/engine/section-teaching';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import { fmt } from '../../../components/stress/fmt';
 import './GeometricPropertyWorking.css';
 

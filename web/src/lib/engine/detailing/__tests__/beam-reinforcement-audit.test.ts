@@ -83,8 +83,8 @@
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { workspaceScene } from './helpers/workspace-scene';
-import { modelStore } from '../../../store/model.svelte';
-import { verificationStore } from '../../../store/verification.svelte';
+import { modelStore } from '../../../store/model';
+import { verificationStore } from '../../../store/verification';
 import { memberKindOf } from '../../design/member-grouping';
 import { reportElementStatus, summariseStatusReasons, type DesignOutcomeSummary } from '../element-status';
 import { BIAXIAL_RATIO_THRESHOLD } from '../../design/design-axes';

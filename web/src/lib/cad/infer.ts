@@ -18,7 +18,7 @@
 //                                     from a support (single connected graph)
 
 import type { ArchPlan, ArchSlab, CadDocument, CadPt } from './types';
-import type { ModelSnapshot } from '../store/history.svelte';
+import type { ModelSnapshot } from '../store/history';
 
 export interface PlanWindow {
   x0: number;

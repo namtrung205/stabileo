@@ -12,7 +12,7 @@
  * pure verifier), so a whole run is reproducible. Pinned by a determinism test.
  */
 
-import type { ProvidedReinforcement } from '../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../store/model';
 import type { ProvidedRebarResult } from '../station-design-forces';
 import type { CandidateCost, LimitingConstraint } from './outcome';
 

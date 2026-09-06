@@ -17,7 +17,7 @@
 // node — independent offset surfaces, no conflict.
 
 import type { SolverInput3D } from './types-3d';
-import type { Plate, Quad } from '../store/model.svelte';
+import type { Plate, Quad } from '../store/model';
 import type { ShellOffset } from '../model/element-3d-metadata';
 
 const EPS = 1e-9;

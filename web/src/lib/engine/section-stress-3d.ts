@@ -12,7 +12,7 @@
 // Von Mises: σ_vm = √(σ² + 3·(τ_xy² + τ_xz²))
 
 import type { ElementForces3D } from './types-3d';
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import { computeSectionStress3D, computeSectionStress3DFromForces, isWasmReady } from './wasm-solver';
 import { t } from '../i18n';
 import {

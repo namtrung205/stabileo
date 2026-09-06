@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { Icon, type IconName } from './Icon';

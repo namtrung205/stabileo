@@ -9,7 +9,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
 import { compressSnapshot, decompressSnapshot } from '../../utils/url-sharing';
 
 describe('Phase C: persistence round-trip for eccentric + connector', () => {

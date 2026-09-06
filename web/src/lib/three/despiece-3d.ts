@@ -27,7 +27,7 @@ import { computeLocalAxes3D } from '../engine/local-axes-3d';
 import { projectNodeToScene } from '../geometry/coordinate-system';
 import { createTextSpriteCached } from './selection-helpers';
 import type { ElementForces3D, Reaction3D } from '../engine/types-3d';
-import type { Element, Node, Section, Load } from '../store/model.svelte';
+import type { Element, Node, Section, Load } from '../store/model';
 
 export const DESPIECE_COL = {
   axial: '#ff7070',

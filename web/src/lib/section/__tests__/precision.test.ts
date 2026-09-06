@@ -15,7 +15,7 @@ import { describe, it, expect } from 'vitest';
 import { resolveCanonicalSection, isGeometryBacked } from '../canonical';
 import { hasCanonicalGeometryExport } from '../../engine/wasm-solver';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 const hasCanonical = hasCanonicalGeometryExport();
 const describeCanonical = hasCanonical ? describe : describe.skip;

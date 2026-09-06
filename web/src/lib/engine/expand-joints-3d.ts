@@ -21,8 +21,8 @@
 
 import type { SolverInput3D, SolverNode3D } from './types-3d';
 import type { Constraint3D } from './types-3d';
-import type { Element } from '../store/model.svelte';
-import { jointHasRelease } from '../store/model.svelte';
+import type { Element } from '../store/model';
+import { jointHasRelease } from '../store/model';
 
 /** Any element in the model carries a released 3D internal joint. */
 export function modelHasJoints3D(elements: Iterable<Element>): boolean {

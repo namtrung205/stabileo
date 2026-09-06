@@ -13,7 +13,7 @@
  *     the way it rejects other bad fields (not throw, just flag invalid).
  */
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore, NO_RELEASE } from '../../store/model.svelte';
+import { modelStore, NO_RELEASE } from '../../store/model';
 import {
   serializeElementForAi,
   compactElementsForAi,

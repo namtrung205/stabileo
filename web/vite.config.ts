@@ -1,5 +1,4 @@
 import { defineConfig, type Plugin } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
 import react from '@vitejs/plugin-react';
 import { existsSync } from 'fs';
 import { resolve } from 'path';
@@ -59,11 +58,7 @@ const PRODUCTION_BUILD_TESTS = [
 
 
 export default defineConfig({
-  // Both compilers intentionally coexist during the migration. React owns the
-  // application root while the unported Svelte tree remains mounted through a
-  // narrow compatibility boundary. Each converted surface removes code from
-  // that boundary until the Svelte plugin can be deleted altogether.
-  plugins: [wasmStubPlugin(), react(), svelte()],
+  plugins: [wasmStubPlugin(), react()],
   base: process.env.BASE_PATH || '/',
   server: {
     port: 4000,

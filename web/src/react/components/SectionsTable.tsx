@@ -3,7 +3,7 @@ import { commercialDefaultFor, findMaterialWithGrade, materialFromGrade } from '
 import type { SectionProperties } from '../../lib/data/section-shapes';
 import { profileToSectionFull, type SteelProfile } from '../../lib/data/steel-profiles';
 import type { GradeRegion } from '../../lib/data/structural-grades';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { resolveDrawingGeometry } from '../../lib/section/drawing';
 import { solverProperties } from '../../lib/section/state';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';

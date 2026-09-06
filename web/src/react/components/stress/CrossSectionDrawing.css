@@ -1,0 +1,98 @@
+.react-cross-section { display: contents; }
+
+.react-cross-section .ssp-section-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 3px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(26, 74, 122, 0.3);
+  color: var(--st-text-3);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.react-cross-section .ssp-section-toggle:hover { color: var(--st-text-2); }
+.react-cross-section .ssp-chevron { width: 10px; font-size: 0.6rem; }
+.react-cross-section .ssp-svg-container { display: flex; justify-content: center; margin: 4px 0; }
+.react-cross-section .ssp-cross-svg { width: 200px; height: 160px; }
+
+.react-cross-section .ssp-svg-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 2px 0;
+  align-items: center;
+}
+
+.react-cross-section .ssp-svg-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid var(--st-surface-3);
+  border-radius: 3px;
+  background: rgba(19, 33, 45, 0.8);
+  color: var(--st-text-3);
+  font-family: serif;
+  font-size: 0.55rem;
+  font-style: italic;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.react-cross-section .ssp-svg-toggle:hover { color: var(--st-text-2); border-color: var(--st-surface-3); }
+.react-cross-section .ssp-svg-toggle.active { color: var(--st-accent); border-color: var(--st-accent); background: rgba(229, 72, 42, 0.12); }
+.react-cross-section .ssp-svg-toggle.disabled { opacity: 0.3; pointer-events: none; cursor: default; }
+.react-cross-section .ssp-toggle-sigma.active,
+.react-cross-section .ssp-toggle-cp.active,
+.react-cross-section .ssp-toggle-max.active,
+.react-cross-section .ssp-toggle-map.active { color: var(--st-value); border-color: var(--st-value); background: rgba(127, 212, 204, 0.12); }
+.react-cross-section .ssp-toggle-tor.active { color: var(--st-accent); border-color: var(--st-accent); background: rgba(127, 212, 204, 0.1); }
+.react-cross-section .ssp-toggle-ecc.active { color: var(--st-warn); border-color: var(--st-warn); background: rgba(255, 140, 0, 0.12); }
+.react-cross-section .ssp-toggle-max { font-size: 0.62rem; }
+.react-cross-section .ssp-toggle-scale { margin-left: auto; font-family: 'Courier New', monospace; font-size: 0.55rem; font-style: normal; font-weight: 700; letter-spacing: 0.5px; }
+.react-cross-section .ssp-toggle-scale.active { color: var(--st-warn); border-color: var(--st-warn); background: rgba(255, 152, 0, 0.12); }
+
+.react-cross-section .ssp-cross-wrap.maximized {
+  position: fixed;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  pointer-events: none;
+  background: rgba(8, 16, 22, 0.82);
+}
+
+.react-cross-section .ssp-cross-wrap.maximized .ssp-svg-toggles,
+.react-cross-section .ssp-cross-wrap.maximized .ssp-svg-container { pointer-events: auto; }
+.react-cross-section .ssp-cross-wrap.maximized .ssp-cross-svg { height: min(78vh, 100%); width: auto; max-width: 100%; aspect-ratio: 1; }
+.react-cross-section .ssp-cross-wrap.maximized .ssp-svg-container { flex: 1; min-height: 0; width: 100%; justify-content: center; align-items: center; }
+.react-cross-section .ssp-cross-wrap.maximized .ssp-svg-toggles { padding: 4px 8px; border: 1px solid rgba(26, 74, 122, 0.5); border-radius: 6px; background: rgba(12, 22, 32, 0.9); }
+
+.react-cross-section .ssp-ecc-catch { cursor: crosshair; }
+.react-cross-section .ssp-ecc-marker { cursor: grab; }
+.react-cross-section .ssp-ecc-marker.inactive { opacity: 0.45; }
+.react-cross-section .ssp-ecc-marker.dragging { cursor: grabbing; }
+.react-cross-section .ssp-ecc-marker:focus-visible { outline: none; }
+.react-cross-section .ssp-ecc-marker:focus-visible circle:nth-of-type(2) { stroke-width: 2; stroke-dasharray: 2, 1; }
+
+.react-cross-section .ssp-fiber-row { display: flex; align-items: center; gap: 4px; margin: 4px 0 6px; }
+.react-cross-section .ssp-fiber-label { min-width: 42px; color: var(--st-text-2); font-size: 0.65rem; }
+.react-cross-section .ssp-range { flex: 1; height: 4px; border-radius: 2px; outline: none; appearance: none; -webkit-appearance: none; background: var(--st-surface-3); }
+.react-cross-section .ssp-range::-webkit-slider-thumb { width: 12px; height: 12px; border: none; border-radius: 50%; appearance: none; -webkit-appearance: none; background: var(--st-warn); cursor: pointer; }
+.react-cross-section .ssp-range::-moz-range-thumb { width: 12px; height: 12px; border: none; border-radius: 50%; background: var(--st-warn); cursor: pointer; }
+.react-cross-section .ssp-range-z::-webkit-slider-thumb { background: var(--st-warn); }
+.react-cross-section .ssp-fiber-val { min-width: 42px; color: var(--st-text-2); font-family: 'Courier New', monospace; font-size: 0.65rem; text-align: right; }
+.react-cross-section .ssp-help { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 13px; height: 13px; border: 1px solid rgba(127, 212, 204, 0.25); border-radius: 50%; background: rgba(127, 212, 204, 0.12); color: var(--st-value); font-size: 0.5rem; font-style: normal; font-weight: 700; line-height: 1; vertical-align: middle; cursor: help; opacity: 0.6; transition: opacity 0.15s; }
+.react-cross-section .ssp-help:hover { background: rgba(127, 212, 204, 0.25); opacity: 1; }

@@ -1,7 +1,8 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, uiStore } from '../../lib/store';
-import { EDIT_TOOLS } from '../../lib/store/ui.svelte';
+import { EDIT_TOOLS } from '../../lib/store/ui';
+import { basicPanelStore, openBasicPanel } from '../../lib/store/basic-panel';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { ElementsTable } from './ElementsTable';
 import { LoadsTable } from './LoadsTable';
@@ -18,24 +19,23 @@ export function DataTable({ initialTab = 'nodes', syncBasicPanel = false }: { in
   useStoreRevision(modelStore); useStoreRevision(uiStore);
   useSyncExternalStore(localeExternalStore.subscribe, localeExternalStore.getSnapshot, localeExternalStore.getSnapshot);
   const [activeTab, setActiveTab] = useState<DataTab>(initialTab);
+  const panelState = useSyncExternalStore(
+    basicPanelStore.subscribe,
+    basicPanelStore.getSnapshot,
+    basicPanelStore.getSnapshot,
+  );
 
   useEffect(() => {
     if (!syncBasicPanel) return;
-    const handle = (event: Event) => {
-      const tab = (event as CustomEvent<{ activeDataTab?: string }>).detail?.activeDataTab;
-      if (tab && ['nodes', 'elements', 'supports', 'loads', 'materials', 'sections'].includes(tab)) setActiveTab(tab as DataTab);
-    };
-    window.addEventListener('stabileo-basic-panel-state', handle);
-    window.dispatchEvent(new Event('stabileo-request-basic-panel-state'));
-    return () => window.removeEventListener('stabileo-basic-panel-state', handle);
-  }, [syncBasicPanel]);
+    setActiveTab(panelState.activeDataTab);
+  }, [syncBasicPanel, panelState.activeDataTab]);
 
   function pickTab(tab: DataTab) {
     setActiveTab(tab);
     const tool = TAB_TOOL[tab];
     if (tool) { if (uiStore.appMode === 'basico') uiStore.currentTool = tool as never; }
     else if (EDIT_TOOLS.includes(uiStore.currentTool)) uiStore.currentTool = 'select';
-    if (syncBasicPanel) window.dispatchEvent(new CustomEvent('stabileo-open-basic-panel', { detail: { panel: 'data', opts: { dataTab: tab, toggle: false } } }));
+    if (syncBasicPanel) openBasicPanel('data', { dataTab: tab, toggle: false });
   }
 
   const tabs: Array<[DataTab, string, number]> = [

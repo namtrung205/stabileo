@@ -4,12 +4,12 @@
 
 import LZString from 'lz-string';
 import { deflateSync, inflateSync } from 'fflate';
-import type { ModelSnapshot } from '../store/history.svelte';
-import type { DiagramType } from '../store/results.svelte';
-import { modelStore } from '../store/model.svelte';
-import { NO_RELEASE, type Release } from '../store/model.svelte';
-import { uiStore } from '../store/ui.svelte';
-import { resultsStore } from '../store/results.svelte';
+import type { ModelSnapshot } from '../store/history';
+import type { DiagramType } from '../store/results';
+import { modelStore } from '../store/model';
+import { NO_RELEASE, type Release } from '../store/model';
+import { uiStore } from '../store/ui';
+import { resultsStore } from '../store/results';
 import { noteAxisConventionMigrationIfNeeded } from '../store/file';
 
 const SHARE_VERSION = 4;

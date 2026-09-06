@@ -7,7 +7,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { compressSnapshot, decompressSnapshot } from '../url-sharing';
-import type { ModelSnapshot } from '../../store/history.svelte';
+import type { ModelSnapshot } from '../../store/history';
 import type { ModelProvenance } from '../../model/provenance';
 
 const provenance: ModelProvenance = {

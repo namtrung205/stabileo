@@ -1,6 +1,6 @@
 
-import { describe, it } from 'vitest';
-import { readFileSync, writeFileSync } from 'fs';
+import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'fs';
 import { loadFixture } from '../../templates/load-fixture';
 import { buildSolverInput3D } from '../solver-service';
 import { serializeInput3D } from '../wasm-solver';
@@ -58,7 +58,6 @@ describe('dump solver JSON', () => {
     const deadModel = { ...model, loads: model.loads.filter(l => (l.data.caseId || 1) === 1) };
     const input = buildSolverInput3D(deadModel, false, false);
     const serialized = serializeInput3D(input);
-    writeFileSync('/tmp/tower-wasm-input.json', serialized);
-    console.log('Wrote /tmp/tower-wasm-input.json (' + serialized.length + ' bytes)');
+    expect(serialized.length).toBeGreaterThan(0);
   });
 });

@@ -6,11 +6,11 @@
  * what stops a level plan quietly gathering two storeys.
  */
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
-import { resultsStore } from '../../store/results.svelte';
-import { detailingStore } from '../../store/detailing.svelte';
-import { designRunStore } from '../../store/design-run.svelte';
-import { verificationStore } from '../../store/verification.svelte';
+import { modelStore } from '../../store/model';
+import { resultsStore } from '../../store/results';
+import { detailingStore } from '../../store/detailing';
+import { designRunStore } from '../../store/design-run';
+import { verificationStore } from '../../store/verification';
 import { isSolverReady } from '../../engine/wasm-solver';
 import { buildSceneModel, type SceneModel } from '../../engine/detailing/scene-model';
 import { membersFromModel } from '../../engine/detailing/member-geometry';

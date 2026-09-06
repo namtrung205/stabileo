@@ -17,7 +17,7 @@
  */
 
 import { REBAR_DB } from '../codes/argentina/cirsoc201';
-import type { ProvidedReinforcement, StirrupDef } from '../../store/model.svelte';
+import type { ProvidedReinforcement, StirrupDef } from '../../store/model';
 import { computeColumnLayout } from '../station-design-forces';
 import type { MemberContext } from './member-context';
 import { STANDARD_LONG_DIAS, STANDARD_STIRRUP_DIAS, SPACING_GRID, computeCandidateCost } from './objective';

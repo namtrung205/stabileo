@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
-import type { DiagramType } from '../../lib/store/results.svelte';
+import type { DiagramType } from '../../lib/store/results';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './MobileResultsPanel.css';
 
@@ -42,7 +42,7 @@ export function MobileResultsPanel() {
   useStoreRevision(modelStore);
   useSyncExternalStore(localeExternalStore.subscribe, localeExternalStore.getSnapshot, localeExternalStore.getSnapshot);
 
-  const is3D = uiStore.analysisMode === '3d' || uiStore.analysisMode === 'pro';
+  const is3D = uiStore.analysisMode === '3d';
   const hasResults = resultsStore.results !== null || resultsStore.results3D !== null;
   const hasModel = modelStore.nodes.size > 0;
   const isDiagramWithScale = resultsStore.diagramType !== 'none'
@@ -62,7 +62,7 @@ export function MobileResultsPanel() {
 
   if (!uiStore.isMobile) return null;
 
-  if (!uiStore.mobileResultsPanelOpen && uiStore.appMode === 'basico') {
+  if (!uiStore.mobileResultsPanelOpen) {
     return (
       <button
         className="mrp-reopen"
@@ -78,14 +78,14 @@ export function MobileResultsPanel() {
     );
   }
 
-  if (!uiStore.mobileResultsPanelOpen || (uiStore.appMode !== 'basico' && uiStore.appMode !== 'pro')) return null;
+  if (!uiStore.mobileResultsPanelOpen) return null;
 
   const diagrams = is3D ? DIAGRAMS_3D : DIAGRAMS_2D;
 
   return (
     <div
-      className={`mrp-panel${uiStore.appMode === 'pro' ? ' mrp-pro' : ''}`}
-      style={{ top: uiStore.appMode === 'pro' ? 4 : uiStore.floatingToolsTopOffset }}
+      className="mrp-panel"
+      style={{ top: uiStore.floatingToolsTopOffset }}
     >
       <div className="mrp-header">
         <span className="mrp-title">{t('mobile.results')}</span>
@@ -93,7 +93,7 @@ export function MobileResultsPanel() {
       </div>
       <div className="mrp-body">
         <button className="mrp-solve" onClick={handleSolve} disabled={!hasModel}>
-          {uiStore.appMode === 'pro' ? t('pro.solve') : is3D ? t('results.solve3d') : t('results.solve')}
+          {is3D ? t('results.solve3d') : t('results.solve')}
         </button>
 
         {hasResults ? <>
@@ -101,14 +101,6 @@ export function MobileResultsPanel() {
             <DiagramButton type="none" label="results.none" />
             <DiagramButton type="deformed" label="results.deformed" />
             {diagrams.map(([type, label]) => <DiagramButton key={type} type={type} label={label} />)}
-            {is3D && uiStore.appMode === 'pro' && (
-              <button
-                className={`mrp-btn${resultsStore.diagramType === 'verification' ? ' active' : ''}`}
-                onClick={() => { resultsStore.diagramType = 'verification'; }}
-              >
-                {t('results.verification') !== 'results.verification' ? t('results.verification') : 'Verification'}
-              </button>
-            )}
           </div>
 
           {resultsStore.diagramType === 'deformed' ? <>

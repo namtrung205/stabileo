@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { COLORS } from './selection-helpers';
 import { createSectionShapes } from './section-profiles';
 import { GLOBAL_Z, THREEJS_CYLINDER_AXIS } from '../geometry/coordinate-system';
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 
 /** Shared resolution vector for LineMaterial (screen-space line widths). */
 export const fatLineResolution = new THREE.Vector2(1, 1);

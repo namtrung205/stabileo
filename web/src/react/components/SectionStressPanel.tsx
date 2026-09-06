@@ -1,9 +1,7 @@
-import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
-import CrossSectionDrawingBridge from '../../components/stress/CrossSectionDrawingReactBridge.svelte';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { useMemo, useState, useSyncExternalStore } from 'react';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, resultsStore, tourStore, uiStore } from '../../lib/store';
 import { useStoreRevision } from '../store/useStoreRevision';
-import { UpdatingSvelteSurface } from '../LegacySvelteSurface';
 import { fmtForce } from '../../components/stress/fmt';
 import { StressStateDetails } from './stress/StressStateDetails';
 import { TorsionDetails } from './stress/TorsionDetails';
@@ -11,19 +9,11 @@ import { StressTensorDetails } from './stress/StressTensorDetails';
 import { MohrCircleDisplay } from './stress/MohrCircleDisplay';
 import { GeometricPropertyWorking } from './stress/GeometricPropertyWorking';
 import { CentralCoreDetails } from './stress/CentralCoreDetails';
+import { CrossSectionDrawing } from './stress/CrossSectionDrawing';
 import { buildSectionStressPanelModel, type EccentricSource } from './stress/sectionStressPanelModel';
 import './SectionStressPanel.css';
 
 type Props = { docked?: boolean };
-type DrawingChange = {
-  showCrossSection: boolean; showSigma: boolean; showShearOnDrawing: boolean;
-  showTotalSigma: boolean; showPerpNA: boolean; showCentralCore: boolean;
-  showPressureCenter: boolean; useGlobalScale: boolean; fiberRatioY: number;
-  fiberRatioZ: number; showStressMap: boolean; showEccentric: boolean;
-  eccentricPoint: [number, number] | null; eccentricPointV: [number, number] | null;
-  showTorsionFlow: boolean;
-};
-
 export function SectionStressPanel({ docked = false }: Props) {
   const modelRevision = useStoreRevision(modelStore);
   const resultsRevision = useStoreRevision(resultsStore);
@@ -67,31 +57,6 @@ export function SectionStressPanel({ docked = false }: Props) {
     if (!element || !ni || !nj) return;
     resultsStore.stressQuery = { elementId, t: station, worldX: ni.x + station * (nj.x - ni.x), worldY: ni.y + station * (nj.y - ni.y), worldZ: view.is3D ? (ni.z ?? 0) + station * ((nj.z ?? 0) - (ni.z ?? 0)) : undefined };
   };
-  const onDrawingChange = useCallback((change: DrawingChange) => {
-    setShowCrossSection(change.showCrossSection); setShowSigma(change.showSigma);
-    setShowShearOnDrawing(change.showShearOnDrawing); setShowTotalSigma(change.showTotalSigma);
-    setShowPerpNA(change.showPerpNA); setShowCentralCore(change.showCentralCore);
-    setShowPressureCenter(change.showPressureCenter); setUseGlobalScale(change.useGlobalScale);
-    setFiberRatioY(change.fiberRatioY); setFiberRatioZ(change.fiberRatioZ);
-    setShowStressMap(change.showStressMap); setShowEccentric(change.showEccentric);
-    setEccentricPoint(change.eccentricPoint); setEccentricPointV(change.eccentricPointV);
-    setShowTorsionFlow(change.showTorsionFlow);
-  }, []);
-  const drawingProps = useMemo(() => ({
-    canonicalGeometry: view.canonicalGeometry, showCrossSection, showSigma, showShearOnDrawing,
-    showTotalSigma, showPerpNA, showCentralCore, showPressureCenter, useGlobalScale,
-    fiberRatioY, fiberRatioZ, is3D: view.uses3DPath, hasBending3D: view.hasBending3D,
-    hasBending2D: view.hasBending2D, analysis2D: view.analysis2D, analysis3D: view.analysis3D,
-    resolved: view.resolved, shearFlow: view.shearFlow, isMassive: view.isMassive,
-    centralCore: view.centralCore, perpNADist: view.perpNADist, perpNA: view.perpNA,
-    pressureCenter: view.pressureCenter, globalScales: view.globalScales,
-    sectionRotation: view.is3D ? 0 : view.querySec?.rotation ?? 0, showStressMap,
-    stressField: view.activeState?.field ?? null, showEccentric, eccentricPoint, eccentricPointV,
-    hasParallelLoad: view.eccentricHasParallel, hasPerpendicularLoad: Math.abs(view.eccentricComponents.n) > 1e-12,
-    shearCentre: view.shearCentreClean, eccentricInsideKern: view.eccentricInsideKern,
-    torsionFlow: view.torsionFlow, showTorsionFlow,
-  }), [view, showCrossSection, showSigma, showShearOnDrawing, showTotalSigma, showPerpNA, showCentralCore, showPressureCenter, useGlobalScale, fiberRatioY, fiberRatioZ, showStressMap, showEccentric, eccentricPoint, eccentricPointV, showTorsionFlow]);
-
   const mobileStyle = uiStore.isMobile && tourStore.isActive ? { bottom: 'auto', top: uiStore.floatingToolsTopOffset, maxHeight: `calc(100vh - ${uiStore.floatingToolsTopOffset}px - 45vh - 16px)` } : undefined;
   if (view.query && view.hasAnalysis) return <div className={`react-section-stress ssp-panel${docked ? ' docked' : ''}`} style={mobileStyle}>
     <div className="ssp-header"><span className="ssp-title">{t('stress.panelTitle')} {view.is3D ? '3D ' : ''}{view.isRotated2D ? `${t('stress.rotSuffix').replace('{angle}', String(view.querySec?.rotation))} ` : ''}</span><button className="ssp-close" onClick={close} title={t('stress.close')}>×</button></div>
@@ -101,7 +66,32 @@ export function SectionStressPanel({ docked = false }: Props) {
       <div className="ssp-info"><span className="ssp-elem">{t('results.elemLabel').replace('{id}', String(view.query.elementId))}</span><span className="ssp-pos">x/L = {(view.query.t * 100).toFixed(1)}%</span></div>
       <div className="ssp-slider-row" data-tour="ssp-sliders"><span className="ssp-slider-label">I</span><input type="range" className="ssp-slider-xl" min="0" max="1" step="0.005" value={view.query.t} onInput={(event) => goToT(view.query!.elementId, +(event.target as HTMLInputElement).value)} title={t('stress.moveAlongElem')} /><span className="ssp-slider-label">J</span></div>
       <Forces view={view} />
-      <UpdatingSvelteSurface component={CrossSectionDrawingBridge} props={{ initial: drawingProps, onChange: onDrawingChange }} />
+      <CrossSectionDrawing
+        canonicalGeometry={view.canonicalGeometry}
+        showCrossSection={showCrossSection} onShowCrossSectionChange={setShowCrossSection}
+        showSigma={showSigma} onShowSigmaChange={setShowSigma}
+        showShearOnDrawing={showShearOnDrawing} onShowShearOnDrawingChange={setShowShearOnDrawing}
+        showTotalSigma={showTotalSigma} onShowTotalSigmaChange={setShowTotalSigma}
+        showPerpNA={showPerpNA} onShowPerpNAChange={setShowPerpNA}
+        showCentralCore={showCentralCore} onShowCentralCoreChange={setShowCentralCore}
+        showPressureCenter={showPressureCenter} onShowPressureCenterChange={setShowPressureCenter}
+        useGlobalScale={useGlobalScale} onUseGlobalScaleChange={setUseGlobalScale}
+        fiberRatioY={fiberRatioY} onFiberRatioYChange={setFiberRatioY}
+        fiberRatioZ={fiberRatioZ} onFiberRatioZChange={setFiberRatioZ}
+        is3D={view.uses3DPath} hasBending3D={view.hasBending3D} hasBending2D={view.hasBending2D}
+        analysis2D={view.analysis2D} analysis3D={view.analysis3D} resolved={view.resolved}
+        shearFlow={view.shearFlow} isMassive={view.isMassive} centralCore={view.centralCore}
+        perpNADist={view.perpNADist} perpNA={view.perpNA} pressureCenter={view.pressureCenter}
+        globalScales={view.globalScales} sectionRotation={view.is3D ? 0 : view.querySec?.rotation ?? 0}
+        showStressMap={showStressMap} onShowStressMapChange={setShowStressMap}
+        stressField={view.activeState?.field ?? null}
+        showEccentric={showEccentric} onShowEccentricChange={setShowEccentric}
+        eccentricPoint={eccentricPoint} onEccentricPointChange={setEccentricPoint}
+        eccentricPointV={eccentricPointV} onEccentricPointVChange={setEccentricPointV}
+        hasParallelLoad={view.eccentricHasParallel} hasPerpendicularLoad={Math.abs(view.eccentricComponents.n) > 1e-12}
+        shearCentre={view.shearCentreClean} eccentricInsideKern={view.eccentricInsideKern}
+        torsionFlow={view.torsionFlow} showTorsionFlow={showTorsionFlow} onShowTorsionFlowChange={setShowTorsionFlow}
+      />
       {showEccentric && view.eccentric && eccentricPoint && <EccentricEditor view={view} eccentricPoint={eccentricPoint} eccentricPointV={eccentricPointV} source={eccSource} custom={eccCustom} onSource={setEccSource} onCustom={setEccCustom} onReset={() => { setEccentricPoint([0, 0]); setEccentricPointV([0, 0]); }} />}
       <StressStateDetails showTensional={showTensional} onShowTensionalChange={setShowTensional} is3D={view.uses3DPath} isMassive={view.isMassive} analysis2D={view.analysis2D} analysis3D={view.analysis3D} />
       {view.shearCheck && !view.shearCheck.agrees && <div className="ssp-shear-warn" role="alert"><span className="ssp-shear-warn-icon" aria-hidden="true">⚠</span><div><p className="ssp-shear-warn-text">{t('stress.shearMismatch')}</p><p className="ssp-shear-warn-nums">{t('stress.shearDiagram')}: {fmtForce(view.shearCheck.closedForm)} MPa · {t('stress.shearSolved')}: {fmtForce(view.shearCheck.solved)} MPa</p></div></div>}

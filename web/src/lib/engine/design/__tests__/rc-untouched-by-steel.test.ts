@@ -42,7 +42,7 @@ const CONCRETE_DESIGN_PATH = [
 /** Anything that would pull the metallic surface into that path. */
 const METALLIC_IMPORTS = [
   'engine/steel/',
-  'store/steel.svelte',
+  'store/steel',
   'engine/generators/',
   'codes/argentina/cirsoc301',
 ];

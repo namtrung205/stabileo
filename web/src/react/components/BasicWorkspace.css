@@ -1,0 +1,52 @@
+.react-basic-workspace {
+  display: contents;
+}
+
+.react-basic-workspace .main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.react-basic-workspace .viewport-container {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.react-basic-workspace .simplified-banner {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: 3px 12px;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: rgba(233, 69, 96, .9);
+  color: white;
+  font-size: .7rem;
+  font-weight: 600;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.react-basic-workspace .simplified-stats {
+  font-weight: 400;
+  opacity: .85;
+}
+
+@media (max-width: 767px) {
+  .react-basic-workspace .simplified-banner {
+    max-width: calc(100vw - 16px);
+    white-space: normal;
+  }
+}
+

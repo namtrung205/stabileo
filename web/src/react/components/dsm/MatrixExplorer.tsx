@@ -1,6 +1,6 @@
 import { useState, useSyncExternalStore } from 'react';
 import type { DSMStepData } from '../../../lib/engine/solver-detailed';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import { dsmStepsStore } from '../../../lib/store';
 import { useStoreRevision } from '../../store/useStoreRevision';
 import { MatrixDisplay } from './MatrixDisplay';

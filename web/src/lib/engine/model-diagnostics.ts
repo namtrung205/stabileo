@@ -3,7 +3,7 @@
  * without running the solver. Returns SolverDiagnostic[] with source 'model'.
  */
 import type { SolverDiagnostic } from './types';
-import type { Node, Element, Section, Material, Support, Plate, Quad } from '../store/model.svelte';
+import type { Node, Element, Section, Material, Support, Plate, Quad } from '../store/model';
 import type { Constraint3D, ConnectorElement } from './types-3d';
 import { addConstraintConnectivity } from './constraint-connectivity';
 

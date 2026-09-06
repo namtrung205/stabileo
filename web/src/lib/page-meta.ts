@@ -12,7 +12,7 @@
  * entering the application never leaves landing or blog copy behind in the tab
  * title.
  */
-import { PUBLIC_LOCALES, type PublicLocale } from './i18n/store.svelte';
+import { PUBLIC_LOCALES, type PublicLocale } from './i18n/store';
 import { alternateUrls, publicUrl } from './i18n/public-routes';
 
 const OG_LOCALE: Record<PublicLocale, string> = {

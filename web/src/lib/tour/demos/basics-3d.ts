@@ -8,7 +8,7 @@
  * a choice rather than a diagram.
  */
 
-import type { TourStep } from '../../store/tour.svelte';
+import type { TourStep } from '../../store/tour';
 import { t } from '../../i18n';
 import { ANCHORS, loadExample, solve, hasResults, setDimension , openPanel , count } from '../demo-helpers';
 import { resultsStore } from '../../store';

@@ -13,8 +13,8 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { resultsStore } from '../results.svelte';
-import { uiStore } from '../ui.svelte';
+import { resultsStore } from '../results';
+import { uiStore } from '../ui';
 import { installViewModeRules } from '../view-mode';
 import {
   activeQuantity, activeRepresentation, representationsFor,

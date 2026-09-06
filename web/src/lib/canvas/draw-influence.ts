@@ -1,6 +1,6 @@
 // Draw influence line diagram on Canvas 2D
 
-import type { InfluenceLineResult } from '../store/model.svelte';
+import type { InfluenceLineResult } from '../store/model';
 import { t } from '../i18n';
 import { canvasTheme } from './theme';
 

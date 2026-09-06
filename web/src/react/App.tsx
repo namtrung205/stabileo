@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { parsePublicPath, publicHref } from '../lib/i18n/public-routes';
-import { publicI18n } from '../lib/i18n/store.svelte';
-import { LegacySvelteApp } from './LegacySvelteApp';
+import { publicI18n } from '../lib/i18n/store';
 import { PublicI18nProvider } from './i18n/PublicI18n';
 import { LandingPage } from './landing/LandingPage';
 import { BlogPage } from './blog/BlogPage';
@@ -11,7 +10,6 @@ import { ViewportOverlays } from './components/ViewportOverlays';
 import { HelpOverlay } from './components/HelpOverlay';
 import { NodeEditor } from './components/NodeEditor';
 import { MaterialEditor } from './components/MaterialEditor';
-import { EditorChromePortals } from './components/EditorChromePortals';
 import { ElementEditor } from './components/ElementEditor';
 import { SectionEditor } from './components/SectionEditor';
 import { DespieceInspector } from './components/DespieceInspector';
@@ -21,13 +19,13 @@ import { CalcReportDialog } from './components/CalcReportDialog';
 import { MaterialPresetSelector } from './components/MaterialPresetSelector';
 import { uiStore } from '../lib/store';
 import { useStoreRevision } from './store/useStoreRevision';
+import { BasicEditorApp } from './editor/BasicEditorApp';
 
 /**
  * React application switchboard.
  *
- * Route-sized React surfaces will replace the compatibility branch here. A
- * route boundary gives every migrated slice a real production context while
- * keeping the still-unported editor fully functional during the transition.
+ * Public routes render their React pages; every other route enters the
+ * React-only Basic editor.
  */
 export function App() {
   useStoreRevision(uiStore);
@@ -42,7 +40,6 @@ export function App() {
   const isReactLanding = publicRoute.path === '/';
   const isReactBlog = publicRoute.path === '/blog' || publicRoute.path.startsWith('/blog/');
   const isReactPublic = isReactLanding || isReactBlog;
-
   useEffect(() => {
     const onPopState = () => setPathname(window.location.pathname);
     window.addEventListener('popstate', onPopState);
@@ -50,6 +47,7 @@ export function App() {
   }, []);
 
   useEffect(() => {
+    const onEditorRouteChange = () => setPathname(window.location.pathname);
     const navigate = (path: string) => {
       const href = publicHref(path, publicI18n.locale);
       history.pushState(null, '', href);
@@ -63,9 +61,11 @@ export function App() {
 
     window.addEventListener('stabileo-navigate', onNavigate);
     window.addEventListener('stabileo-enter-app', onEnterApp);
+    window.addEventListener('stabileo-editor-route-change', onEditorRouteChange);
     return () => {
       window.removeEventListener('stabileo-navigate', onNavigate);
       window.removeEventListener('stabileo-enter-app', onEnterApp);
+      window.removeEventListener('stabileo-editor-route-change', onEditorRouteChange);
     };
   }, []);
 
@@ -78,7 +78,7 @@ export function App() {
   }
 
   return <>
-    <LegacySvelteApp />
+    <BasicEditorApp />
     <ContextMenu />
     <HelpOverlay />
     <NodeEditor />
@@ -90,8 +90,7 @@ export function App() {
     <DxfImportDialog />
     <CalcReportDialog />
     <MaterialPresetSelector />
-    {uiStore.appMode === 'basico' && <KeyboardShortcuts />}
+    <KeyboardShortcuts />
     <ViewportOverlays />
-    <EditorChromePortals />
   </>;
 }

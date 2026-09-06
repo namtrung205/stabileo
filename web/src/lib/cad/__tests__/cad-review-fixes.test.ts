@@ -5,8 +5,8 @@
 //   - a .ded whose quad references a missing node is rejected (referential
 //     integrity), not loaded with a dangling shell.
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
-import { historyStore } from '../../store/history.svelte';
+import { modelStore } from '../../store/model';
+import { historyStore } from '../../store/history';
 import { serializeProject, deserializeProject } from '../../store/file';
 import { parseCadDxf } from '../parse';
 import { suggestLayerMappings, extractArchPlan } from '../classify';

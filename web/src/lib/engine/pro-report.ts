@@ -5,7 +5,7 @@
 
 import katex from 'katex';
 import katexCss from 'katex/dist/katex.min.css?raw';
-import type { Node, Material, Section, Element, Support, Quad } from '../store/model.svelte';
+import type { Node, Material, Section, Element, Support, Quad } from '../store/model';
 import type { AnalysisResults3D } from './types-3d';
 import type { ElementVerification } from './codes/argentina/cirsoc201';
 import { generateCrossSectionSvg, generateBeamElevationSvg, generateColumnElevationSvg, generateJointDetailSvg, generateSlabReinforcementSvg, designSlabReinforcement, generateFrameLineElevationSvg, generateColumnStackElevationSvg } from './reinforcement-svg';

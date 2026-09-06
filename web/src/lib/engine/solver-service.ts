@@ -1,4 +1,4 @@
-// Solver service — pure functions extracted from model.svelte.ts
+// Solver service — pure functions extracted from model.ts
 // Each function takes a ModelData parameter instead of accessing reactive store state.
 
 import { solve as solveStructure, solve3D as solve3DEngine, analyzeKinematics, combineResults, combineResults3D, computeEnvelope, computeEnvelope3D, solveMultiCase2D, solveMultiCase3D, input2DToWireObject, input3DToWireObject } from './wasm-solver';
@@ -37,7 +37,7 @@ import type {
   LoadCase, LoadCombination,
   DistributedLoad, PointLoadOnElement, ThermalLoad,
   NodalLoad3D, DistributedLoad3D, PointLoadOnElement3D, SurfaceLoad3D, ThermalLoadQuad3D,
-} from '../store/model.svelte';
+} from '../store/model';
 
 // ─── ModelData interface ──────────────────────────────────────────
 

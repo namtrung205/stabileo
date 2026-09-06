@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import type { ReactNode } from 'react';
 import type { StressTensorState } from '../../../lib/section/tensors';
 import { tensorRows } from '../../../lib/section/tensors';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import { fmt } from '../../../components/stress/fmt';
 import './StressTensorDetails.css';
 

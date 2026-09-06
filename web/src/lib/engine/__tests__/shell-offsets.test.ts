@@ -7,7 +7,7 @@
 import { describe, it, expect } from 'vitest';
 import { expandShellOffsets, modelHasShellOffsets, hasShellOffset } from '../shell-offsets';
 import type { SolverInput3D } from '../types-3d';
-import type { Quad, Plate } from '../../store/model.svelte';
+import type { Quad, Plate } from '../../store/model';
 
 function baseInput(): SolverInput3D {
   // Unit square quad in the XY plane, nodes 1..4 CCW.

@@ -17,7 +17,7 @@ import {
 import { resolveProfile, availableArrangements, canCompose } from '../profile-resolve';
 import { composeBuiltUp } from '../built-up-section';
 import { solverProperties } from '../../../section/state';
-import type { Section } from '../../../store/model.svelte';
+import type { Section } from '../../../store/model';
 
 const P = (over: Partial<TrussParams> = {}): TrussParams => ({ ...DEFAULT_TRUSS_PARAMS, ...over });
 

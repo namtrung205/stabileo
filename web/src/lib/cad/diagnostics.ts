@@ -16,7 +16,7 @@
 // without seeing why.
 
 import type { RcDraftResult } from './types';
-import type { ModelSnapshot } from '../store/history.svelte';
+import type { ModelSnapshot } from '../store/history';
 
 export type DiagnosticLevel = 'ok' | 'warn' | 'error';
 

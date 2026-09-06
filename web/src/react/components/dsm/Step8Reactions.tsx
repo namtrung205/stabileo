@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { DSMStepData } from '../../../lib/engine/solver-detailed';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import { MathEquation } from './MathEquation';
 import { VectorDisplay } from './VectorDisplay';
 import './Step8Reactions.css';

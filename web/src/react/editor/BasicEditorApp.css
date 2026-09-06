@@ -1,0 +1,106 @@
+.react-basic-editor.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--st-bg);
+  color: var(--st-text);
+  font-family: var(--st-sans);
+}
+
+.react-basic-editor .app-header {
+  position: relative;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  flex-shrink: 0;
+  padding: .5rem 1rem;
+  border-bottom: 1px solid var(--st-hair);
+  background: var(--st-surface);
+}
+
+.react-basic-editor .separator {
+  margin: 0 .25rem;
+  color: var(--st-hair);
+  font-size: 1rem;
+}
+
+.react-basic-editor .app-body {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.react-basic-editor .app-footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--st-hair);
+  background: var(--st-surface);
+}
+
+.react-basic-editor .autosave-inline {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+  margin-right: auto;
+  margin-left: .6rem;
+  padding: .25rem .5rem;
+  border: 1px solid var(--st-hair);
+  border-left: 2px solid var(--st-warn);
+  border-radius: var(--st-radius);
+  background: var(--st-surface-2);
+  color: var(--st-text-2);
+  font-size: .78rem;
+  white-space: nowrap;
+}
+
+.react-basic-editor .autosave-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.react-basic-editor .autosave-older {
+  border: 1px solid #6e4a2a;
+  border-radius: 4px;
+  background: #3e2a1a;
+}
+.react-basic-editor .autosave-stamp {
+  color: #999;
+  font-variant-numeric: tabular-nums;
+}
+.react-basic-editor .autosave-warning {
+  max-width: 46rem;
+  color: #ffb347;
+}
+.react-basic-editor .autosave-inline .banner-btn {
+  padding: .18rem .5rem;
+  border: none;
+  border-radius: var(--st-radius);
+  font-size: .72rem;
+  cursor: pointer;
+  transition: all .2s;
+}
+.react-basic-editor .autosave-inline .banner-btn.restore { background: var(--st-accent); color: white; }
+.react-basic-editor .autosave-inline .banner-btn.restore:hover { background: var(--st-danger); }
+.react-basic-editor .autosave-inline .banner-btn.discard { background: var(--st-surface-3); color: var(--st-text-2); }
+.react-basic-editor .autosave-inline .banner-btn.discard:hover { background: var(--st-hair-strong); color: white; }
+.react-basic-editor .app-header.has-autosave .tab-bar { flex: 0 1 auto; }
+
+.react-basic-editor.embed-mode .app-header,
+.react-basic-editor.embed-mode .app-footer { display: none !important; }
+.react-basic-editor.embed-mode .app-body { height: 100vh; }
+
+@media (max-width: 767px) {
+  .react-basic-editor .app-header { padding: .3rem .5rem; }
+  .react-basic-editor .app-body { padding-bottom: 60px; }
+  .react-basic-editor .separator { margin: 0 .15rem; }
+  .react-basic-editor .autosave-inline { display: none; }
+}

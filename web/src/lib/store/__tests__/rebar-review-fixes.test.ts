@@ -9,7 +9,7 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { modelStore, resultsStore, verificationStore, historyStore } from '../index';
-import { designRunStore } from '../design-run.svelte';
+import { designRunStore } from '../design-run';
 import { setStirrups, setTies, setColumnBars, getReinforcement } from '../rebar-edit';
 import qa8 from '../../templates/fixtures/rc-design-qa-8.json';
 import { solveCombinations3D, validateAndSolve3D } from '../../engine/solver-service';

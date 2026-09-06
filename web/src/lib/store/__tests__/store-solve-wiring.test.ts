@@ -11,7 +11,7 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
+import { modelStore } from '../model';
 import { initSolver } from '../../engine/wasm-solver';
 
 /** Two supported nodes + frame, plus node 3 attached ONLY via a connector. */

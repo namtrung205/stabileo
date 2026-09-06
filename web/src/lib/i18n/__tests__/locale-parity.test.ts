@@ -1,7 +1,7 @@
 /**
  * Key-parity guard for the locale dictionaries.
  *
- * `t()` (see ../store.svelte.ts) falls back to `dicts.en` whenever the active
+ * `t()` (see ../store.ts) falls back to `dicts.en` whenever the active
  * locale's dict is missing a key. That fallback is silent — a locale can be
  * missing an entire feature's worth of keys and nothing will error, it will
  * just quietly render English to speakers of that locale. This has already

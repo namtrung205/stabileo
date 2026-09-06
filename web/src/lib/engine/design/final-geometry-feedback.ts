@@ -32,7 +32,7 @@
 import type { DesignCodeAdapter } from './code-adapter';
 import type { MemberContext } from './member-context';
 import type { Candidate, CandidateFeedback } from './candidate-generator';
-import type { ProvidedReinforcement } from '../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../store/model';
 import type { ProvidedRebarCheck, ProvidedRebarResult } from '../station-design-forces';
 import { compareCandidates } from './objective';
 import { rebarHash } from './rebar-hash';

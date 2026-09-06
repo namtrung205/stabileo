@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { makeReactObservable } from '../../store/react-external-store';
-import { resultsStore } from '../../store/results.svelte';
-import { uiStore } from '../../store/ui.svelte';
+import { resultsStore } from '../../store/results';
+import { uiStore } from '../../store/ui';
 import { createStoreEffectScope } from '../reactive-effects';
 
 describe('3D reactive effect scope', () => {

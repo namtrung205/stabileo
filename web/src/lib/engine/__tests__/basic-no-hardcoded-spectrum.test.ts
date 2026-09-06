@@ -31,7 +31,7 @@ const BASIC_TOOLBAR_SOURCES = [
   '../../../react/components/ToolbarExamples.tsx',
   '../../../react/components/ToolbarConfig.tsx',
   '../../../react/components/ToolbarProject.tsx',
-  '../../../components/toolbar/ToolbarAiReview.svelte',
+  '../../../react/components/AiDrawer.tsx',
 ];
 
 /** Strip block and line comments so the explanatory note does not match. */
@@ -74,10 +74,4 @@ describe('Basic cannot launch the hardcoded CIRSOC spectrum', () => {
     expect(typeof resultTypes.cirsoc103Spectrum).toBe('function');
   });
 
-  it('PRO keeps its own selectable-zone spectral workflow', () => {
-    const pro = read('../../../components/pro/ProAdvancedTab.svelte');
-    expect(pro).toContain('cirsoc103Spectrum');
-    // Zone and soil come from state there, not from literals.
-    expect(pro).toMatch(/cirsoc103Spectrum\(\s*seismicZone\s*,\s*soilType\s*\)/);
-  });
 });

@@ -22,7 +22,7 @@ import { initSolver, solve } from '../wasm-solver';
 import { validateAndSolve2D } from '../solver-service';
 import { expandSlidingJoints2D, modelHasSlidingJoints } from '../sliding-joints';
 import { migrateSnapshotV1ToV2 } from '../../store/file';
-import { NO_RELEASE, type Element, type Release } from '../../store/model.svelte';
+import { NO_RELEASE, type Element, type Release } from '../../store/model';
 import type { ModelData } from '../solver-service';
 import type { SolverInput, AnalysisResults } from '../types';
 

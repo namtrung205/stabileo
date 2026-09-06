@@ -17,7 +17,7 @@
 import { describe, it, expect } from 'vitest';
 import { POSTS, findPost } from '..';
 import { readingMinutes, type Block } from '../types';
-import { PUBLIC_LOCALES, dictFor } from '../../i18n/store.svelte';
+import { PUBLIC_LOCALES, dictFor } from '../../i18n/store';
 
 const LOCALES = PUBLIC_LOCALES;
 

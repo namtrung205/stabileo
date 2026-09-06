@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { ResolvedSection } from '../../../lib/engine/section-stress';
 import { computeTorsionFlow, closedVersusOpen, compareTorsionTheories } from '../../../lib/engine/torsion-flow';
 import { warpingProperties, withLambda, warpingResponse } from '../../../lib/engine/warping';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import { fmt } from '../../../components/stress/fmt';
 import './TorsionDetails.css';
 

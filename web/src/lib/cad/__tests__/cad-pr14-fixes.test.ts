@@ -11,7 +11,7 @@ import { beamAxisFromPolygon } from '../geometry';
 import { pruneFloating } from '../infer';
 import { buildDraft, validateFloorRanges, type FloorPlanSpec } from '../draft-build';
 import { buildDxf, dxfLwPolyline } from './dxf-fixture';
-import type { ModelSnapshot } from '../../store/history.svelte';
+import type { ModelSnapshot } from '../../store/history';
 
 const SOURCE = { fileName: 'plan.dxf', importedAtIso: '2026-06-14T00:00:00.000Z' };
 

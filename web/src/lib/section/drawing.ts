@@ -15,7 +15,7 @@
  * test deliberately feeds it a different section.
  */
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import type { CanonicalSectionState } from './state';
 import type { BendingResponse } from '../engine/wasm-solver';
 

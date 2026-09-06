@@ -16,11 +16,11 @@
  */
 import { describe, it, expect, beforeEach } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { modelStore } from '../../store/model.svelte';
-import { resultsStore } from '../../store/results.svelte';
-import { detailingStore } from '../../store/detailing.svelte';
-import { designRunStore } from '../../store/design-run.svelte';
-import { verificationStore } from '../../store/verification.svelte';
+import { modelStore } from '../../store/model';
+import { resultsStore } from '../../store/results';
+import { detailingStore } from '../../store/detailing';
+import { designRunStore } from '../../store/design-run';
+import { verificationStore } from '../../store/verification';
 import { deserializeProject } from '../../store/file';
 import { isSolverReady } from '../../engine/wasm-solver';
 import type { DetailingAssembly } from '../../engine/detailing/assembly';

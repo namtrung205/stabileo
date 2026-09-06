@@ -15,17 +15,17 @@
 
 import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest';
 import { modelStore, resultsStore, verificationStore, historyStore } from '../index';
-import { designRunStore } from '../design-run.svelte';
+import { designRunStore } from '../design-run';
 import { commitManual, commitManualBatch, revertReinforcement, setRegionLayers } from '../rebar-edit';
 import qa8 from '../../templates/fixtures/rc-design-qa-8.json';
 import { solveCombinations3D, validateAndSolve3D } from '../../engine/solver-service';
 import { computeStationDemands } from '../../engine/verification-service';
 import { buildAllMemberContexts, buildCriticalSectionMap, type ContextModelData } from '../../engine/design/member-context';
 import * as wasmSolver from '../../engine/wasm-solver';
-import type { ProvidedReinforcement } from '../model.svelte';
+import type { ProvidedReinforcement } from '../model';
 
 beforeAll(async () => {
-  // history.svelte.ts wires modelStore._setHistoryPush from a queueMicrotask.
+  // history.ts wires modelStore._setHistoryPush from a queueMicrotask.
   await new Promise(r => setTimeout(r, 0));
   expect(wasmSolver.isSolverReady(), 'real WASM solver required').toBe(true);
 });

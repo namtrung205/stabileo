@@ -16,7 +16,7 @@ import { modelStore, resultsStore, verificationStore } from '../index';
 import type { MemberDesignResult, DesignCheckSummary } from '../../engine/design-check-results';
 
 // The history store wires modelStore._setHistoryPush() from inside a
-// queueMicrotask (see history.svelte.ts). Until that runs, modelStore's
+// queueMicrotask (see history.ts). Until that runs, modelStore's
 // add* mutations can't fire _onMutation. Flushing a macrotask guarantees the
 // microtask has run, so addNode() invalidates results exactly like in the app.
 beforeAll(async () => {

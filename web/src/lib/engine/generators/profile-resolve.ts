@@ -32,7 +32,7 @@
 import { ALL_PROFILES, type ProfileFamily, type SteelProfile } from '../../data/steel-profiles';
 import { FAMILY_CLASSIFICATION } from '../../data/section-catalog';
 import { resolveCanonicalSection } from '../../section/canonical';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 import { ARRANGEMENTS, type BuiltUpArrangement, type SingleProfile } from './built-up-section';
 
 /** Catalogue units are cm², cm⁴ and mm. Everything below this line is SI. */

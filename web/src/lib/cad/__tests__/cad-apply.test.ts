@@ -6,8 +6,8 @@
 //   - provenance round-trips through snapshot/restore,
 //   - markProvenanceReviewed is the only way to clear the draft tag.
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
-import { historyStore } from '../../store/history.svelte';
+import { modelStore } from '../../store/model';
+import { historyStore } from '../../store/history';
 import { serializeProject, deserializeProject } from '../../store/file';
 import { parseCadDxf } from '../parse';
 import { suggestLayerMappings, extractArchPlan } from '../classify';

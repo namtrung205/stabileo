@@ -88,8 +88,8 @@ describe('E2E hook build-time gating', () => {
     }
   }, 300_000);
 
-  it('main.ts gates the import on the build-time flag, not only on the query flag', () => {
-    const main = readFileSync(resolve(WEB_ROOT, 'src/main.ts'), 'utf8');
+  it('main.tsx gates the import on the build-time flag, not only on the query flag', () => {
+    const main = readFileSync(resolve(WEB_ROOT, 'src/main.tsx'), 'utf8');
     expect(main).toContain("import.meta.env.VITE_E2E === '1'");
     // A dynamic import is what lets the bundler drop the module.
     expect(main).toMatch(/import\(['"]\.\/lib\/utils\/e2e-hooks['"]\)/);

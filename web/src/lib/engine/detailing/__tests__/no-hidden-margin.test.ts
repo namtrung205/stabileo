@@ -14,13 +14,14 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { DEFAULT_TOLERANCES } from '../collision';
 import { DEFAULT_PLACEMENT_POLICY, DEFAULT_SPACING_MARGIN_M } from '../../../codes/cirsoc201/placement';
 import { generateLayoutCandidates } from '../candidates';
 import { generateColumnCandidates } from '../column-candidates';
 import { minClearSpacingInLayer, minClearSpacingColumn } from '../../../codes/cirsoc201/spacing';
 
-const SRC = new URL('../../../..', import.meta.url).pathname;
+const SRC = fileURLToPath(new URL('../../../..', import.meta.url));
 const DIRS = ['lib/engine/detailing', 'lib/codes/cirsoc201'];
 
 function walk(dir: string): string[] {

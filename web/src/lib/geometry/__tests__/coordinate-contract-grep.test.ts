@@ -6,8 +6,8 @@ import { describe, expect, it } from 'vitest';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..');
 const seamFiles = [
   'web/src/lib/ai/client.ts',
-  'web/src/lib/store/model.svelte.ts',
-  'web/src/lib/store/ui.svelte.ts',
+  'web/src/lib/store/model.ts',
+  'web/src/lib/store/ui.ts',
   'web/src/lib/geometry/coordinate-system.ts',
   'web/src/lib/engine/solver-service.ts',
   'web/src/lib/engine/solver-shells.ts',

@@ -26,7 +26,7 @@
  * read it back.
  */
 
-import { modelStore } from './model.svelte';
+import { modelStore } from './model';
 import { saveAutosave } from './file';
 import type { AutosaveWriteResult } from './autosave-db';
 

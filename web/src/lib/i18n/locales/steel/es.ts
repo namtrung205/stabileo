@@ -5,7 +5,7 @@
  *
  * Porque PR #125 y PR #132 editan ese archivo con fuerza — 385 y 390 líneas
  * respectivamente — y sumar sesenta claves nuevas repartidas por el medio sería un
- * conflicto de merge por cada una, sin ningún beneficio: `store.svelte.ts` compone los
+ * conflicto de merge por cada una, sin ningún beneficio: `store.ts` compone los
  * diccionarios, así que una clave vale lo mismo esté en el archivo que esté.
  *
  * Cuando ambos PRs estén integrados, fusionar esto dentro de `es.ts` es un copiar y pegar.

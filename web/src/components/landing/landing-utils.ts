@@ -1,4 +1,4 @@
-import { setPublicLocale, type PublicLocale } from '../../lib/i18n/store.svelte';
+import { setPublicLocale, type PublicLocale } from '../../lib/i18n/store';
 import { parsePublicPath } from '../../lib/i18n/public-routes';
 
 export const REPO_URL = 'https://github.com/lambdaclass/stabileo';

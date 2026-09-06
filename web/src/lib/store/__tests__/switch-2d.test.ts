@@ -15,8 +15,8 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { uiStore } from '../ui.svelte';
+import { modelStore } from '../model';
+import { uiStore } from '../ui';
 import { hasBackup, restore3D, resetSwitchBackup, sliceAt } from '../switch-2d';
 
 /** The smallest 3D model a slice can take: one column in the y = 0 plane. */

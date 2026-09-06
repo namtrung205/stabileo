@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { compressSnapshot, decompressSnapshot } from '../url-sharing';
-import type { ModelSnapshot } from '../../store/history.svelte';
+import type { ModelSnapshot } from '../../store/history';
 
 const baseSnapshot: ModelSnapshot = {
   name: 'sv3-test',

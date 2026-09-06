@@ -1,5 +1,5 @@
 import { useState, useSyncExternalStore } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { DEMOS, startDemo, type DemoGroup } from '../../lib/tour/demos';
 import './DemoMenu.css';
 

@@ -10,7 +10,7 @@ import { initSolver, solve3D } from '../wasm-solver';
 import { expandJoints3D, modelHasJoints3D } from '../expand-joints-3d';
 import { buildSolverInput3D } from '../solver-service';
 import type { SolverInput3D, AnalysisResults3D } from '../types-3d';
-import type { Element, Joint3D } from '../../store/model.svelte';
+import type { Element, Joint3D } from '../../store/model';
 
 const MAT = new Map([[1, { id: 1, e: 200_000, nu: 0.3, rho: 0 }]]);
 const SEC = new Map([[1, { id: 1, a: 0.01, iy: 1e-4, iz: 1e-4, j: 2e-4 }]]);

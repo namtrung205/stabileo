@@ -1,6 +1,6 @@
 import { useState, useSyncExternalStore } from 'react';
 import { PROJECTION_COLLAPSE_ERROR } from '../../lib/geometry/plane-projection';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, uiStore } from '../../lib/store';
 import {
   collapsedByPlane,

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { buildSolverInput3D } from '../solver-service';
-import { modelStore } from '../../store/model.svelte';
+import { modelStore } from '../../store/model';
 
 describe('buildSolverInput3D — typed Release propagation', () => {
   beforeEach(() => {

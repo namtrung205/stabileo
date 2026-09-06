@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { SectionStressResult } from '../../../lib/engine/section-stress';
 import type { SectionStressResult3D } from '../../../lib/engine/section-stress-3d';
-import { localeExternalStore, t } from '../../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../../lib/i18n/store';
 import { fmt } from '../../../components/stress/fmt';
 import './StressStateDetails.css';
 

@@ -36,7 +36,7 @@
  * running the analysis twice.
  */
 
-import type { TourStep } from '../../store/tour.svelte';
+import type { TourStep } from '../../store/tour';
 import { t } from '../../i18n';
 import { ANCHORS, clearModel, solve, hasResults, setDimension, armTool, count, openPanel } from '../demo-helpers';
 import { resultsStore } from '../../store';

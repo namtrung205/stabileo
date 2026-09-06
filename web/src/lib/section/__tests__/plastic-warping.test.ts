@@ -11,7 +11,7 @@ import { describe, it, expect } from 'vitest';
 import { analyzeSectionPlastic } from '../../engine/wasm-solver';
 import { resolveCanonicalSection } from '../canonical';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 function geometryOf(over: Partial<Section>) {
   const r = resolveCanonicalSection({ id: 1, name: '', a: 0.01, iz: 1e-5, ...over } as Section);

@@ -6,7 +6,7 @@
 // explicit user action.
 //
 // The layer-mapping entry is declared structurally here (instead of importing
-// from lib/cad/types) so this module stays dependency-free: history.svelte.ts
+// from lib/cad/types) so this module stays dependency-free: history.ts
 // references it from ModelSnapshot, and lib/cad/types references
 // ModelSnapshot — importing cad types here would close that cycle.
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PUBLIC_LOCALES, type PublicLocale } from '../../lib/i18n/store.svelte';
+import { PUBLIC_LOCALES, type PublicLocale } from '../../lib/i18n/store';
 import { parsePublicPath } from '../../lib/i18n/public-routes';
 import {
   REPO_URL, enterApp, fetchGithubStars, goPublic, scrollToId,

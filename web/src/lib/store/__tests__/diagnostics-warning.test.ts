@@ -13,8 +13,8 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { diagnosticsWarning } from '../diagnostics-warning.svelte';
+import { modelStore } from '../model';
+import { diagnosticsWarning } from '../diagnostics-warning';
 import { checkModel } from '../../engine/model-diagnostics';
 
 /** A model that exists and is still missing something the analysis needs. */

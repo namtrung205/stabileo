@@ -31,7 +31,7 @@ import { samplePath } from '../../codes/cirsoc201/bar-geometry';
 import { PROVISIONAL_DRAWING_NOTE, type Maturity } from '../../codes/maturity';
 import type { EngineMessage } from '../../codes/message';
 import { teAt } from '../../i18n/engine-text';
-import { tAt } from '../../i18n/store.svelte';
+import { tAt } from '../../i18n/store';
 import { formatClause, type ClauseRef } from '../../codes/regulation';
 import type { BarConflict } from './collision';
 import type { BarMark, DetailingAssembly, UnsupportedCondition } from './assembly';

@@ -26,7 +26,7 @@
  * `data/steel-profiles.ts`.
  */
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import type { SteelProfile } from '../data/steel-profiles';
 import { ALL_PROFILES } from '../data/steel-profiles';
 import {

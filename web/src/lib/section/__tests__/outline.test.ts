@@ -13,7 +13,7 @@ import { describe, it, expect } from 'vitest';
 import { sectionOutline, profileOutline, OUTLINE_VIEWBOX } from '../outline';
 import { resolveSectionState } from '../state';
 import { ALL_PROFILES } from '../../data/steel-profiles';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 const profile = (name: string) => ALL_PROFILES.find((p) => p.name === name)!;
 

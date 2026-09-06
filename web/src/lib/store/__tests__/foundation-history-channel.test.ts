@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { historyStore } from '../history.svelte';
+import { modelStore } from '../model';
+import { historyStore } from '../history';
 
 /**
  * The `foundation` history channel.

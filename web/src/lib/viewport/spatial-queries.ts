@@ -5,7 +5,7 @@
  * and world coordinates. They have no dependency on stores or UI state.
  */
 
-import type { Node, Element, Support, Load } from '../store/model.svelte';
+import type { Node, Element, Support, Load } from '../store/model';
 
 // ─── Result Types ────────────────────────────────────────────────
 

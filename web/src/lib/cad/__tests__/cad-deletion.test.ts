@@ -4,8 +4,8 @@
 // Deleting selected upper-floor nodes/frames must NEVER remove a lower-floor
 // shell that was not selected — even when ids collide.
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../../store/model.svelte';
-import { historyStore } from '../../store/history.svelte';
+import { modelStore } from '../../store/model';
+import { historyStore } from '../../store/history';
 import { buildStabileoTemplateDxf } from '../template';
 import { parseCadDxf } from '../parse';
 import { suggestLayerMappings, extractArchPlan } from '../classify';

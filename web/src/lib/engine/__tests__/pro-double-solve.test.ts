@@ -10,8 +10,8 @@
 // the real WASM solver for a call-count test.
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { runGlobalSolve } from '../live-calc';
-import { modelStore } from '../../store/model.svelte';
-import { uiStore } from '../../store/ui.svelte';
+import { modelStore } from '../../store/model';
+import { uiStore } from '../../store/ui';
 import * as wasm from '../wasm-solver';
 
 const fakeCaseResult = () => ({ elementForces: [], reactions: [], displacements: [], solverDiagnostics: [] }) as any;

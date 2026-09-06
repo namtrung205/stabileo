@@ -2,7 +2,7 @@
  * Browser-test hooks.
  *
  * TWO INDEPENDENT GATES, both required:
- *   1. BUILD-TIME  — `VITE_E2E=1`. `main.ts` only imports this module behind a
+ *   1. BUILD-TIME  — `VITE_E2E=1`. `main.tsx` only imports this module behind a
  *      statically-replaced `import.meta.env.VITE_E2E === '1'` check, so a normal
  *      `npm run build` drops the whole module from the bundle. The production
  *      artifact cannot expose these hooks even if a user appends `?e2e=1`.
@@ -29,12 +29,12 @@
  */
 
 import { modelStore, verificationStore, uiStore, historyStore, resultsStore } from '../store';
-import { detailingStore } from '../store/detailing.svelte';
-import { designRunStore } from '../store/design-run.svelte';
+import { detailingStore } from '../store/detailing';
+import { designRunStore } from '../store/design-run';
 import { isSolverReady } from '../engine/wasm-solver';
 import { getStructuralSolveCount } from './solve-counter';
 import { runGlobalSolve } from '../engine/live-calc';
-import { tourStore } from '../store/tour.svelte';
+import { tourStore } from '../store/tour';
 import {
   liveRebarSceneCensus, rebarSceneBuilds, type RebarSceneCensus,
 } from '../three/rebar-scene';

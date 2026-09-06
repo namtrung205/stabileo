@@ -15,7 +15,7 @@
 import * as THREE from 'three';
 import { COLORS } from './selection-helpers';
 import type { Displacement3D, ElementForces3D } from '../engine/types-3d';
-import type { Node, Element } from '../store/model.svelte';
+import type { Node, Element } from '../store/model';
 import { computeLocalAxes3D } from '../engine/local-axes-3d';
 
 const SEGMENTS_PER_ELEMENT = 20;

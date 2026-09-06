@@ -4,7 +4,7 @@
 
 import { computeInfluenceLineWasm } from './wasm-solver';
 import type { ModelData } from './solver-service';
-import type { InfluenceQuantity, InfluenceLineResult } from '../store/model.svelte';
+import type { InfluenceQuantity, InfluenceLineResult } from '../store/model';
 import { t } from '../i18n';
 
 /**

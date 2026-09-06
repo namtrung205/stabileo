@@ -1,12 +1,12 @@
-import { modelStore } from './model.svelte';
-import { uiStore } from './ui.svelte';
-import { resultsStore } from './results.svelte';
-import { historyStore } from './history.svelte';
-import { dsmStepsStore } from './dsmSteps.svelte';
-import { tabManager } from './tabs.svelte';
-import { tourStore } from './tour.svelte';
-import { verificationStore } from './verification.svelte';
-import { detailingStore } from './detailing.svelte';
+import { modelStore } from './model';
+import { uiStore } from './ui';
+import { resultsStore } from './results';
+import { historyStore } from './history';
+import { dsmStepsStore } from './dsmSteps';
+import { tabManager } from './tabs';
+import { tourStore } from './tour';
+import { verificationStore } from './verification';
+import { detailingStore } from './detailing';
 import { shouldProjectModelToXZ } from '../geometry/coordinate-system';
 // Registering the design-code adapters at store-wiring time guarantees the registry
 // is populated before any component queries it. Importing for side effects only.

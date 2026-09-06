@@ -22,8 +22,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { modelStore } from '../../store/model.svelte';
-import { uiStore } from '../../store/ui.svelte';
+import { modelStore } from '../../store/model';
+import { uiStore } from '../../store/ui';
 import { serializeProject, deserializeProject } from '../../store/file';
 
 const FIXTURE_URL = new URL('../__fixtures__/rc-footing-cad-poc.ded.json', import.meta.url);

@@ -21,8 +21,8 @@
  * a ninety-second walkthrough thinking it is a tooltip.
  */
 
-import type { TourStep } from '../store/tour.svelte';
-import { tourStore } from '../store/tour.svelte';
+import type { TourStep } from '../store/tour';
+import { tourStore } from '../store/tour';
 
 export type DemoGroup = 'basics' | 'advanced';
 

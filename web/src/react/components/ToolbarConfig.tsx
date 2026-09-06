@@ -1,5 +1,5 @@
 import { useEffect, useState, useSyncExternalStore, type ChangeEvent } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { resultsStore, uiStore } from '../../lib/store';
 import { unitLabel, type Quantity } from '../../lib/utils/units';
 import { useStoreRevision } from '../store/useStoreRevision';

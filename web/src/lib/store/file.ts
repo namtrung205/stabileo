@@ -1,14 +1,15 @@
 // File operations: save/load projects, export results, autosave
 
-import { modelStore } from './model.svelte';
-import { resultsStore } from './results.svelte';
-import { historyStore } from './history.svelte';
-import { uiStore } from './ui.svelte';
-import type { ModelSnapshot } from './history.svelte';
-import { NO_RELEASE, type Release } from './model.svelte';
+import { modelStore } from './model';
+import { resultsStore } from './results';
+import { historyStore } from './history';
+import { uiStore } from './ui';
+import type { ModelSnapshot } from './history';
+import { NO_RELEASE, type Release } from './model';
 import { exportToExcel } from '../export/excel';
-import { tabManager } from './tabs.svelte';
-import type { TabState } from './tabs.svelte';
+import { tabManager } from './tabs';
+import type { TabState } from './tabs';
+import { snapshotState } from './state-value';
 import { resetSwitchBackup } from './switch-2d';
 import { t } from '../i18n';
 import { plainDeepCopy, findUncloneablePath } from '../utils/plain-deep-copy';
@@ -322,7 +323,7 @@ export function saveSession(): void {
     type: 'session',
     timestamp: new Date().toISOString(),
     activeTabId: tabManager.activeTabId ?? '',
-    tabs: $state.snapshot(tabManager.tabs),
+    tabs: snapshotState(tabManager.tabs),
   };
   const json = JSON.stringify(session, null, 2);
   const tabCount = session.tabs.length;
@@ -1066,7 +1067,7 @@ export function saveWorkspaceToLocalStorage(): void {
       type: 'session',
       timestamp: new Date().toISOString(),
       activeTabId: tabManager.activeTabId ?? '',
-      tabs: $state.snapshot(tabManager.tabs),
+      tabs: snapshotState(tabManager.tabs),
     };
     localStorage.setItem(WORKSPACE_KEY, JSON.stringify(session));
   } catch {

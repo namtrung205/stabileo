@@ -12,7 +12,7 @@
  * Pure: no store access, no side effects.
  */
 
-import type { ProvidedReinforcement } from '../../store/model.svelte';
+import type { ProvidedReinforcement } from '../../store/model';
 import { canonicalJson, fnv1a } from './canonical-hash';
 
 /**

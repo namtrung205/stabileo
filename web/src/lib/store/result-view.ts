@@ -27,7 +27,7 @@
  * defect this codebase has already paid for more than once.
  */
 
-import { resultsStore } from './results.svelte';
+import { resultsStore } from './results';
 import { showDiagram } from './view-mode';
 
 /** A quantity a member carries, as the ribbon names it. */

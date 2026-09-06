@@ -1,7 +1,7 @@
 import { useState, useSyncExternalStore } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { historyStore, modelStore, resultsStore, uiStore } from '../../lib/store';
-import type { SupportType } from '../../lib/store/model.svelte';
+import type { SupportType } from '../../lib/store/model';
 import { useStoreRevision } from '../store/useStoreRevision';
 import './EditorTables.css';
 import './SupportsTable.css';

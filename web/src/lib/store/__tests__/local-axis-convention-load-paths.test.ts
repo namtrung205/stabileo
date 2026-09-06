@@ -2,10 +2,10 @@
 // EVERY load path (not only .ded open), and the convention tag must survive URL
 // sharing so the note doesn't false-fire for new models shared via a link.
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { uiStore } from '../ui.svelte';
+import { uiStore } from '../ui';
 import { noteAxisConventionMigrationIfNeeded } from '../file';
 import { compressSnapshot, decompressSnapshot } from '../../utils/url-sharing';
-import type { ModelSnapshot } from '../history.svelte';
+import type { ModelSnapshot } from '../history';
 
 const legacy3D = { elements: [[1, {}]] }; // no localAxisConvention; mode passed separately
 const noteRe = /local-axis convention/i;

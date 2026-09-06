@@ -1,17 +1,16 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const read = (path: string) => readFileSync(join(process.cwd(), path), 'utf8');
 
 describe('G5.1 React 2D viewport ownership', () => {
-  it('mounts the 2D route through the React portal instead of a Svelte viewport element', () => {
-    const app = read('src/App.svelte');
-    const portals = read('src/react/components/EditorChromePortals.tsx');
-    expect(app).not.toContain("import Viewport from './components/Viewport.svelte'");
-    expect(app).not.toContain('<Viewport />');
-    expect(app).toContain('react-viewport-2d-slot');
-    expect(portals).toContain('createPortal(<Viewport2D />');
+  it('mounts the 2D route directly in the native React workspace', () => {
+    const workspace = read('src/react/components/BasicWorkspace.tsx');
+    expect(workspace).toContain('<Viewport2D />');
+    expect(workspace).not.toContain('createPortal');
+    expect(existsSync(join(process.cwd(), 'src/App.svelte'))).toBe(false);
+    expect(existsSync(join(process.cwd(), 'src/react/components/EditorChromePortals.tsx'))).toBe(false);
   });
 
   it('gives React ownership of canvas, controls, native listeners and cleanup', () => {

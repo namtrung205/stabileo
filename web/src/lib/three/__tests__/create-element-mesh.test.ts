@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import * as THREE from 'three';
 import { createElementGroup } from '../create-element-mesh';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 const I_SECTION: Section = {
   id: 1, name: 'IPN500', a: 0.0179, iz: 6.874e-4, iy: 2.48e-5,

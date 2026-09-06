@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type ChangeEvent, type MouseEventHandler, type ReactNode } from 'react';
 import { runSolve } from '../../lib/actions/solve';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
 import {
   activeMapMeasure,

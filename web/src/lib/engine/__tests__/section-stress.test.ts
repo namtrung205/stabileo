@@ -11,7 +11,7 @@ import {
   inferSectionShape,
   computeCentralCore,
 } from '../section-stress';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 import type { ElementForces } from '../types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────

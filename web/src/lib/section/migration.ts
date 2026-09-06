@@ -24,7 +24,7 @@
  * so it still solves globally.
  */
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import { resolveSectionState, type SectionState } from './state';
 import { isSolverReady } from '../engine/wasm-solver';
 import { CANONICAL_STATE_VERSION } from './version';

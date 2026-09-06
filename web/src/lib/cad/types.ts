@@ -11,7 +11,7 @@
 // Honesty rule: anything ambiguous becomes a warning or a user decision,
 // never a silent guess.
 
-import type { ModelSnapshot } from '../store/history.svelte';
+import type { ModelSnapshot } from '../store/history';
 import type { ModelProvenance } from '../model/provenance';
 
 // ─── Geometry primitives ──────────────────────────────────────

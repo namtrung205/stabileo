@@ -17,7 +17,7 @@ import { createElementGroup } from '../create-element-mesh';
 import { computeLocalAxes3D } from '../../engine/local-axes-3d';
 import { projectNodeToScene } from '../../geometry/coordinate-system';
 import { effectiveBendingInertia } from '../../engine/solver-service';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 // IPN 300 — the section every 2D beam example uses. h (depth) > b (width);
 // iy is the strong axis, iz the weak.

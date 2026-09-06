@@ -37,7 +37,7 @@ import {
 } from '../../engine/detailing/scene-model';
 import {
   workspaceFilter, type WorkspaceLayerState,
-} from '../../store/rebar-workspace.svelte';
+} from '../../store/rebar-workspace';
 
 // ─── A model with every switchable thing in it ───────────────────
 

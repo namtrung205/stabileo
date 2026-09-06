@@ -12,9 +12,9 @@
 // no history at all (reinforcement was simply not undoable), and mutated the live
 // proxied object in place before cloning it.
 
-import { modelStore } from './model.svelte';
-import { designRunStore } from './design-run.svelte';
-import type { ProvidedReinforcement, RebarLayer, StirrupDef } from './model.svelte';
+import { modelStore } from './model';
+import { designRunStore } from './design-run';
+import type { ProvidedReinforcement, RebarLayer, StirrupDef } from './model';
 import { resolveLayers } from '../engine/station-design-forces';
 
 export type LayerField = 'topStartLayers' | 'topEndLayers' | 'bottomSpanLayers';

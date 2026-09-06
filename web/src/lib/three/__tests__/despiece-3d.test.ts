@@ -16,7 +16,7 @@ const canvasStub = {
 Object.defineProperty(globalThis, 'document', { value: { createElement: () => canvasStub }, configurable: true });
 
 import { createDespiece3DGroup, inspectMember3D, inspectNode3D, type DespieceVectorMode, type DespieceBasis, type DespieceLoadMode } from '../despiece-3d';
-import type { Element, Node, Section, Load } from '../../store/model.svelte';
+import type { Element, Node, Section, Load } from '../../store/model';
 import type { ElementForces3D, Reaction3D } from '../../engine/types-3d';
 
 function rel() { return { my: false, mz: false, t: false }; }

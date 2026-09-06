@@ -12,7 +12,7 @@
  */
 
 import { beforeEach, describe, expect, it } from 'vitest';
-import { rebarWorkspace, sameSelection } from '../rebar-workspace.svelte';
+import { rebarWorkspace, sameSelection } from '../rebar-workspace';
 import type { SceneConflictMarker } from '../../engine/detailing/scene-model';
 
 describe('two selections are the same thing only when they are', () => {

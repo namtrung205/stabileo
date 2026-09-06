@@ -25,7 +25,7 @@ import { describe, it, expect } from 'vitest';
 import { stationForces3D } from '../panel';
 import { canonicalStressState } from '../stress-state';
 import { resolveSectionState } from '../state';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 
 function sec(over: Partial<Section>): Section {
   const s = { id: 1, name: '', a: 0.01, iz: 1e-5, ...over } as Section;

@@ -1,13 +1,13 @@
 /**
  * Canonical section state management for the model store.
  *
- * Extracted from model.svelte.ts to keep the store focused on model data.
+ * Extracted from model.ts to keep the store focused on model data.
  * This module owns the lifecycle of the `canonical` cache on Section:
  * creation, update, migration, and the async refresh that runs once the WASM
  * engine is ready.
  */
 
-import type { Section } from './model.svelte';
+import type { Section } from './model';
 import { resolveSectionState } from '../section/state';
 import { restoreSections } from '../section/migration';
 

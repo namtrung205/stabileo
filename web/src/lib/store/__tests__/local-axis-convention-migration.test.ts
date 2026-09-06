@@ -5,8 +5,8 @@
 // convention (no legacy mode), surfacing a concise one-time note for 3D/PRO
 // models with members.
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { modelStore } from '../model.svelte';
-import { uiStore } from '../ui.svelte';
+import { modelStore } from '../model';
+import { uiStore } from '../ui';
 import { serializeProject, deserializeProject } from '../file';
 
 function buildSmall3DModel() {

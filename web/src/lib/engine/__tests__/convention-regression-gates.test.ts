@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { solve, solve3D } from '../wasm-solver';
 import type { SolverInput, SolverLoad } from '../types';
 import type {
-  SolverInput3D, SolverSection3D, ElementForces3D,
+  SolverInput3D, SolverSection3D,
 } from '../types-3d';
 import type { SolverMaterial } from '../types';
 import {
@@ -195,21 +195,6 @@ describe('SEAM 3: My/Mz axis identity preservation', () => {
     expect(src).toContain('if (isVertical)');
   });
 
-  it('ProVerificationTab.svelte preserves axis identity', () => {
-    const src = readSource('../../../components/pro/ProVerificationTab.svelte');
-    expect(src, 'MuMax = _mzMax').toContain('MuMax = _mzMax');
-    expect(src, 'MuyMax = _myMax').toContain('MuyMax = _myMax');
-    // Must NOT sort by magnitude
-    expect(src).not.toContain('MuMax = Math.max(_mzMax, _myMax)');
-    expect(src).not.toContain('MuzMax = Math.max(_mzM, _myM)');
-  });
-
-  it('ProPanel.svelte Mu computation uses only mzStart/mzEnd', () => {
-    const src = readSource('../../../components/pro/ProPanel.svelte');
-    // Mu should reference mzStart and mzEnd only
-    expect(src).toContain('Mu: Math.max(Math.abs(ef.mzStart), Math.abs(ef.mzEnd))');
-  });
-
   it('section-stress-3d.ts Navier formula uses PR [12] axis pairing', () => {
     const src = readSource('../section-stress-3d.ts');
     // PR [12]: σ = N/A − My·y/Iy + Mz·z/Iz
@@ -226,8 +211,6 @@ describe('SEAM 3: My/Mz axis identity preservation', () => {
     // Find the Math.max(my, mz) usage
     expect(src).toMatch(/Math\.max\(my, mz\)/);
     // It must have a comment confirming it is for visualization, not axis assignment
-    const momentBlock = src.match(/(?:\/\/.*(?:envelope|intensity|visualization).*\n.*)?Math\.max\(my, mz\)/i)
-      || src.match(/Math\.max\(my, mz\)[\s\S]{0,200}/);
     const contextLines = src.split('\n');
     const maxLine = contextLines.findIndex(l => l.includes('Math.max(my, mz)'));
     expect(maxLine).toBeGreaterThan(-1);

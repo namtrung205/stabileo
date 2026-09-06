@@ -16,7 +16,7 @@
  * stops. A post that wants something else is a reason to add a block kind
  * here, with a renderer and a test, not a reason to reach for raw HTML.
  */
-import type { PublicLocale } from '../i18n/store.svelte';
+import type { PublicLocale } from '../i18n/store';
 
 export type Block =
   | { k: 'h'; t: string }

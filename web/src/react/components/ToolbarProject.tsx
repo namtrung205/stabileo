@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type ChangeEvent } from 'react';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import {
   downloadDXF,
   downloadExcel,
@@ -14,6 +14,7 @@ import { resultsStore, tabManager, uiStore } from '../../lib/store';
 import { generateShareURL, loadFromShareLink, MAX_URL_SAFE } from '../../lib/utils/url-sharing';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { ToolbarExamples } from './ToolbarExamples';
+import { DemoMenu } from './DemoMenu';
 import './ToolbarProject.css';
 
 export function ToolbarProject({ flat = false }: { flat?: boolean }) {
@@ -100,7 +101,7 @@ export function ToolbarProject({ flat = false }: { flat?: boolean }) {
         </div>
 
         <div className="proj-block"><ToolbarExamples flat /></div>
-        <div className="proj-block"><span className="react-demo-menu-slot" style={{ display: 'contents' }} /></div>
+        <div className="proj-block"><DemoMenu /></div>
 
         {flat
           ? <h4 className="proj-heading">{t('project.exportImport')}</h4>

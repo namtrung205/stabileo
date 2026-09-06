@@ -1,6 +1,6 @@
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { FAMILY_LIST, PROFILE_FAMILIES, profileToSection, searchProfiles, type ProfileFamily, type SteelProfile } from '../../lib/data/steel-profiles';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { profileOutline } from '../../lib/section/outline';
 import './ProfileSelector.css';
 

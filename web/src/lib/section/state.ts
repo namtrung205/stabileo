@@ -27,7 +27,7 @@
  * Checkpoint 2C computes a validated Saint-Venant constant.
  */
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import { ALL_PROFILES } from '../data/steel-profiles';
 import { resolveCanonicalSection, type PropertiesOnlyReason } from './canonical';
 import type { CanonicalGeometry } from '../engine/wasm-solver';

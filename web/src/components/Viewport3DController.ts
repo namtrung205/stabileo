@@ -1299,7 +1299,7 @@
       const noneFixed = !dofRestraints.tx && !dofRestraints.ty && !dofRestraints.tz &&
                         !dofRestraints.rx && !dofRestraints.ry && !dofRestraints.rz;
 
-      const type: import('../lib/store/model.svelte.ts').SupportType =
+      const type: import('../lib/store/model.ts').SupportType =
         allFixed ? 'fixed3d' : onlyTrans ? 'pinned3d' : noneFixed ? 'spring3d' : 'custom3d';
 
       // Collect springs for unchecked DOFs that have stiffness values

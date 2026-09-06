@@ -23,9 +23,9 @@
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { workspaceScene } from './helpers/workspace-scene';
-import { modelStore } from '../../../store/model.svelte';
-import { verificationStore } from '../../../store/verification.svelte';
-import { detailingStore } from '../../../store/detailing.svelte';
+import { modelStore } from '../../../store/model';
+import { verificationStore } from '../../../store/verification';
+import { detailingStore } from '../../../store/detailing';
 import { renderReportHtml, renderDrawings, renderSchedule } from '../document-render';
 import { reportElementStatus, NOT_FOR_CONSTRUCTION_STATUSES, type DesignOutcomeSummary } from '../element-status';
 import { REBAR_COLORS } from '../../../three/rebar-scene';

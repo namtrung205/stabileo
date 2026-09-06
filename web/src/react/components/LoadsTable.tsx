@@ -1,8 +1,8 @@
 import { useState, useSyncExternalStore, type ReactNode } from 'react';
 import { get2DDisplayNodalLoadMoment, get2DDisplayNodalLoadVertical } from '../../lib/geometry/coordinate-system';
-import { localeExternalStore, t } from '../../lib/i18n/store.svelte';
+import { localeExternalStore, t } from '../../lib/i18n/store';
 import { historyStore, modelStore, resultsStore, uiStore } from '../../lib/store';
-import type { DistributedLoad, DistributedLoad3D, NodalLoad, NodalLoad3D, PointLoadOnElement, ThermalLoad } from '../../lib/store/model.svelte';
+import type { DistributedLoad, DistributedLoad3D, NodalLoad, NodalLoad3D, PointLoadOnElement, ThermalLoad } from '../../lib/store/model';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { CombosTable } from './CombosTable';
 import './EditorTables.css';

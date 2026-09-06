@@ -1,6 +1,6 @@
-import { t } from '../../lib/i18n/store.svelte';
+import { t } from '../../lib/i18n/store';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
-import type { Support, SupportType } from '../../lib/store/model.svelte';
+import type { Support, SupportType } from '../../lib/store/model';
 
 export function SupportDetails({ support }: { support: Support }) {
   const update = (field: string, raw: string | boolean) => {

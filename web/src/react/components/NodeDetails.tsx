@@ -1,11 +1,11 @@
-import { t } from '../../lib/i18n/store.svelte';
+import { t } from '../../lib/i18n/store';
 import {
   TWO_D_DISPLACEMENT_LABELS, TWO_D_NODAL_LOAD_LABELS, TWO_D_REACTION_LABELS, TWO_D_VERTICAL_AXIS_LABEL,
   get2DDisplayDisplacementVertical, get2DDisplayMoment, get2DDisplayNodalLoadMoment, get2DDisplayNodalLoadVertical,
   get2DDisplayReactionVertical, get2DDisplayRotation, get2DDisplayedVertical,
 } from '../../lib/geometry/coordinate-system';
 import { modelStore, resultsStore, uiStore } from '../../lib/store';
-import type { NodalLoad } from '../../lib/store/model.svelte';
+import type { NodalLoad } from '../../lib/store/model';
 import { toDisplay, unitLabel, type Quantity } from '../../lib/utils/units';
 import { SupportDetails } from './SupportDetails';
 

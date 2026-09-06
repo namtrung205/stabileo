@@ -2,7 +2,7 @@
  * AI model snapshot: compact outgoing element serialization + apply-path
  * validation/normalization for typed end releases.
  *
- * The general ModelSnapshot type (model.svelte.ts / history.svelte.ts) always
+ * The general ModelSnapshot type (model.ts / history.ts) always
  * carries releaseI/releaseJ (defaulting to NO_RELEASE) — that's needed for the
  * internal undo/redo and file-save round-trip, where every element must have
  * a fully-typed Release on both ends. Sending that verbatim to the AI backend
@@ -12,8 +12,8 @@
  * reverse path (AI response -> store, the Build tab's Apply flow) against
  * malformed shapes.
  */
-import type { Release } from '../store/model.svelte';
-import { NO_RELEASE } from '../store/model.svelte';
+import type { Release } from '../store/model';
+import { NO_RELEASE } from '../store/model';
 
 /** True when a release has at least one flag set (i.e. differs from NO_RELEASE). */
 function hasReleaseFlag(r: Release | undefined | null): boolean {

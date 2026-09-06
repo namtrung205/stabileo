@@ -23,7 +23,7 @@
  * it must still be prevented from presenting a combined criterion.
  */
 
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import type { TorsionProvenance } from './state';
 import type { ElementForces } from '../engine/types';
 import { analyzeSectionBending, type BendingResponse } from '../engine/wasm-solver';

@@ -5,7 +5,7 @@
  * at capacity while keeping the picked nodes for the creator to read.
  */
 import { describe, it, expect, beforeEach } from 'vitest';
-import { uiStore } from '../ui.svelte';
+import { uiStore } from '../ui';
 
 describe('uiStore shell node-pick', () => {
   beforeEach(() => uiStore.cancelShellNodePick());

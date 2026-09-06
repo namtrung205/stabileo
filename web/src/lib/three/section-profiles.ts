@@ -3,7 +3,7 @@
 // which can be extruded along element axes.
 
 import * as THREE from 'three';
-import type { Section } from '../store/model.svelte';
+import type { Section } from '../store/model';
 import { buildSectionOutline } from '../engine/generators/section-outline';
 import type { BuiltUpArrangement } from '../engine/generators/built-up-section';
 

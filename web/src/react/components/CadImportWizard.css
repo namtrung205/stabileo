@@ -1,0 +1,135 @@
+.cad-react-wizard.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; z-index: 950; }
+.cad-react-wizard .dialog { background: #16213e; border: 1px solid #1a4a7a; border-radius: 8px; width: 1040px; max-width: 96vw; max-height: 92vh; display: flex; flex-direction: column; color: #ddd; }
+.cad-react-wizard .header { display: flex; align-items: center; gap: .6rem; padding: .7rem 1rem; border-bottom: 1px solid #1a4a7a; }
+.cad-react-wizard .header h2 { margin: 0; font-size: 1rem; color: #4ecdc4; }
+.cad-react-wizard .file-name { font-size: .75rem; color: #888; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cad-react-wizard .close-btn { background: none; border: 0; color: #888; cursor: pointer; font-size: 1rem; }
+.cad-react-wizard .close-btn:hover { color: #fff; }
+.cad-react-wizard .steps { display: flex; gap: .4rem; padding: .5rem 1rem; border-bottom: 1px solid #1a4a7a; flex-wrap: wrap; }
+.cad-react-wizard .step-chip { font-size: .7rem; padding: .2rem .55rem; border-radius: 10px; background: #0f3460; color: #888; border: 1px solid #1a4a7a; }
+.cad-react-wizard .step-chip.active { color: #4ecdc4; border-color: #4ecdc4; }
+.cad-react-wizard .step-chip.done { color: #aaa; }
+.cad-react-wizard .body { padding: .8rem 1rem; overflow-y: auto; flex: 1; min-height: 320px; }
+.cad-react-wizard .split { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+.cad-react-wizard .left { flex: 3 1 340px; min-width: 0; }
+.cad-react-wizard .right { flex: 2 1 320px; min-width: 300px; }
+.cad-react-wizard .right.scroll { overflow-y: auto; max-height: 56vh; }
+.cad-react-wizard .table-wrap { overflow-x: auto; max-width: 100%; }
+.cad-react-wizard canvas { border: 1px solid #1a4a7a; border-radius: 4px; background: #10101c; width: 100%; height: auto; display: block; }
+.cad-react-wizard .preview-canvas { cursor: grab; touch-action: none; }
+.cad-react-wizard .preview-canvas.dragging { cursor: grabbing; }
+.cad-react-wizard .preview-canvas.iso { cursor: default; }
+.cad-react-wizard .preview-modes { display: flex; margin-bottom: .35rem; border: 1px solid #1a4a7a; border-radius: 5px; overflow: hidden; }
+.cad-react-wizard .pmode { flex: 1; padding: .28rem .4rem; font-size: .7rem; cursor: pointer; background: #0f3460; color: #9aa7b8; border: 0; border-right: 1px solid #1a4a7a; }
+.cad-react-wizard .pmode:last-child { border-right: 0; }
+.cad-react-wizard .pmode:hover { color: #fff; }
+.cad-react-wizard .pmode.active { background: rgba(78,205,196,.2); color: #4ecdc4; font-weight: 600; }
+.cad-react-wizard .preview-toolbar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .3rem; }
+.cad-react-wizard .preview-hint { font-size: .66rem; color: #7d8ba0; }
+.cad-react-wizard .preview-status { font-size: .68rem; color: #cfe3ff; margin-top: .25rem; display: flex; align-items: center; gap: .35rem; }
+.cad-react-wizard .preview-status.counts { gap: .55rem; }
+.cad-react-wizard .preview-status.muted { color: #7d8ba0; }
+.cad-react-wizard .preview-status.crop-on { color: #ffd166; }
+.cad-react-wizard .preview-status.err { color: #ff8a9e; }
+.cad-react-wizard .preview-status.warnc { color: #f0c860; }
+.cad-react-wizard .preview-status code { font-family: monospace; color: #fff; }
+.cad-react-wizard .legend { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .65rem; color: #999; margin-top: .3rem; }
+.cad-react-wizard .role-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.cad-react-wizard h3 { font-size: .7rem; text-transform: uppercase; color: #888; margin: .7rem 0 .3rem; }
+.cad-react-wizard .row { display: flex; align-items: center; gap: .5rem; margin: .3rem 0; font-size: .8rem; }
+.cad-react-wizard .open-actions { display: flex; gap: .6rem; margin: .2rem 0 .4rem; }
+.cad-react-wizard .open-prompt { color: #888; font-style: italic; margin-top: .6rem; }
+.cad-react-wizard .hint { font-size: .72rem; color: #999; }
+.cad-react-wizard .error,
+.cad-react-wizard .gen-error { background: rgba(233,69,96,.15); border: 1px solid #e94560; color: #ff8a9e; padding: .55rem .7rem; border-radius: 4px; font-size: .8rem; margin-bottom: .7rem; }
+.cad-react-wizard .error { padding: .45rem .6rem; font-size: .78rem; }
+.cad-react-wizard .gen-error-note { color: #ffc2cd; margin-top: .25rem; font-size: .75rem; }
+.cad-react-wizard .gen-error-detail { margin: .45rem 0 0; padding: .4rem .5rem; max-height: 9rem; overflow: auto; background: rgba(0,0,0,.35); border-radius: 3px; color: #d88; font-size: .68rem; white-space: pre-wrap; word-break: break-word; }
+.cad-react-wizard .banner { background: rgba(240,165,0,.1); border: 1px solid #f0a500; color: #f0c860; padding: .45rem .6rem; border-radius: 4px; font-size: .76rem; margin-bottom: .7rem; }
+.cad-react-wizard .unit-warn { background: rgba(240,165,0,.14); border: 1px solid #f0a500; color: #f0c860; padding: .4rem .55rem; border-radius: 4px; font-size: .74rem; margin: .3rem 0; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.cad-react-wizard .layer-table { width: 100%; border-collapse: collapse; font-size: .74rem; }
+.cad-react-wizard .layer-table th { text-align: left; color: #888; font-weight: normal; padding: .2rem .3rem; border-bottom: 1px solid #1a4a7a; }
+.cad-react-wizard .layer-table td { padding: .2rem .3rem; border-bottom: 1px solid #14233f; }
+.cad-react-wizard .layer-table tbody tr { cursor: pointer; }
+.cad-react-wizard .layer-table tbody tr.hl { background: rgba(78,205,196,.14); box-shadow: inset 2px 0 0 #4ecdc4; }
+.cad-react-wizard .layer-name { font-family: monospace; }
+.cad-react-wizard .num { text-align: right; color: #aaa; }
+.cad-react-wizard .suggested { color: #999; }
+.cad-react-wizard .conf { font-size: .6rem; padding: 0 .25rem; border-radius: 6px; margin-left: .25rem; }
+.cad-react-wizard .conf-high { background: rgba(78,205,196,.18); color: #4ecdc4; }
+.cad-react-wizard .conf-medium { background: rgba(240,165,0,.15); color: #f0a500; }
+.cad-react-wizard .conf-low { background: rgba(255,255,255,.06); color: #888; }
+.cad-react-wizard .layer-breakdown { font-size: .62rem; color: #6f7d90; margin-left: .95rem; }
+.cad-react-wizard .contrib { font-size: .72rem; white-space: nowrap; }
+.cad-react-wizard .contrib span { margin-right: .2rem; }
+.cad-react-wizard .contrib-zero { color: #c46; font-weight: 600; }
+.cad-react-wizard .role-guide { margin: .5rem 0 0; font-size: .72rem; }
+.cad-react-wizard .role-guide > summary { cursor: pointer; color: #6cb6ff; user-select: none; }
+.cad-react-wizard .role-guide dl { margin: .4rem 0 0; display: flex; flex-direction: column; gap: .3rem; }
+.cad-react-wizard .role-guide-row { display: grid; grid-template-columns: 6.5rem 1fr; gap: .5rem; align-items: baseline; }
+.cad-react-wizard .role-guide dt { color: #cfe3ff; white-space: nowrap; }
+.cad-react-wizard .role-guide dd { margin: 0; color: #9aa7b8; line-height: 1.3; }
+.cad-react-wizard .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+.cad-react-wizard details.panel { border: 1px solid #1a4a7a; border-radius: 6px; padding: .4rem .7rem .5rem; }
+.cad-react-wizard details.panel > summary { font-size: .68rem; text-transform: uppercase; color: #888; cursor: pointer; margin: 0 -.2rem .2rem; user-select: none; }
+.cad-react-wizard details.panel > summary:hover { color: #4ecdc4; }
+.cad-react-wizard .form-grid label { display: flex; justify-content: space-between; align-items: center; gap: .5rem; font-size: .76rem; margin: .3rem 0; }
+.cad-react-wizard .form-grid input[type='number'],
+.cad-react-wizard .form-grid input[type='text'],
+.cad-react-wizard .crop-grid input,
+.cad-react-wizard .region-row input { width: 110px; padding: .25rem .4rem; background: #0f3460; color: #ddd; border: 1px solid #1a4a7a; border-radius: 4px; font-size: .76rem; }
+.cad-react-wizard .pair { display: flex; align-items: center; gap: .25rem; }
+.cad-react-wizard .pair input { width: 60px !important; }
+.cad-react-wizard .check { justify-content: flex-start !important; }
+.cad-react-wizard select { padding: .25rem .4rem; background: #0f3460; color: #ddd; border: 1px solid #1a4a7a; border-radius: 4px; font-size: .74rem; }
+.cad-react-wizard .room-map,
+.cad-react-wizard .role-summary { display: flex; flex-direction: column; gap: .2rem; font-size: .72rem; }
+.cad-react-wizard .room-map { color: #9fd; margin: .25rem 0 .1rem 1rem; }
+.cad-react-wizard .sched-row,
+.cad-react-wizard .region-row { display: flex; align-items: center; gap: .3rem; margin: .25rem 0; flex-wrap: wrap; }
+.cad-react-wizard .sched-row select { flex: 0 0 90px; }
+.cad-react-wizard .sched-row input { width: 70px !important; }
+.cad-react-wizard .crop-panel { margin-top: .5rem; }
+.cad-react-wizard .crop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .3rem; margin: .3rem 0; }
+.cad-react-wizard .crop-grid.disabled,
+.cad-react-wizard .check.disabled { opacity: .5; }
+.cad-react-wizard .crop-actions { display: flex; gap: .4rem; }
+.cad-react-wizard .check.sub { margin-left: 1.1rem; }
+.cad-react-wizard .region-row { font-size: .72rem; }
+.cad-react-wizard .region-row input { width: 48px; }
+.cad-react-wizard .region-row .region-label { width: 78px; }
+.cad-react-wizard .region-win { color: #8194ab; font-size: .66rem; }
+.cad-react-wizard .warn-text,
+.cad-react-wizard .warn-line { color: #f0a500; }
+.cad-react-wizard .warn-line { font-size: .74rem; padding: .12rem 0; }
+.cad-react-wizard .warn-line.sev-info { color: #6a9fe0; }
+.cad-react-wizard .warn-line.sev-error { color: #ff8a9e; }
+.cad-react-wizard .counts-table { width: 100%; border-collapse: collapse; font-size: .76rem; }
+.cad-react-wizard .counts-table td { padding: .16rem .3rem; border-bottom: 1px solid #14233f; }
+.cad-react-wizard .assumption-line { font-size: .72rem; color: #bbb; padding: .12rem 0; }
+.cad-react-wizard .preview-row { display: flex; gap: .8rem; margin-bottom: .7rem; align-items: stretch; }
+.cad-react-wizard .preview-pane { flex: 1; min-width: 0; }
+.cad-react-wizard .diag-pane { flex: 1; border-radius: 6px; padding: .5rem .7rem; font-size: .76rem; overflow-y: auto; max-height: 340px; }
+.cad-react-wizard .diag-pane.diag-ok { background: rgba(78,205,196,.1); border: 1px solid #2f8f86; }
+.cad-react-wizard .diag-pane.diag-warn { background: rgba(240,165,0,.1); border: 1px solid #f0a500; }
+.cad-react-wizard .diag-pane.diag-error { background: rgba(233,69,96,.12); border: 1px solid #e94560; }
+.cad-react-wizard .diag-head { font-size: .85rem; margin-bottom: .4rem; }
+.cad-react-wizard .diag-list { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .2rem; }
+.cad-react-wizard .diag-list .diag-error { color: #ff8a9e; }
+.cad-react-wizard .diag-list .diag-warn { color: #f0c860; }
+.cad-react-wizard .diag-list .diag-ok { color: #7fe0d6; }
+.cad-react-wizard .footer { display: flex; gap: .5rem; padding: .7rem 1rem; border-top: 1px solid #1a4a7a; }
+.cad-react-wizard .spacer { flex: 1; }
+.cad-react-wizard .btn { padding: .4rem .9rem; border-radius: 4px; font-size: .78rem; cursor: pointer; background: #0f3460; color: #ccc; border: 1px solid #1a4a7a; }
+.cad-react-wizard .btn:hover:not(:disabled) { border-color: #4ecdc4; color: #fff; }
+.cad-react-wizard .btn:disabled { opacity: .45; cursor: not-allowed; }
+.cad-react-wizard .btn.mini { padding: .15rem .5rem; font-size: .7rem; }
+.cad-react-wizard .btn.primary { background: rgba(78,205,196,.15); color: #4ecdc4; border-color: #4ecdc4; }
+.cad-react-wizard .btn.apply { background: rgba(78,205,196,.25); color: #4ecdc4; border-color: #4ecdc4; font-weight: 600; }
+
+@media (max-width: 720px) {
+  .cad-react-wizard .dialog { max-width: 100vw; max-height: 100dvh; border-radius: 0; }
+  .cad-react-wizard .form-grid { grid-template-columns: 1fr; }
+  .cad-react-wizard .right { min-width: 0; }
+  .cad-react-wizard .preview-row { flex-direction: column; }
+}

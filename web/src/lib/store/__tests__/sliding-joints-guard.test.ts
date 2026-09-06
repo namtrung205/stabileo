@@ -14,7 +14,7 @@
  * the Playwright browser QA (no component-render harness in this repo).
  */
 import { describe, it, expect, beforeEach } from 'vitest';
-import { modelStore } from '../model.svelte';
+import { modelStore } from '../model';
 import { initSolver } from '../../engine/wasm-solver';
 import en from '../../i18n/locales/en';
 import es from '../../i18n/locales/es';

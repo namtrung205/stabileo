@@ -1,7 +1,7 @@
 /**
  * Every language the public landing offers actually speaks the whole page.
  *
- * The landing offers the locales in PUBLIC_LOCALES (src/lib/i18n/store.svelte.ts)
+ * The landing offers the locales in PUBLIC_LOCALES (src/lib/i18n/store.ts)
  * and nothing else. `t()` falls back to English silently, so a missing key
  * renders an English sentence in the middle of a Spanish or Portuguese page and
  * nothing errors. That is precisely the defect this guards — and the reason the
@@ -27,9 +27,9 @@
  */
 import { describe, it, expect } from 'vitest';
 import en from '../../../lib/i18n/locales/en';
-import { PUBLIC_LOCALES, dictFor } from '../../../lib/i18n/store.svelte';
+import { PUBLIC_LOCALES, dictFor } from '../../../lib/i18n/store';
 
-const sources = import.meta.glob('../**/*.{svelte,ts}', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const sources = import.meta.glob('../../../react/landing/**/*.{ts,tsx}', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 
 function usedKeys(): string[] {
   const found = new Set<string>();

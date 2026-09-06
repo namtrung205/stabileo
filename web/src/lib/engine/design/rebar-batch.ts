@@ -12,7 +12,7 @@
  * Pure: no store access, no side effects.
  */
 
-import type { ProvidedReinforcement, RebarLayer, StirrupDef } from '../../store/model.svelte';
+import type { ProvidedReinforcement, RebarLayer, StirrupDef } from '../../store/model';
 import { resolveLayers, resolveColumnReinf } from '../station-design-forces';
 import type { DesignCodeAdapter } from './code-adapter';
 import type { MemberContext } from './member-context';

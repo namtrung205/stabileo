@@ -5,7 +5,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { compressSnapshot, decompressSnapshot } from '../url-sharing';
-import type { ModelSnapshot } from '../../store/history.svelte';
+import type { ModelSnapshot } from '../../store/history';
 
 function snap(quadExtra: Record<string, unknown>): ModelSnapshot {
   return {

@@ -385,7 +385,7 @@ describe('1.1 — Global equilibrium verification', () => {
 // 1.6 — Regression Tests for All Examples
 // ═══════════════════════════════════════════════════════════════
 
-/** Build SolverInput for each example (mirrors model.svelte.ts loadExample) */
+/** Build SolverInput for each example (mirrors model.ts loadExample) */
 const examples: Record<string, () => SolverInput> = {
   'simply-supported': () => makeInput({
     nodes: [[1, 0, 0], [2, 6, 0]],

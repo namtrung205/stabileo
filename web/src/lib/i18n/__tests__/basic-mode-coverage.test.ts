@@ -32,7 +32,7 @@ function walk(dir: string, out: string[] = []): string[] {
     if (SKIP_DIRS.includes(name)) continue;
     const p = join(dir, name);
     if (statSync(p).isDirectory()) walk(p, out);
-    else if (p.endsWith('.svelte') || p.endsWith('.ts')) out.push(p);
+    else if (p.endsWith('.svelte') || p.endsWith('.ts') || p.endsWith('.tsx')) out.push(p);
   }
   return out;
 }

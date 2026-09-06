@@ -1,22 +1,20 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
-import { t, localeExternalStore } from '../../lib/i18n/store.svelte';
+import { useSyncExternalStore } from 'react';
+import { t, localeExternalStore } from '../../lib/i18n/store';
 import { TWO_D_INTERNAL_FORCE_LABELS as F2D } from '../../lib/geometry/coordinate-system';
 import { runSolve } from '../../lib/actions/solve';
 import { saveProject } from '../../lib/store/file';
-import { historyStore } from '../../lib/store/history.svelte';
+import { historyStore } from '../../lib/store/history';
 import { commandShowsQuantity, showStressMap, activeMapMeasure } from '../../lib/store/result-view';
-import { resultsStore, type DiagramType } from '../../lib/store/results.svelte';
+import { resultsStore, type DiagramType } from '../../lib/store/results';
 import { hasBackup, needsPlaneChoice, restore3D, switchPlain } from '../../lib/store/switch-2d';
-import { EDIT_TOOLS, uiStore } from '../../lib/store/ui.svelte';
+import { EDIT_TOOLS, uiStore } from '../../lib/store/ui';
 import { armTool, showDiagram } from '../../lib/store/view-mode';
-import { modelStore } from '../../lib/store/model.svelte';
+import { modelStore } from '../../lib/store/model';
+import { basicPanelStore, openBasicPanel, type BasicPanelId, type BasicPanelOptions } from '../../lib/store/basic-panel';
 import { TOOL_KEY_MAP } from '../../lib/tool-keys';
 import { useStoreRevision } from '../store/useStoreRevision';
 import { Icon, type IconName } from './Icon';
 import './BasicRibbon.css';
-
-type PanelOptions = { toggle?: boolean; dataTab?: string };
-type PanelState = { activePanel: string | null; activeDataTab: string };
 
 type Cmd = {
   id: string;
@@ -27,7 +25,7 @@ type Cmd = {
   dataTab?: string;
   rotate?: number;
   tool?: string;
-  panel?: string;
+  panel?: BasicPanelId;
   diagram?: DiagramType;
   stressMap?: boolean;
   action?: () => void;
@@ -40,10 +38,8 @@ type Group = { id: string; labelKey: string; cmds: Cmd[] };
 
 const KEYS: Record<string, string> = { ...TOOL_KEY_MAP, solve: 'Enter' };
 
-function openPanel(panel: string | null, opts?: PanelOptions) {
-  window.dispatchEvent(new CustomEvent('stabileo-open-basic-panel', {
-    detail: { panel, opts },
-  }));
+function openPanel(panel: BasicPanelId | null, opts?: BasicPanelOptions) {
+  if (panel) openBasicPanel(panel, opts);
 }
 
 export function BasicRibbon() {
@@ -58,22 +54,11 @@ export function BasicRibbon() {
   // history operations and keep Undo/Redo disabled state current in React.
   useStoreRevision(modelStore);
 
-  const [panelState, setPanelState] = useState<PanelState>({
-    activePanel: null,
-    activeDataTab: 'nodes',
-  });
-
-  useEffect(() => {
-    const handleState = (event: Event) => {
-      const detail = (event as CustomEvent<PanelState>).detail;
-      if (detail) setPanelState(detail);
-    };
-    window.addEventListener('stabileo-basic-panel-state', handleState);
-    window.dispatchEvent(new Event('stabileo-request-basic-panel-state'));
-    return () => window.removeEventListener('stabileo-basic-panel-state', handleState);
-  }, []);
-
-  const { activePanel, activeDataTab } = panelState;
+  const { activePanel, activeDataTab } = useSyncExternalStore(
+    basicPanelStore.subscribe,
+    basicPanelStore.getSnapshot,
+    basicPanelStore.getSnapshot,
+  );
   const solved = resultsStore.results != null || resultsStore.results3D != null;
   const threeD = uiStore.analysisMode === '3d';
 

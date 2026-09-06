@@ -15,7 +15,7 @@ import { describe, it, expect } from 'vitest';
 import { crossCheckShearPeak } from '../shear-crosscheck';
 import { computeShearFlowPaths } from '../../engine/section-stress';
 import { resolveSectionState } from '../state';
-import type { Section } from '../../store/model.svelte';
+import type { Section } from '../../store/model';
 import type { ResolvedSection } from '../../engine/section-stress';
 
 function sec(over: Partial<Section>): Section {
